@@ -1,0 +1,278 @@
+﻿@model AuditSystem.Core.Models.AuditSystem_Blocks
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Block Details</h2>
+
+<div>
+    @*<h4>AuditSystem_Blocks</h4>*@
+    <hr />
+    <table class="table">
+        <tbody>
+            <tr style="border-style:hidden;">
+                <td style="width:20%">@Html.DisplayNameFor(model => model.Block_Name) :</td>
+                <td style="width:30%"> @Html.DisplayFor(model => model.Block_Name) </td>
+
+                <td style="width:20%"> @Html.DisplayNameFor(model => model.Psc_Start_Date) :</td>
+                <td style="width:30%">@Model.Psc_Start_Date.ToString("dd-MM-yyyy") </td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+
+                <td>@Html.DisplayNameFor(model => model.Block_Current_Status) :</td>
+                <td> @Html.DisplayFor(model => model.Block_Current_Status) </td>
+
+                <td> @Html.DisplayNameFor(model => model.Block_Category) :</td>
+                <td> @Html.DisplayFor(model => model.Block_Category) </td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+                <td>   @Html.DisplayNameFor(model => model.Revenue_Till_Date) :</td>
+                <td>  @Html.DisplayFor(model => model.Revenue_Till_Date) </td>
+
+                <td>  @Html.DisplayNameFor(model => model.Expenditure_Till_Date) :</td>
+                <td>   @Html.DisplayFor(model => model.Expenditure_Till_Date) </td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+                <td>   @Html.DisplayNameFor(model => model.Updated_Status_Year) :</td>
+                <td>   @Html.DisplayFor(model => model.Updated_Status_Year) </td>
+
+                @*<td>  @Html.DisplayNameFor(model => model.Expenditure_Till_Date) :</td>
+                    <td>   @Html.DisplayFor(model => model.Expenditure_Till_Date) </td>*@
+            </tr>
+
+            @*<tr style="border-style:hidden;">
+                    <td>   @Html.DisplayNameFor(model => model.UpdatedBy) :</td>
+                    <td>   @Html.DisplayFor(model => model.UpdatedBy) </td>
+
+
+                </tr>*@
+
+        </tbody>
+    </table>
+
+</div>
+<p>
+    @Html.ActionLink("Edit Block", "Edit", new { Id = Model.Block_Id })
+</p>
+
+
+<button class="btn btn-primary" id="viewAttachment" style="float:right;">View Attachments</button>
+
+<div id="attachments_table" style="display: none;">
+    <br /> <hr />
+    @Html.ActionLink("Add New Attachment", "Upload_Attachment", "Attachments", new { Id = Model.Block_Id }, null)
+
+    <table class="table" id="attachmentsTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("Year")
+                    <select id="attachmentYearFilter">
+                        <option value="">All</option>
+                        <option value="2023-2024">2023-2024</option>
+                        <option value="2022-2023">2022-2023</option>
+                        <option value="2021-2022">2021-2022</option>
+                        <option value="2020-2021">2020-2021</option>
+                        <option value="2019-2020">2019-2020</option>
+                        <!-- Add more years as needed -->
+                    </select>
+                </th>
+                <th>
+                    @Html.DisplayName("Date of Letter")
+                </th>
+                <th>
+                    @Html.DisplayName("Title")
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Attachments)
+            {
+                <tr>
+                    <td style="width:15%">
+                        @Html.DisplayFor(modelItem => item.Year)
+                    </td>
+                    <td>
+                        @item.DateofAttachment.ToString("dd-MM-yyyy")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+
+                    <!-- Add more columns as needed -->
+                    <td>
+                        <a target="_blank" href="~/Attachments/@item.Doc_Address">View Doc</a> |
+                        @Html.ActionLink("Edit", "Edit", "Attachments", new { id = item.Id }, null)
+                        @*@Html.ActionLink("Edit", "Edit", "Exception", new { id = item.Id }, null) |
+                            @Html.ActionLink("Details", "Details", "Exception", new { id = item.ExceptionId }, null)
+                            @Html.ActionLink("Delete", "Delete", "Exception", new { id = item.ExceptionId }, null)*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+
+
+
+<br />
+<hr />
+<h4>Exceptions</h4>
+
+@Html.ActionLink("Add Exception", "Create", "Exception", new { Id = Model.Block_Id }, null)
+
+<table class="table" id="exceptionsTable">
+    <thead>
+        <tr>
+            <th>
+                @* @Html.DisplayName("Year")*@
+                <select id="yearFilter">
+                    <option value="">Year</option>
+                    <option value="2023-2024">2023-2024</option>
+                    <option value="2022-2023">2022-2023</option>
+                    <option value="2021-2022">2021-2022</option>
+                    <option value="2020-2021">2020-2021</option>
+                    <option value="2019-2020">2019-2020</option>
+                    <!-- Add more years as needed -->
+                </select>
+            </th>
+
+            <th>
+                @Html.DisplayName("Exception No")
+            </th>
+            <th>
+                @*@Html.DisplayName("Nature Of Exception")*@
+                <select id="natureFilter">
+                    <option value="">Nature Of Exception</option>
+                    <option value="Short Payment of Royalty">Short Payment of Royalty</option>
+                    <option value="Short Payment of PP">Short Payment of PP</option>
+                    <option value="Short Payment of Cess">Short Payment of Cess</option>
+                    <option value="PEL Payment Fees">PEL Payment Fees</option>
+                </select>
+            </th>
+            <th>
+                @*@Html.DisplayName("Exception Type")*@
+                <select id="typeFilter">
+                    <option value="">Exception Type</option>
+                    <option value="Financial">Financial</option>
+                    <option value="Non-Financial">Non-Financial</option>
+
+                </select>
+            </th>
+            <th>
+                @Html.DisplayName("Title Of Exception")
+            </th>
+            <th>
+                @Html.DisplayName("Zist Of Exception")
+            </th>
+            <th>
+                @*  @Html.DisplayName("Action Taken")*@
+                <select id="actionFilter">
+                    <option value="">Action Taken</option>
+                    <option value="Settled">Settled</option>
+                    <option value="Unsettled">Unsettled</option>
+                </select>
+            </th>
+            <!-- Add more columns as needed -->
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Exceptions)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExceptionNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NatureOfException)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExceptionType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExceptionTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ZistOfException)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActionTaken)
+                </td>
+                <!-- Add more columns as needed -->
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Exception", new { id = item.ExceptionId }, null) |
+                    @Html.ActionLink("Details", "Details", "Exception", new { id = item.ExceptionId }, null)
+                    @*@Html.ActionLink("Delete", "Delete", "Exception", new { id = item.ExceptionId }, null)*@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { Block_Name = Model.Block_Name }) |*@
+    @Html.ActionLink("Back to Block List", "Index")
+
+</p>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            // Toggle attachments table
+            $("#viewAttachment").click(function () {
+                $("#attachments_table").toggle();
+            });
+
+            // Function to filter exceptions table rows
+            function filterExceptionsTable() {
+                var year = $('#yearFilter').val();
+                var nature = $('#natureFilter').val();
+                var action = $('#actionFilter').val();
+                var type = $('#typeFilter').val();
+
+                $('#exceptionsTable tbody tr').filter(function () {
+                    $(this).toggle(
+                        (year === "" || $(this).find('td:eq(0)').text().trim() === year) &&
+                        (nature === "" || $(this).find('td:eq(2)').text().trim() === nature) &&
+                        (type === "" || $(this).find('td:eq(3)').text().trim() === type) &&
+                        (action === "" || $(this).find('td:eq(6)').text().trim() === action)
+                    );
+                });
+            }
+
+            // Function to filter attachments table rows
+            function filterAttachmentsTable() {
+                var attachmentYear = $('#attachmentYearFilter').val();
+
+                $('#attachmentsTable tbody tr').filter(function () {
+                    $(this).toggle(
+                        attachmentYear === "" || $(this).find('td:eq(0)').text().trim() === attachmentYear
+                    );
+                });
+            }
+
+            // Apply filter when any exceptions dropdown value changes
+            $('#yearFilter, #natureFilter, #actionFilter, #typeFilter').change(filterExceptionsTable);
+
+            // Apply filter when the attachment year dropdown value changes
+            $('#attachmentYearFilter').change(filterAttachmentsTable);
+        });
+    </script>
+}

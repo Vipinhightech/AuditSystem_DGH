@@ -1,0 +1,133 @@
+﻿@model IEnumerable<AuditSystem.Core.Models.AuditSystem_Blocks>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Add New Block", "Create")
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Block_Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Psc_Start_Date)
+            </th>
+            <th>
+                <select id="statusFilter" onchange="filterTable()">
+                    <option value="">@Html.DisplayNameFor(model => model.Block_Current_Status)</option>
+                    <option value="Production">Production</option>
+                    <option value="Exploration">Exploration</option>
+                    <option value="Development">Development</option>
+                </select>
+                @* @Html.DisplayNameFor(model => model.Block_Current_Status)*@
+            </th>
+            <th>
+                <select id="categoryFilter" onchange="filterTable()">
+                    <option value="">@Html.DisplayNameFor(model => model.Block_Category)</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+                @*@Html.DisplayNameFor(model => model.Block_Category)*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Revenue_Till_Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Expenditure_Till_Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Updated_Status_Year)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.UpdatedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UpdatedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Submit_Status)
+                </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Block_Name)
+                </td>
+                <td>
+                    @item.Psc_Start_Date.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Block_Current_Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Block_Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Revenue_Till_Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Expenditure_Till_Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Updated_Status_Year)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.UpdatedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UpdatedBy)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Submit_Status)
+                    </td>*@
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Block_Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Block_Id })
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.Block_Id })*@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function filterTable() {
+        var statusFilter = document.getElementById('statusFilter').value.toLowerCase().trim();
+        var categoryFilter = document.getElementById('categoryFilter').value.trim();
+
+        var table = document.querySelector('.table tbody');
+        var rows = table.getElementsByTagName('tr');
+
+        for (var i = 0; i < rows.length; i++) {
+            var statusCell = rows[i].getElementsByTagName('td')[2];
+            var categoryCell = rows[i].getElementsByTagName('td')[3];
+
+            // Ensure the text content is trimmed and compared correctly
+            var statusText = statusCell.textContent.toLowerCase().trim();
+            var categoryText = categoryCell.textContent.trim();
+
+            var statusMatch = (statusFilter === "" || statusText === statusFilter);
+            var categoryMatch = (categoryFilter === "" || categoryText === categoryFilter);
+
+            if (statusMatch && categoryMatch) {
+                rows[i].style.display = ""; // Show row
+            } else {
+                rows[i].style.display = "none"; // Hide row
+            }
+        }
+    }
+</script>
+
+

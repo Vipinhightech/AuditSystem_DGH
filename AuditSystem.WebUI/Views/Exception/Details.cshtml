@@ -1,0 +1,310 @@
+﻿@model AuditSystem.Core.Models.Audit_Exception_Details
+
+@{
+    ViewBag.Title = "Exception Details";
+}
+
+<h2>Exception Details</h2>
+
+<div>
+    @*<h4>Audit_Exception_Details</h4>*@
+    <hr />
+    <table class="table">
+        <tbody>
+            <tr style="border-style:hidden;">
+                <td style="width:20%"><b> @Html.DisplayNameFor(model => model.Block.Block_Name) :</b></td>
+                <td style="width:30%"> @Html.DisplayFor(model => model.Block.Block_Name) </td>
+
+                <td style="width:20%"><b> @Html.DisplayNameFor(model => model.Block.Psc_Start_Date) : </b></td>
+                <td style="width:30%"> @Html.DisplayFor(model => model.Block.Psc_Start_Date) </td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+
+                <td><b> @Html.DisplayNameFor(model => model.Block.Revenue_Till_Date) : </b></td>
+                <td>  @Html.DisplayFor(model => model.Block.Revenue_Till_Date) </td>
+
+                <td><b> @Html.DisplayNameFor(model => model.Block.Expenditure_Till_Date) : </b></td>
+                <td>  @Html.DisplayFor(model => model.Block.Expenditure_Till_Date) </td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+                <td><b>   @Html.DisplayNameFor(model => model.Year) : </b></td>
+                <td>  @Html.DisplayFor(model => model.Year) </td>
+
+                <td><b>  @Html.DisplayNameFor(model => model.Name_Of_Auditor) : </b></td>
+                <td>  @Html.DisplayFor(model => model.Name_Of_Auditor) </td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+                <td><b>   @Html.DisplayNameFor(model => model.ExceptionNo) : </b></td>
+                <td>    @Html.DisplayFor(model => model.ExceptionNo) </td>
+
+                <td><b>   @Html.DisplayNameFor(model => model.NatureOfException) : </b></td>
+                <td>   @Html.DisplayFor(model => model.NatureOfException) </td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+                <td><b>   @Html.DisplayNameFor(model => model.ExceptionTitle) : </b></td>
+                <td>   @Html.DisplayFor(model => model.ExceptionTitle) </td>
+
+                <td><b>   @Html.DisplayNameFor(model => model.ZistOfException) : </b></td>
+                <td>   @Html.DisplayFor(model => model.ZistOfException) </td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+                <td><b>   @Html.DisplayNameFor(model => model.ExceptionType) : </b></td>
+                <td>   @Html.DisplayFor(model => model.ExceptionType) </td>
+
+                <td><b>   @Html.DisplayNameFor(model => model.Quantum) : </b></td>
+                <td>   @Html.DisplayFor(model => model.Quantum) </td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+                <td><b>   @Html.DisplayNameFor(model => model.OperatorsReply) : </b></td>
+                <td>   @Html.DisplayNameFor(model => model.OperatorsReply) </td>
+
+                <td><b>  @Html.DisplayNameFor(model => model.CFComments) : </b></td>
+                <td>  @Html.DisplayFor(model => model.CFComments) </td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+                <td><b>   @Html.DisplayNameFor(model => model.BlockCoordinatorsComments) : </b></td>
+                <td>   @Html.DisplayFor(model => model.BlockCoordinatorsComments) </td>
+
+                <td><b>  @Html.DisplayNameFor(model => model.FinalRecommendations) : </b></td>
+                <td>  @Html.DisplayFor(model => model.FinalRecommendations) </td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+                <td><b>   @Html.DisplayNameFor(model => model.ActionTaken) : </b></td>
+                <td>   @Html.DisplayFor(model => model.ActionTaken) </td>
+
+                <td><b> @Html.DisplayNameFor(model => model.CurrentStatus) : </b></td>
+                <td> @Html.DisplayFor(model => model.CurrentStatus) </td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+                <td><b>   @Html.DisplayNameFor(model => model.Remark) : </b></td>
+                <td>   @Html.DisplayFor(model => model.Remark) </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+
+
+
+    @*<dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Block_Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Block_Name)
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Block.Psc_Start_Date)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Block.Psc_Start_Date)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Block.Revenue_Till_Date)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Block.Revenue_Till_Date)
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Block.Expenditure_Till_Date)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Block.Expenditure_Till_Date)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Year)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Year)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Name_Of_Auditor)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name_Of_Auditor)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ExceptionNo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ExceptionNo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NatureOfException)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NatureOfException)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ExceptionTitle)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ExceptionTitle)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ZistOfException)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ZistOfException)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ExceptionType)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ExceptionType)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Quantum)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Quantum)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.OperatorsReply)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.OperatorsReply)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CFComments)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CFComments)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.BlockCoordinatorsComments)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.BlockCoordinatorsComments)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FinalRecommendations)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FinalRecommendations)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ActionTaken)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ActionTaken)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CurrentStatus)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CurrentStatus)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Remark)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Remark)
+            </dd>
+        </dl>*@
+</div>
+
+<hr />
+
+<h4>Further Queries</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Further Query")
+            </th>
+            <th>
+                @Html.DisplayName("Further Response")
+            </th>
+            <th>
+                @Html.DisplayName("Block Coordinator Comments")
+            </th>
+            <th>
+                @Html.DisplayName("CF Comments")
+            </th>
+            <th>
+                @Html.DisplayName("Final Recommendations")
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.FurtherQuery)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FurtherQuery)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FurtherOperatorsReply)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FurtherBlockCoordinatorsComments)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FurtherCFComments)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FurtherFinalRecommendations)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ExceptionId }) |
+    @*@Html.ActionLink("Back to List", "Index") |*@
+    @Html.ActionLink("Back to Block Details", "Details", "BlockManager", new { Id = Model.Block_Id }, null)
+</p>

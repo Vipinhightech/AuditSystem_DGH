@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="ExternalAuthentication" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://192.168.0.165/ExternalAuthenticationService/ExternalAuthentication.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://192.168.0.165/ExternalAuthenticationService/ExternalAuthentication.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://192.168.0.165/ExternalAuthenticationService/ExternalAuthentication.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ExternalAuthenticationService" />
+      <xsd:import schemaLocation="http://192.168.0.165/ExternalAuthenticationService/ExternalAuthentication.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IExternalAuthentication_ValidateUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateUser" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_ValidateUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_ValidateUserNOC_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateUserNOC" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_ValidateUserNOC_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateUserNOCResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_ValidateUserOTP_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateUserOTP" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_ValidateUserOTP_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateUserOTPResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_ReinitialiseUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReinitialiseUser" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_ReinitialiseUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReinitialiseUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_RegisterUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterUser" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_RegisterUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_ForgotPassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:ForgotPassword" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_ForgotPassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ForgotPasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_ChangePassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangePassword" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_ChangePassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangePasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_ResetPassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:ResetPassword" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_ResetPassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ResetPasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_EditProfile_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditProfile" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_EditProfile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EditProfileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_GovSendMail_InputMessage">
+    <wsdl:part name="parameters" element="tns:GovSendMail" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_GovSendMail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GovSendMailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_ValidateSSO_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateSSO" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_ValidateSSO_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateSSOResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_GetSSOUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSSOUser" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_GetSSOUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSSOUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_GovSendMailAttachment_InputMessage">
+    <wsdl:part name="parameters" element="tns:GovSendMailAttachment" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_GovSendMailAttachment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GovSendMailAttachmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_SendSingleSMS_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendSingleSMS" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_SendSingleSMS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendSingleSMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_SendBulkSMS_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendBulkSMS" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_SendBulkSMS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendBulkSMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_SendUnicodeSMS_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendUnicodeSMS" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_SendUnicodeSMS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendUnicodeSMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_SendOTPMsg_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendOTPMsg" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_SendOTPMsg_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendOTPMsgResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_SendUnicodeOTPSMS_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendUnicodeOTPSMS" />
+  </wsdl:message>
+  <wsdl:message name="IExternalAuthentication_SendUnicodeOTPSMS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendUnicodeOTPSMSResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IExternalAuthentication">
+    <wsdl:operation name="ValidateUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExternalAuthentication/ValidateUser" message="tns:IExternalAuthentication_ValidateUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExternalAuthentication/ValidateUserResponse" message="tns:IExternalAuthentication_ValidateUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidateUserNOC">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExternalAuthentication/ValidateUserNOC" message="tns:IExternalAuthentication_ValidateUserNOC_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExternalAuthentication/ValidateUserNOCResponse" message="tns:IExternalAuthentication_ValidateUserNOC_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidateUserOTP">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExternalAuthentication/ValidateUserOTP" message="tns:IExternalAuthentication_ValidateUserOTP_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExternalAuthentication/ValidateUserOTPResponse" message="tns:IExternalAuthentication_ValidateUserOTP_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReinitialiseUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExternalAuthentication/ReinitialiseUser" message="tns:IExternalAuthentication_ReinitialiseUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExternalAuthentication/ReinitialiseUserResponse" message="tns:IExternalAuthentication_ReinitialiseUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RegisterUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExternalAuthentication/RegisterUser" message="tns:IExternalAuthentication_RegisterUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExternalAuthentication/RegisterUserResponse" message="tns:IExternalAuthentication_RegisterUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ForgotPassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExternalAuthentication/ForgotPassword" message="tns:IExternalAuthentication_ForgotPassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExternalAuthentication/ForgotPasswordResponse" message="tns:IExternalAuthentication_ForgotPassword_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangePassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExternalAuthentication/ChangePassword" message="tns:IExternalAuthentication_ChangePassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExternalAuthentication/ChangePasswordResponse" message="tns:IExternalAuthentication_ChangePassword_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ResetPassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExternalAuthentication/ResetPassword" message="tns:IExternalAuthentication_ResetPassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExternalAuthentication/ResetPasswordResponse" message="tns:IExternalAuthentication_ResetPassword_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EditProfile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExternalAuthentication/EditProfile" message="tns:IExternalAuthentication_EditProfile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExternalAuthentication/EditProfileResponse" message="tns:IExternalAuthentication_EditProfile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GovSendMail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExternalAuthentication/GovSendMail" message="tns:IExternalAuthentication_GovSendMail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExternalAuthentication/GovSendMailResponse" message="tns:IExternalAuthentication_GovSendMail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidateSSO">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExternalAuthentication/ValidateSSO" message="tns:IExternalAuthentication_ValidateSSO_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExternalAuthentication/ValidateSSOResponse" message="tns:IExternalAuthentication_ValidateSSO_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSSOUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExternalAuthentication/GetSSOUser" message="tns:IExternalAuthentication_GetSSOUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExternalAuthentication/GetSSOUserResponse" message="tns:IExternalAuthentication_GetSSOUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GovSendMailAttachment">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExternalAuthentication/GovSendMailAttachment" message="tns:IExternalAuthentication_GovSendMailAttachment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExternalAuthentication/GovSendMailAttachmentResponse" message="tns:IExternalAuthentication_GovSendMailAttachment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendSingleSMS">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExternalAuthentication/SendSingleSMS" message="tns:IExternalAuthentication_SendSingleSMS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExternalAuthentication/SendSingleSMSResponse" message="tns:IExternalAuthentication_SendSingleSMS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendBulkSMS">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExternalAuthentication/SendBulkSMS" message="tns:IExternalAuthentication_SendBulkSMS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExternalAuthentication/SendBulkSMSResponse" message="tns:IExternalAuthentication_SendBulkSMS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendUnicodeSMS">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExternalAuthentication/SendUnicodeSMS" message="tns:IExternalAuthentication_SendUnicodeSMS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExternalAuthentication/SendUnicodeSMSResponse" message="tns:IExternalAuthentication_SendUnicodeSMS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendOTPMsg">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExternalAuthentication/SendOTPMsg" message="tns:IExternalAuthentication_SendOTPMsg_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExternalAuthentication/SendOTPMsgResponse" message="tns:IExternalAuthentication_SendOTPMsg_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendUnicodeOTPSMS">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExternalAuthentication/SendUnicodeOTPSMS" message="tns:IExternalAuthentication_SendUnicodeOTPSMS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExternalAuthentication/SendUnicodeOTPSMSResponse" message="tns:IExternalAuthentication_SendUnicodeOTPSMS_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IExternalAuthentication" type="tns:IExternalAuthentication">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ValidateUser">
+      <soap:operation soapAction="http://tempuri.org/IExternalAuthentication/ValidateUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateUserNOC">
+      <soap:operation soapAction="http://tempuri.org/IExternalAuthentication/ValidateUserNOC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateUserOTP">
+      <soap:operation soapAction="http://tempuri.org/IExternalAuthentication/ValidateUserOTP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReinitialiseUser">
+      <soap:operation soapAction="http://tempuri.org/IExternalAuthentication/ReinitialiseUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterUser">
+      <soap:operation soapAction="http://tempuri.org/IExternalAuthentication/RegisterUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ForgotPassword">
+      <soap:operation soapAction="http://tempuri.org/IExternalAuthentication/ForgotPassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangePassword">
+      <soap:operation soapAction="http://tempuri.org/IExternalAuthentication/ChangePassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResetPassword">
+      <soap:operation soapAction="http://tempuri.org/IExternalAuthentication/ResetPassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditProfile">
+      <soap:operation soapAction="http://tempuri.org/IExternalAuthentication/EditProfile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GovSendMail">
+      <soap:operation soapAction="http://tempuri.org/IExternalAuthentication/GovSendMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateSSO">
+      <soap:operation soapAction="http://tempuri.org/IExternalAuthentication/ValidateSSO" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSSOUser">
+      <soap:operation soapAction="http://tempuri.org/IExternalAuthentication/GetSSOUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GovSendMailAttachment">
+      <soap:operation soapAction="http://tempuri.org/IExternalAuthentication/GovSendMailAttachment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendSingleSMS">
+      <soap:operation soapAction="http://tempuri.org/IExternalAuthentication/SendSingleSMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendBulkSMS">
+      <soap:operation soapAction="http://tempuri.org/IExternalAuthentication/SendBulkSMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendUnicodeSMS">
+      <soap:operation soapAction="http://tempuri.org/IExternalAuthentication/SendUnicodeSMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendOTPMsg">
+      <soap:operation soapAction="http://tempuri.org/IExternalAuthentication/SendOTPMsg" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendUnicodeOTPSMS">
+      <soap:operation soapAction="http://tempuri.org/IExternalAuthentication/SendUnicodeOTPSMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ExternalAuthentication">
+    <wsdl:port name="BasicHttpBinding_IExternalAuthentication" binding="tns:BasicHttpBinding_IExternalAuthentication">
+      <soap:address location="http://192.168.0.165/ExternalAuthenticationService/ExternalAuthentication.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

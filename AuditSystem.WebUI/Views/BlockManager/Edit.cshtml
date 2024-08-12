@@ -1,0 +1,112 @@
+﻿@model AuditSystem.Core.Models.AuditSystem_Blocks
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Block</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Block_Id)
+
+        <table class="table">
+            <tbody>
+                <tr style="border-style:hidden;">
+                    <td style="width:15%"> @Html.LabelFor(model => model.Block_Name, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                    <td style="width:35%">
+                        @Html.DisplayFor(model => model.Block_Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.Block_Name)
+                    </td>
+
+
+
+                    <td style="width:15%">  @Html.LabelFor(model => model.Psc_Start_Date, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                    <td style="width:35%">
+                        @Html.DisplayFor(model => model.Psc_Start_Date, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.HiddenFor(model => model.Psc_Start_Date)
+                    </td>
+
+                </tr>
+
+
+                <tr style="border-style:hidden;">
+                    <td style="width:15%"> @Html.LabelFor(model => model.Block_Current_Status, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                    <td style="width:35%">
+                        @Html.DropDownListFor(model => model.Block_Current_Status, new List<SelectListItem> {
+                           new SelectListItem {Text = "Exploration",Value =  "Exploration" },
+                           new SelectListItem {Text = "Development",Value =  "Development" },
+                           new SelectListItem {Text = "Production",Value =  "Production" }
+                       })
+                    </td>
+
+
+
+                    <td style="width:15%"> @Html.LabelFor(model => model.Block_Category, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                    <td style="width:35%">
+                        @Html.DropDownListFor(model => model.Block_Category, new SelectList(Enumerable.Range(1, 4)))
+                    </td>
+
+                </tr>
+
+
+                <tr style="border-style:hidden;">
+                    <td style="width:15%"> @Html.LabelFor(model => model.Revenue_Till_Date, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                    <td style="width:35%">
+                        @Html.EditorFor(model => model.Revenue_Till_Date, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Revenue_Till_Date, "", new { @class = "text-danger" })
+                    </td>
+
+
+
+                    <td style="width:15%"> @Html.LabelFor(model => model.Expenditure_Till_Date, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                    <td style="width:35%">
+                        @Html.EditorFor(model => model.Expenditure_Till_Date, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Expenditure_Till_Date, "", new { @class = "text-danger" })
+                    </td>
+
+                </tr>
+
+                <tr style="border-style:hidden;">
+                    <td style="width:15%">  @Html.LabelFor(model => model.Updated_Status_Year, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                    <td style="width:35%">
+                        @Html.DropDownListFor(model => model.Updated_Status_Year, new List<SelectListItem> {
+                           new SelectListItem {Text = "2020-2021",Value =  "2020-2021" },
+                           new SelectListItem {Text = "2021-2022",Value =  "2021-2022" },
+                           new SelectListItem {Text = "2022-2023",Value =  "2022-2023" },
+                           new SelectListItem {Text = "2023-2024",Value =  "2023-2024" },
+                           new SelectListItem {Text = "2024-2025",Value =  "2024-2025" }
+                       })
+                    </td>
+
+
+                </tr>
+
+            </tbody>
+        </table>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index") |
+    @Html.ActionLink("Block Details", "Details", new { Id = Model.Block_Id })
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
