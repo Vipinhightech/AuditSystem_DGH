@@ -235,6 +235,7 @@
     <Content Include="Views\Exception\Details.cshtml" />
     <Content Include="Views\Attachments\Upload_Attachment.cshtml" />
     <Content Include="Views\Attachments\Edit.cshtml" />
+    <Content Include="Views\Exception\InitiateSettlement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

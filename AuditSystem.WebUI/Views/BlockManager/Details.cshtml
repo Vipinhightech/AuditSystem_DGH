@@ -56,7 +56,11 @@
 
 </div>
 <p>
-    @Html.ActionLink("Edit Block", "Edit", new { Id = Model.Block_Id })
+    @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management"))
+    {
+        @Html.ActionLink("Edit Block", "Edit", new { Id = Model.Block_Id })
+    }
+
 </p>
 
 
@@ -107,10 +111,14 @@
                     <!-- Add more columns as needed -->
                     <td>
                         <a target="_blank" href="~/Attachments/@item.Doc_Address">View Doc</a> |
-                        @Html.ActionLink("Edit", "Edit", "Attachments", new { id = item.Id }, null)
+                        @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management"))
+                        {
+                            @Html.ActionLink("Edit", "Edit", "Attachments", new { id = item.Id }, null)
+                        }
+
                         @*@Html.ActionLink("Edit", "Edit", "Exception", new { id = item.Id }, null) |
-                            @Html.ActionLink("Details", "Details", "Exception", new { id = item.ExceptionId }, null)
-                            @Html.ActionLink("Delete", "Delete", "Exception", new { id = item.ExceptionId }, null)*@
+        @Html.ActionLink("Details", "Details", "Exception", new { id = item.ExceptionId }, null)
+        @Html.ActionLink("Delete", "Delete", "Exception", new { id = item.ExceptionId }, null)*@
                     </td>
                 </tr>
             }
@@ -215,8 +223,18 @@
                 </td>
                 <!-- Add more columns as needed -->
                 <td>
-                    @Html.ActionLink("Edit", "Edit", "Exception", new { id = item.ExceptionId }, null) |
-                    @Html.ActionLink("Details", "Details", "Exception", new { id = item.ExceptionId }, null)
+                    @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management"))
+                    {
+                        @Html.ActionLink("Edit", "Edit", "Exception", new { id = item.ExceptionId }, null)
+                    }
+
+                    |   @Html.ActionLink("Details", "Details", "Exception", new { id = item.ExceptionId }, null)
+                    <br />
+                    @if (item.ActionTaken == "Unsettled" && item.S_Status == 0)
+                    {
+                        @Html.ActionLink("Proceed for Settlement", "InitiateSettlement", "Exception", new { id = item.ExceptionId }, null)
+                    }
+                    
                     @*@Html.ActionLink("Delete", "Delete", "Exception", new { id = item.ExceptionId }, null)*@
                 </td>
             </tr>

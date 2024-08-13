@@ -305,6 +305,12 @@
 
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ExceptionId }) |
+    @if (Model.ActionTaken == "Unsettled" && Model.S_Status == 0)
+    {
+        @Html.ActionLink("Proceed for Settlement", "InitiateSettlement", "Exception", new { id = Model.ExceptionId }, null)
+        <br/>
+    }
+    
     @*@Html.ActionLink("Back to List", "Index") |*@
     @Html.ActionLink("Back to Block Details", "Details", "BlockManager", new { Id = Model.Block_Id }, null)
 </p>

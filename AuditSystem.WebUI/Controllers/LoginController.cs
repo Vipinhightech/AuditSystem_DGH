@@ -47,7 +47,7 @@ namespace AuditSystem.WebUI.Controllers
                 1, // Ticket version
                 oAuthResponse.UserId, // Username
                 DateTime.Now, // Issue date
-                DateTime.Now.AddMinutes(30), // Expiration
+                DateTime.Now.AddMinutes(15), // Expiration
                 false, // Persistent
                 userData, // User data (roles)
                 FormsAuthentication.FormsCookiePath);
