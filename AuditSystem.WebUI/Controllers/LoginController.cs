@@ -24,6 +24,7 @@ namespace AuditSystem.WebUI.Controllers
                 return View(auth);
             }
             LoginManager oAuth = new LoginManager();
+            auth.AppID = oAuth.GetAppId(auth.UserId);
             AuthResponse oAuthResponse = oAuth.ValidateUser(auth);
             //Authentication.ExternalAuthenticationClient objAuthenticationClient = new Authentication.ExternalAuthenticationClient();
             //var response = objAuthenticationClient.ValidateUser(auth.UserId, auth.Password, auth.Operator, auth.AppID);

@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.Linq;
 using System.Web;
+using System.Data.Common;
+using System.Data;
 
 namespace AuditSystem.WebUI.Models
 {
@@ -70,5 +72,31 @@ namespace AuditSystem.WebUI.Models
             return new AuthResponse();
             
         }
+        public int GetAppId(string userid)
+        {
+            if (userid == null)
+            {
+                return 0;
+            }
+            if (userid == "135837")
+            {
+                return 292;
+            }
+            else 
+            {
+                return 291;
+            }
+            //int ret = 0;
+            //OracleDatabase objDB = new OracleDatabase(Common.ConnectionString);
+            //object[] results = new object[2];
+            //using (DbCommand objCMD = objDB.GetStoredProcCommand("USP_GET_USERAPPID", results))
+            //{
+            //    objDB.SetParameterValue(objCMD, "FUSERID", userid);
+            //    DataSet ds = objDB.ExecuteDataSet(objCMD);
+            //    ret = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
+            //}
+            //return ret;
+        }
+
     }
 }
