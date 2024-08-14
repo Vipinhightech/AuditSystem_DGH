@@ -45,9 +45,9 @@
                 </td>
 
                 @*<td style="width:15%">  @Html.LabelFor(model => model.NatureOfException, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.DisplayFor(model => model.NatureOfException)
-                    </td>*@
+            <td style="width:35%">
+                @Html.DisplayFor(model => model.NatureOfException)
+            </td>*@
 
             </tr>
             <tr style="border-style: hidden;">
@@ -58,17 +58,24 @@
                 </td>
 
             </tr>
+            <tr style="border-style: hidden;">
+                <td style="width:15%">   @Html.DisplayName("Upload Authorization Letter")  </td>
+                <td style="width:35%">
+                    <input type="file" id="file" name="file" class="form-control" />
+                </td>
+
+            </tr>
 
         </tbody>
     </table>
-    <div class="form-group">
+    <!--<div class="form-group">
 
 
-        <div class="col-md-10">
+        <div class="col-md-10">-->
             @*@Html.DisplayName("Upload Letter")*@
-            <input type="file" id="file" name="file" class="form-control" />
+            <!--<input type="file" id="file" name="file" class="form-control" />
         </div>
-    </div>
+    </div>-->
     <div class="form-group">
         <br />
         <div class="col-md-offset-2 col-md-10">

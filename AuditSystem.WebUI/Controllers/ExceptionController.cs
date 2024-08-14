@@ -50,7 +50,7 @@ namespace AuditSystem.WebUI.Controllers
             {
                 exception.ExceptionId = (context.Audit_Exception_Details.Any() ? context.Audit_Exception_Details.Max(e => e.ExceptionId) : 0) + 1;
                // exception.ExceptionId = context.Audit_Exception_Details.Max(e => e.ExceptionId) + 1;
-                exception.Updated_Date = DateTime.Now.Date.ToString();
+                exception.Updated_Date = DateTime.Now.Date.ToString("ddMMyyyy");
                 exception.Updated_By = Session["UserId"].ToString();
                 exception.S_Status = 0;
                 if (exception.FurtherQuery != null)
@@ -104,7 +104,7 @@ namespace AuditSystem.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                exception.Updated_Date = DateTime.Now.Date.ToString();
+                exception.Updated_Date = DateTime.Now.Date.ToString("ddMMyyyy");
                 exception.Updated_By = Session["UserId"].ToString();
                 if (exception.FurtherQuery != null)
                 {
@@ -188,11 +188,19 @@ namespace AuditSystem.WebUI.Controllers
             {
                 return HttpNotFound();
             }
-            if (file == null || S_Remark == null) 
+            if (file == null || S_Remark == "") 
             {
-                if (S_Remark != null)
+                if (S_Remark != "")
                 {
-                    exception.S_Remark = S_Remark;
+                    exception.S_Remark = S_Remark;                  
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Settlement Authorization Request No & Date is required");
+                }
+                if(file == null)
+                {
+                    ModelState.AddModelError("", "Upload file");
                 }
                 return View(exception);
             }
@@ -210,6 +218,58 @@ namespace AuditSystem.WebUI.Controllers
             context.SaveChanges();
             return RedirectToAction("Details", new { id = exception.ExceptionId });
 
+        }
+        [Authorize(Roles = "superuser,admin")]
+        public ActionResult ApproveSettlement(int? Id) 
+        {
+            if (Id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Audit_Exception_Details exception = context.Audit_Exception_Details.FirstOrDefault(e => e.ExceptionId == Id);
+            if (exception == null) 
+            {
+                return HttpNotFound();
+            }
+            if (exception.S_Status != 1)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (Session["UserId"].ToString().ToLower() == exception.S_InitiatedBy.ToLower())
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            exception.S_Status = 2;
+            exception.ActionTaken = "Settled";
+            exception.S_ApprovedBy = Session["UserId"].ToString();
+            exception.S_RejectedBy = null;
+            context.Entry(exception).State = EntityState.Modified;
+            context.SaveChanges();
+            return RedirectToAction("Details", new { id = exception.ExceptionId });
+        }
+
+        [Authorize(Roles = "superuser,admin")]
+        public ActionResult RejectSettlement(int? Id)
+        {
+            if (Id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Audit_Exception_Details exception = context.Audit_Exception_Details.FirstOrDefault(e => e.ExceptionId == Id);
+            if (exception == null)
+            {
+                return HttpNotFound();
+            }
+            if (exception.S_Status != 1)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            
+            exception.S_Status = 0;      
+            exception.S_RejectedBy = Session["UserId"].ToString();
+            context.Entry(exception).State = EntityState.Modified;
+            context.SaveChanges();
+            return RedirectToAction("Details", new { id = exception.ExceptionId });
         }
 
     }

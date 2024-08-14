@@ -89,168 +89,46 @@
                 <td>   @Html.DisplayFor(model => model.Remark) </td>
             </tr>
 
+            @if (Model.S_Status != 0)
+            {
+                <tr style="border-style:hidden;">
+                    <td><b>   @Html.DisplayName("Settlement Authorization Request No & Date") : </b></td>
+                    <td>   <a target="_blank" href="~/Attachments/@Model.S_Doc_Address">@Model.S_Remark</a> </td>
+                    @if (Model.S_Status == 1)
+                    {
+                        if (User.IsInRole("superuser") || User.IsInRole("admin"))
+                        {
+                            if (Session["UserId"].ToString().ToLower() != Model.S_InitiatedBy.ToLower())
+                            {
+                                <td colspan="2">
+                                    @Html.ActionLink("Approve", "ApproveSettlement", "Exception", new { id = Model.ExceptionId }, new { @class = "btn btn-success" })
+                                    @Html.ActionLink("Reject", "RejectSettlement", "Exception", new { id = Model.ExceptionId }, new { @class = "btn btn-danger" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td colspan="2">
+                                    <p class="text-danger"> *Initiator and Approver for settlement of Exception can not be same</p>
+                                    @Html.ActionLink("Reject", "RejectSettlement", "Exception", new { id = Model.ExceptionId }, new { @class = "btn btn-danger" })
+                                </td>
+                            }
+
+                        }
+
+                    }
+
+
+                </tr>
+            }
+
         </tbody>
     </table>
-
-
-
-
-    @*<dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Block_Name)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Block_Name)
-            </dd>
-
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Block.Psc_Start_Date)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Block.Psc_Start_Date)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Block.Revenue_Till_Date)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Block.Revenue_Till_Date)
-            </dd>
-
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Block.Expenditure_Till_Date)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Block.Expenditure_Till_Date)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Year)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Year)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Name_Of_Auditor)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Name_Of_Auditor)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.ExceptionNo)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.ExceptionNo)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.NatureOfException)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.NatureOfException)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.ExceptionTitle)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.ExceptionTitle)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.ZistOfException)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.ZistOfException)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.ExceptionType)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.ExceptionType)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Quantum)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Quantum)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.OperatorsReply)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.OperatorsReply)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.CFComments)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.CFComments)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.BlockCoordinatorsComments)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.BlockCoordinatorsComments)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.FinalRecommendations)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.FinalRecommendations)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.ActionTaken)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.ActionTaken)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.CurrentStatus)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.CurrentStatus)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Remark)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Remark)
-            </dd>
-        </dl>*@
 </div>
+
+
+
+
+
 
 <hr />
 
@@ -308,9 +186,9 @@
     @if (Model.ActionTaken == "Unsettled" && Model.S_Status == 0)
     {
         @Html.ActionLink("Proceed for Settlement", "InitiateSettlement", "Exception", new { id = Model.ExceptionId }, null)
-        <br/>
+        <br />
     }
-    
+
     @*@Html.ActionLink("Back to List", "Index") |*@
     @Html.ActionLink("Back to Block Details", "Details", "BlockManager", new { Id = Model.Block_Id }, null)
 </p>

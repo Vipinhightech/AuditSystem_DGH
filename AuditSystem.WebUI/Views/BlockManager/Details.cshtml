@@ -110,9 +110,10 @@
 
                     <!-- Add more columns as needed -->
                     <td>
-                        <a target="_blank" href="~/Attachments/@item.Doc_Address">View Doc</a> |
+                        <a target="_blank" href="~/Attachments/@item.Doc_Address">View Doc</a> 
                         @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management"))
                         {
+                            @Html.DisplayName(" | ")
                             @Html.ActionLink("Edit", "Edit", "Attachments", new { id = item.Id }, null)
                         }
 
@@ -145,7 +146,7 @@
             <th>
                 @* @Html.DisplayName("Year")*@
                 <select id="yearFilter">
-                    <option value="">Year</option>
+                    <option value="">Year (All)</option>
                     <option value="2023-2024">2023-2024</option>
                     <option value="2022-2023">2022-2023</option>
                     <option value="2021-2022">2021-2022</option>
@@ -161,7 +162,7 @@
             <th>
                 @*@Html.DisplayName("Nature Of Exception")*@
                 <select id="natureFilter">
-                    <option value="">Nature Of Exception</option>
+                    <option value="">Nature Of Exception (All)</option>
                     <option value="Short Payment of Royalty">Short Payment of Royalty</option>
                     <option value="Short Payment of PP">Short Payment of PP</option>
                     <option value="Short Payment of Cess">Short Payment of Cess</option>
@@ -171,7 +172,7 @@
             <th>
                 @*@Html.DisplayName("Exception Type")*@
                 <select id="typeFilter">
-                    <option value="">Exception Type</option>
+                    <option value="">Exception Type (All)</option>
                     <option value="Financial">Financial</option>
                     <option value="Non-Financial">Non-Financial</option>
 
@@ -189,6 +190,8 @@
                     <option value="">Action Taken</option>
                     <option value="Settled">Settled</option>
                     <option value="Unsettled">Unsettled</option>
+                    @*<option value="Unsettled
+(Pending Approval)">Unsettled (Pending Approval)</option>*@
                 </select>
             </th>
             <!-- Add more columns as needed -->
@@ -219,22 +222,39 @@
                     @Html.DisplayFor(modelItem => item.ZistOfException)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ActionTaken)
+                    @if (item.ActionTaken == "Settled")
+                    {
+                        <a target="_blank" href="~/Attachments/@item.S_Doc_Address">Settled</a>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.ActionTaken)
+                    }
+
+                    @*@if (item.ActionTaken == "Unsettled" && item.S_Status == 1)
+        {
+            @Html.DisplayName("(Pending Approval)")
+        }*@
                 </td>
                 <!-- Add more columns as needed -->
                 <td>
                     @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management"))
                     {
                         @Html.ActionLink("Edit", "Edit", "Exception", new { id = item.ExceptionId }, null)
+                       @Html.DisplayName(" |")
                     }
 
-                    |   @Html.ActionLink("Details", "Details", "Exception", new { id = item.ExceptionId }, null)
+                      @Html.ActionLink("Details", "Details", "Exception", new { id = item.ExceptionId }, null)
                     <br />
                     @if (item.ActionTaken == "Unsettled" && item.S_Status == 0)
                     {
                         @Html.ActionLink("Proceed for Settlement", "InitiateSettlement", "Exception", new { id = item.ExceptionId }, null)
                     }
-                    
+                    @*@if (item.ActionTaken == "Unsettled" && item.S_Status == 1)
+                    {
+                        @Html.DisplayName("Pending For Approval")
+                    }*@
+
                     @*@Html.ActionLink("Delete", "Delete", "Exception", new { id = item.ExceptionId }, null)*@
                 </td>
             </tr>
