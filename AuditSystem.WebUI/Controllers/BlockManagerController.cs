@@ -90,7 +90,7 @@ namespace AuditSystem.WebUI.Controllers
                 return HttpNotFound();
             }
 
-            block.Exceptions = block.Exceptions.OrderByDescending(e => e.Year).ThenBy(e => e.ExceptionNo).ToList();
+            block.Exceptions = block.Exceptions.OrderByDescending(e => e.Year).ThenBy(e => e.ExceptionNo).ThenBy(e=>e.ExceptionSubNo).ToList();
             block.Attachments = block.Attachments.OrderByDescending(a => a.Year).ThenByDescending(a => a.DateofAttachment).ToList();
 
             return View(block);

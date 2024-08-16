@@ -310,7 +310,9 @@
 }*@
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <br/>
+    @Html.ActionLink("Back to Exception Details", "Details", "Exception", new { Id = Model.ExceptionId }, null) |
+    @Html.ActionLink("Back to Block Details", "Details", "BlockManager", new { Id = Model.Block_Id }, null)
 </div>
 
 @section Scripts {

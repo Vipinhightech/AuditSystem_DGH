@@ -38,7 +38,8 @@
 
             <tr style="border-style:hidden;">
                 <td><b>   @Html.DisplayNameFor(model => model.ExceptionNo) : </b></td>
-                <td>    @Html.DisplayFor(model => model.ExceptionNo) </td>
+                <td>    @Html.DisplayFor(model => model.ExceptionNo)
+                @Html.DisplayFor(model => model.ExceptionSubNo)</td>
 
                 <td><b>   @Html.DisplayNameFor(model => model.NatureOfException) : </b></td>
                 <td>   @Html.DisplayFor(model => model.NatureOfException) </td>
@@ -101,8 +102,9 @@
                             if (Session["UserId"].ToString().ToLower() != Model.S_InitiatedBy.ToLower())
                             {
                                 <td colspan="2">
-
+                                   <b> @Html.DisplayName("Process for Settlement: ")</b><br/>
                                     @Html.ActionLink("Approve", "ApproveSettlement", "Exception", new { id = Model.ExceptionId }, new { @class = "btn btn-success" })
+                                    &nbsp;
                                     @Html.ActionLink("Reject", "RejectSettlement", "Exception", new { id = Model.ExceptionId }, new { @class = "btn btn-danger" })
                                 </td>
                             }

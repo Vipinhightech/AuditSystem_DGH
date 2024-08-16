@@ -57,7 +57,10 @@
                 </td>
 
                 <td style="width:15%">  @Html.LabelFor(model => model.ExceptionNo, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                <td style="width:35%">  @Html.DropDownListFor(model => model.ExceptionNo, new SelectList(Enumerable.Range(1, 50)))</td>
+                <td style="width:35%">
+                    @Html.DropDownListFor(model => model.ExceptionNo, new SelectList(Enumerable.Range(1, 50)))
+                    @Html.EditorFor(model => model.ExceptionSubNo, new { htmlAttributes = new { placeholder = "Exception Sub No" } })
+                </td>
             </tr>
 
             <tr style="border-style:hidden;">
