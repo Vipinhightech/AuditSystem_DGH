@@ -10,7 +10,7 @@ namespace AuditSystem.DataAccess.SQL
 {
     public class DataContext : DbContext
     {
-        public DataContext() : base("DefaultConnection")
+        public DataContext() : base("name=OracleConnection")
         {
 
         }
@@ -20,7 +20,11 @@ namespace AuditSystem.DataAccess.SQL
             //modelBuilder.Entity<AuditSystem_Blocks>().HasKey(k => k.Block_Name);
             //modelBuilder.Entity<Audit_Exception_Details>().HasKey(k => k.ExceptionId);
             //modelBuilder.Entity<WS_Block_Master>().HasKey(k => k.Block_Id);
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.HasDefaultSchema("AUDIT");
+           
         }
+ 
         public DbSet<AuditSystem_Blocks> AuditSystem_Blocks { get; set; }
         public DbSet<Audit_Exception_Details> Audit_Exception_Details { get; set; }
         public DbSet<Audit_FurtherQuery_Details> Audit_FurtherQuery_Details { get; set; }

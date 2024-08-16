@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AuditSystem.Core.Models
 {
+    [Table("Audit_Attachments")]
     public class Audit_Attachments
     {
         [Key]

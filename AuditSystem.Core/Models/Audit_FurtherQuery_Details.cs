@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AuditSystem.Core.Models
 {
+    [Table("Audit_FurtherQuery_Details")]
     public class Audit_FurtherQuery_Details
     {
         public int Id { get; set; }
