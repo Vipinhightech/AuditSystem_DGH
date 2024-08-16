@@ -16,9 +16,9 @@ namespace AuditSystem.Core.Models
         public int Block_Id { get; set; }
         [Required]
         public string Year { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Title is required.")]
         public string Title { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Date of attachment is required.")]
         [Display(Name = "DateOfLetter")]
         public DateTime DateofAttachment { get; set; }
 

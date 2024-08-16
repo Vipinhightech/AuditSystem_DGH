@@ -101,6 +101,7 @@
                             if (Session["UserId"].ToString().ToLower() != Model.S_InitiatedBy.ToLower())
                             {
                                 <td colspan="2">
+
                                     @Html.ActionLink("Approve", "ApproveSettlement", "Exception", new { id = Model.ExceptionId }, new { @class = "btn btn-success" })
                                     @Html.ActionLink("Reject", "RejectSettlement", "Exception", new { id = Model.ExceptionId }, new { @class = "btn btn-danger" })
                                 </td>
@@ -182,7 +183,12 @@
 
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ExceptionId }) |
+    @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management"))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ExceptionId })
+        @Html.DisplayName(" |")
+    }
+
     @if (Model.ActionTaken == "Unsettled" && Model.S_Status == 0)
     {
         @Html.ActionLink("Proceed for Settlement", "InitiateSettlement", "Exception", new { id = Model.ExceptionId }, null)

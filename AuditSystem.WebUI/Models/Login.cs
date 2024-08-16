@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Common;
 using System.Data;
+using Oracle.ManagedDataAccess.Client;
 
 namespace AuditSystem.WebUI.Models
 {
@@ -38,7 +39,7 @@ namespace AuditSystem.WebUI.Models
 
         public string Password { get; set; }
         public int Operator { get; set; } = 1;
-        public int AppID { get; set; } = 291;
+        public int AppID { get; set; }
     }
     [Serializable]
     public class AuthResponse
@@ -74,28 +75,17 @@ namespace AuditSystem.WebUI.Models
         }
         public int GetAppId(string userid)
         {
-            if (userid == null)
+            int ret = 0;
+            try
             {
-                return 0;
+                OracleParameter[] paramnew = { new OracleParameter { ParameterName = "FUSERID", Value = userid }
+                };
+
+                DataSet ds = new Dbcon().ExecuteDataSet("AUDIT_SYS_GET_USERAPPID", paramnew);
+                ret = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
             }
-            if (userid == "135837")
-            {
-                return 292;
-            }
-            else 
-            {
-                return 291;
-            }
-            //int ret = 0;
-            //OracleDatabase objDB = new OracleDatabase(Common.ConnectionString);
-            //object[] results = new object[2];
-            //using (DbCommand objCMD = objDB.GetStoredProcCommand("USP_GET_USERAPPID", results))
-            //{
-            //    objDB.SetParameterValue(objCMD, "FUSERID", userid);
-            //    DataSet ds = objDB.ExecuteDataSet(objCMD);
-            //    ret = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
-            //}
-            //return ret;
+            catch (Exception ex) { }
+            return ret;
         }
 
     }

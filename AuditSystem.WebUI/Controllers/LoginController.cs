@@ -26,19 +26,14 @@ namespace AuditSystem.WebUI.Controllers
             LoginManager oAuth = new LoginManager();
             auth.AppID = oAuth.GetAppId(auth.UserId);
             AuthResponse oAuthResponse = oAuth.ValidateUser(auth);
-            //Authentication.ExternalAuthenticationClient objAuthenticationClient = new Authentication.ExternalAuthenticationClient();
-            //var response = objAuthenticationClient.ValidateUser(auth.UserId, auth.Password, auth.Operator, auth.AppID);
-            //AuthResponse authResponse = new AuthResponse
-            //{
-            //    UserId = response.Userid,
-            //    Status = response.Status,
-            //    UserName = response.Username,
-            //    Operator = response.Operator,
-            //    APPLICATION = response.Application,
-            //    UserRole = response.UserRole.ToList()
 
-            //};
-            //AuthResponse authResponse = IsvalidUser(auth);
+            if (oAuthResponse == null || oAuthResponse.APPLICATION != auth.AppID.ToString())
+            {
+                ModelState.AddModelError("", "Login failed");
+                return View();
+            }
+
+
             if (Convert.ToBoolean(oAuthResponse.Status) == true)
             {
                 string userData = string.Join(",", oAuthResponse.UserRole);

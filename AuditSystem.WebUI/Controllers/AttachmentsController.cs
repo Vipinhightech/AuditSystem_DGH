@@ -94,11 +94,16 @@ namespace AuditSystem.WebUI.Controllers
                     context.SaveChanges();
                     return RedirectToAction("Details", "BlockManager", new { Id = attachment.Block_Id });
                 }
+                else
+                {
+                    ModelState.AddModelError("", "Upload file");
+                }
 
             }
 
             return View(attachment);
         }
+        [Authorize(Roles = "superuser,admin,management")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -116,6 +121,7 @@ namespace AuditSystem.WebUI.Controllers
             return View(attachment);
         }
         [HttpPost]
+        [Authorize(Roles = "superuser,admin,management")]
         // [ValidateAntiForgeryToken]
         public ActionResult Edit(Audit_Attachments attachment, HttpPostedFileBase file)
         {

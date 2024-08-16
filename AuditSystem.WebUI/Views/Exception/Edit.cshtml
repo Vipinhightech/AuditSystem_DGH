@@ -11,219 +11,225 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Edit Exception Details</h4>
-        <hr />
+<div class="form-horizontal">
+    <h4>Edit Exception Details</h4>
+    <hr />
 
 
 
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ExceptionId)
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ExceptionId)
+    @Html.HiddenFor(model => model.S_Status)
+    @Html.HiddenFor(model => model.S_InitiatedBy)
+    @Html.HiddenFor(model => model.S_ApprovedBy)
+    @Html.HiddenFor(model => model.S_RejectedBy)
+    @Html.HiddenFor(model => model.S_Doc_Address)
+    @Html.HiddenFor(model => model.S_Doc_Address)
+    @Html.HiddenFor(model => model.Submit_Status)
+
+    <table class="table">
+        <tbody>
+            <tr style="border-style:hidden;">
+                <td style="width:15%"> @Html.LabelFor(model => model.Block.Block_Name, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.DisplayFor(model => model.Block.Block_Name)
+                    @Html.HiddenFor(model => model.Block_Id)
+                </td>
+
+                <td style="width:15%">@Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.DropDownListFor(model => model.Year, new List<SelectListItem> {
+                        new SelectListItem {Text = "2020-2021",Value =  "2020-2021" },
+                        new SelectListItem {Text = "2021-2022",Value =  "2021-2022" },
+                        new SelectListItem {Text = "2022-2023",Value =  "2022-2023" },
+                        new SelectListItem {Text = "2023-2024",Value =  "2023-2024" },
+                        new SelectListItem {Text = "2024-2025",Value =  "2024-2025" }
+                    })
+                </td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+                <td style="width:15%"> @Html.LabelFor(model => model.Name_Of_Auditor, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.EditorFor(model => model.Name_Of_Auditor, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name_Of_Auditor, "", new { @class = "text-danger" })
+                </td>
+
+                <td style="width:15%">  @Html.LabelFor(model => model.ExceptionNo, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">  @Html.DropDownListFor(model => model.ExceptionNo, new SelectList(Enumerable.Range(1, 50)))</td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+                <td style="width:15%"> @Html.LabelFor(model => model.NatureOfException, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.DropDownListFor(model => model.NatureOfException, new List<SelectListItem> {
+                        new SelectListItem {Text = "Short Payment of Royalty",Value =  "Short Payment of Royalty" },
+                        new SelectListItem {Text = "Short Payment of PP",Value =  "Short Payment of PP" },
+                        new SelectListItem {Text = "Short Payment of Cess",Value =  "Short Payment of Cess" },
+                        new SelectListItem {Text = "PEL Payment Fees",Value =  "PEL Payment Fees" }
+                    })
+                </td>
+
+                <td style="width:15%">  @Html.LabelFor(model => model.ExceptionTitle, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.EditorFor(model => model.ExceptionTitle, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ExceptionTitle, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+                <td style="width:15%"> @Html.LabelFor(model => model.ZistOfException, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.EditorFor(model => model.ZistOfException, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ZistOfException, "", new { @class = "text-danger" })
+                </td>
+
+                <td style="width:15%">  @Html.LabelFor(model => model.ExceptionType, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.DropDownListFor(model => model.ExceptionType, new List<SelectListItem> {
+                          new SelectListItem {Text = "Financial",Value =  "Financial" },
+                          new SelectListItem {Text = "Non-Financial",Value =  "Non-Financial" }
+                     })
+                </td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+                <td style="width:15%">    @Html.LabelFor(model => model.Quantum, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.EditorFor(model => model.Quantum, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Quantum, "", new { @class = "text-danger" })
+                </td>
+
+                <td style="width:15%">  @Html.LabelFor(model => model.OperatorsReply, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.EditorFor(model => model.OperatorsReply, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.OperatorsReply, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+                <td style="width:15%">  @Html.LabelFor(model => model.CFComments, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.EditorFor(model => model.CFComments, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CFComments, "", new { @class = "text-danger" })
+                </td>
+
+                <td style="width:15%"> @Html.LabelFor(model => model.BlockCoordinatorsComments, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.EditorFor(model => model.BlockCoordinatorsComments, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.BlockCoordinatorsComments, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+                <td style="width:15%">  @Html.LabelFor(model => model.FinalRecommendations, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.EditorFor(model => model.FinalRecommendations, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FinalRecommendations, "", new { @class = "text-danger" })
+                </td>
+
+                <td style="width:15%">  @Html.LabelFor(model => model.ActionTaken, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.DisplayFor(model => model.ActionTaken)
+                    @Html.HiddenFor(model => model.ActionTaken)
+                    @*@Html.DropDownListFor(model => model.ActionTaken, new List<SelectListItem> {
+                            new SelectListItem {Text = "Settled",Value =  "Settled" },
+                            new SelectListItem {Text = "Unsettled",Value =  "Unsettled" }
+                        })*@
+                </td>
+            </tr>
+
+            <tr style="border-style:hidden;">
+                <td style="width:15%"> @Html.LabelFor(model => model.CurrentStatus, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.EditorFor(model => model.CurrentStatus, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CurrentStatus, "", new { @class = "text-danger" })
+                </td>
+
+                <td style="width:15%">  @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                </td>
+            </tr>
 
 
-        <table class="table">
-            <tbody>
-                <tr style="border-style:hidden;">
-                    <td style="width:15%"> @Html.LabelFor(model => model.Block.Block_Name, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.DisplayFor(model => model.Block.Block_Name)
-                        @Html.HiddenFor(model => model.Block_Id)
-                    </td>
-
-                    <td style="width:15%">@Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.DropDownListFor(model => model.Year, new List<SelectListItem> {
-                            new SelectListItem {Text = "2020-2021",Value =  "2020-2021" },
-                            new SelectListItem {Text = "2021-2022",Value =  "2021-2022" },
-                            new SelectListItem {Text = "2022-2023",Value =  "2022-2023" },
-                            new SelectListItem {Text = "2023-2024",Value =  "2023-2024" },
-                            new SelectListItem {Text = "2024-2025",Value =  "2024-2025" }
-                        })
-                    </td>
-                </tr>
-
-                <tr style="border-style:hidden;">
-                    <td style="width:15%"> @Html.LabelFor(model => model.Name_Of_Auditor, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.EditorFor(model => model.Name_Of_Auditor, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Name_Of_Auditor, "", new { @class = "text-danger" })
-                    </td>
-
-                    <td style="width:15%">  @Html.LabelFor(model => model.ExceptionNo, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">  @Html.DropDownListFor(model => model.ExceptionNo, new SelectList(Enumerable.Range(1, 50)))</td>
-                </tr>
-
-                <tr style="border-style:hidden;">
-                    <td style="width:15%"> @Html.LabelFor(model => model.NatureOfException, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.DropDownListFor(model => model.NatureOfException, new List<SelectListItem> {
-                            new SelectListItem {Text = "Short Payment of Royalty",Value =  "Short Payment of Royalty" },
-                            new SelectListItem {Text = "Short Payment of PP",Value =  "Short Payment of PP" },
-                            new SelectListItem {Text = "Short Payment of Cess",Value =  "Short Payment of Cess" },
-                            new SelectListItem {Text = "PEL Payment Fees",Value =  "PEL Payment Fees" }
-                        })
-                    </td>
-
-                    <td style="width:15%">  @Html.LabelFor(model => model.ExceptionTitle, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.EditorFor(model => model.ExceptionTitle, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.ExceptionTitle, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
-
-                <tr style="border-style:hidden;">
-                    <td style="width:15%"> @Html.LabelFor(model => model.ZistOfException, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.EditorFor(model => model.ZistOfException, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.ZistOfException, "", new { @class = "text-danger" })
-                    </td>
-
-                    <td style="width:15%">  @Html.LabelFor(model => model.ExceptionType, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.DropDownListFor(model => model.ExceptionType, new List<SelectListItem> {
-                              new SelectListItem {Text = "Financial",Value =  "Financial" },
-                              new SelectListItem {Text = "Non-Financial",Value =  "Non-Financial" }
-                         })
-                    </td>
-                </tr>
-
-                <tr style="border-style:hidden;">
-                    <td style="width:15%">    @Html.LabelFor(model => model.Quantum, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.EditorFor(model => model.Quantum, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Quantum, "", new { @class = "text-danger" })
-                    </td>
-
-                    <td style="width:15%">  @Html.LabelFor(model => model.OperatorsReply, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.EditorFor(model => model.OperatorsReply, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.OperatorsReply, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
-
-                <tr style="border-style:hidden;">
-                    <td style="width:15%">  @Html.LabelFor(model => model.CFComments, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.EditorFor(model => model.CFComments, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.CFComments, "", new { @class = "text-danger" })
-                    </td>
-
-                    <td style="width:15%"> @Html.LabelFor(model => model.BlockCoordinatorsComments, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.EditorFor(model => model.BlockCoordinatorsComments, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.BlockCoordinatorsComments, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
-
-                <tr style="border-style:hidden;">
-                    <td style="width:15%">  @Html.LabelFor(model => model.FinalRecommendations, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.EditorFor(model => model.FinalRecommendations, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.FinalRecommendations, "", new { @class = "text-danger" })
-                    </td>
-
-                    <td style="width:15%">  @Html.LabelFor(model => model.ActionTaken, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.DisplayFor(model => model.ActionTaken)
-                        @Html.HiddenFor(model => model.ActionTaken)
-                        @*@Html.DropDownListFor(model => model.ActionTaken, new List<SelectListItem> {
-                                new SelectListItem {Text = "Settled",Value =  "Settled" },
-                                new SelectListItem {Text = "Unsettled",Value =  "Unsettled" }
-                            })*@
-                    </td>
-                </tr>
-
-                <tr style="border-style:hidden;">
-                    <td style="width:15%"> @Html.LabelFor(model => model.CurrentStatus, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.EditorFor(model => model.CurrentStatus, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.CurrentStatus, "", new { @class = "text-danger" })
-                    </td>
-
-                    <td style="width:15%">  @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
+        </tbody>
+    </table>
 
 
-            </tbody>
-        </table>
+    <hr />
+    <div class="form-group">
+        <label class="control-label col-md-2"><h5>Further Queries </h5> </label>
+        <div class="col-md-10">
+            <table id="furtherQueryTable" class="table">
+                <thead>
+                    <tr>
+                        <th>Further Query</th>
+                        <th>Further Response</th>
+                        <th>Block Coordinators Comments</th>
+                        <th>CF Comments</th>
+                        <th>Final Recommmendations</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.FurtherQuery.Count; i++)
+                    {
 
-
-        <hr />
-        <div class="form-group">
-            <label class="control-label col-md-2"><h5>Further Queries </h5> </label>
-            <div class="col-md-10">
-                <table id="furtherQueryTable" class="table">
-                    <thead>
                         <tr>
-                            <th>Further Query</th>
-                            <th>Further Response</th>
-                            <th>Block Coordinators Comments</th>
-                            <th>CF Comments</th>
-                            <th>Final Recommmendations</th>
-                            <th></th>
+                            <td>
+                                @*@Html.HiddenFor(model => model.FurtherQuery[i].ExceptionId)*@
+                                @Html.HiddenFor(model => model.FurtherQuery[i].Id)
+                                @Html.EditorFor(model => model.FurtherQuery[i].FurtherQuery, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FurtherQuery[i].FurtherQuery, "", new { @class = "text-danger" })
+                            </td>
+
+                            <td>
+                                @Html.EditorFor(model => model.FurtherQuery[i].FurtherOperatorsReply, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FurtherQuery[i].FurtherOperatorsReply, "", new { @class = "text-danger" })
+                            </td>
+
+                            <td>
+                                @Html.EditorFor(model => model.FurtherQuery[i].FurtherBlockCoordinatorsComments, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FurtherQuery[i].FurtherBlockCoordinatorsComments, "", new { @class = "text-danger" })
+                            </td>
+
+                            <td>
+                                @Html.EditorFor(model => model.FurtherQuery[i].FurtherCFComments, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FurtherQuery[i].FurtherCFComments, "", new { @class = "text-danger" })
+                            </td>
+
+                            <td>
+                                @Html.EditorFor(model => model.FurtherQuery[i].FurtherFinalRecommendations, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FurtherQuery[i].FurtherFinalRecommendations, "", new { @class = "text-danger" })
+                            </td>
+
+                            <td>
+                                <button type="button" class="btn btn-danger" onclick="removeRow(this, @Model.FurtherQuery[i].Id)">Remove</button>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @for (int i = 0; i < Model.FurtherQuery.Count; i++)
-                        {
 
-                            <tr>
-                                <td>
-                                    @*@Html.HiddenFor(model => model.FurtherQuery[i].ExceptionId)*@
-                                    @Html.HiddenFor(model => model.FurtherQuery[i].Id)
-                                    @Html.EditorFor(model => model.FurtherQuery[i].FurtherQuery, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.FurtherQuery[i].FurtherQuery, "", new { @class = "text-danger" })
-                                </td>
+                    }
+                </tbody>
+            </table>
+            <button style="float:right" type="button" class="btn btn-primary" onclick="addRow()">Add Row</button>
 
-                                <td>
-                                    @Html.EditorFor(model => model.FurtherQuery[i].FurtherOperatorsReply, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.FurtherQuery[i].FurtherOperatorsReply, "", new { @class = "text-danger" })
-                                </td>
-
-                                <td>
-                                    @Html.EditorFor(model => model.FurtherQuery[i].FurtherBlockCoordinatorsComments, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.FurtherQuery[i].FurtherBlockCoordinatorsComments, "", new { @class = "text-danger" })
-                                </td>
-
-                                <td>
-                                    @Html.EditorFor(model => model.FurtherQuery[i].FurtherCFComments, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.FurtherQuery[i].FurtherCFComments, "", new { @class = "text-danger" })
-                                </td>
-
-                                <td>
-                                    @Html.EditorFor(model => model.FurtherQuery[i].FurtherFinalRecommendations, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.FurtherQuery[i].FurtherFinalRecommendations, "", new { @class = "text-danger" })
-                                </td>
-
-                                <td>
-                                    <button type="button" class="btn btn-danger" onclick="removeRow(this, @Model.FurtherQuery[i].Id)">Remove</button>
-                                </td>
-                            </tr>
-
-                        }
-                    </tbody>
-                </table>
-                <button style="float:right" type="button" class="btn btn-primary" onclick="addRow()">Add Row</button>
-
-            </div>
-        </div>
-
-
-        <input type="hidden" id="removedItems" name="RemovedItems" value="" />
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <br />
-                <br />
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
         </div>
     </div>
+
+
+    <input type="hidden" id="removedItems" name="RemovedItems" value="" />
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <br />
+            <br />
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
 }
 
 <div>

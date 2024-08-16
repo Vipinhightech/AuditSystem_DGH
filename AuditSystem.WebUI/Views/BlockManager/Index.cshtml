@@ -92,11 +92,16 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Submit_Status)
                     </td>*@
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Block_Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Block_Id })
-                    @*@Html.ActionLink("Delete", "Delete", new { id = item.Block_Id })*@
-                </td>
+            <td>
+                @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Block_Id })
+                    @Html.DisplayName(" |")
+                }
+
+                @Html.ActionLink("Details", "Details", new { id = item.Block_Id })
+                @*@Html.ActionLink("Delete", "Delete", new { id = item.Block_Id })*@
+            </td>
             </tr>
         }
     </tbody>

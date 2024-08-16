@@ -240,20 +240,23 @@
                 <td>
                     @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management"))
                     {
-                        @Html.ActionLink("Edit", "Edit", "Exception", new { id = item.ExceptionId }, null)
-                       @Html.DisplayName(" |")
+                        if (item.S_Status == 0)
+                        {
+                            @Html.ActionLink("Edit", "Edit", "Exception", new { id = item.ExceptionId }, null)
+                            @Html.DisplayName(" |")
+                        }
                     }
 
-                      @Html.ActionLink("Details", "Details", "Exception", new { id = item.ExceptionId }, null)
+                    @Html.ActionLink("Details", "Details", "Exception", new { id = item.ExceptionId }, null)
                     <br />
                     @if (item.ActionTaken == "Unsettled" && item.S_Status == 0)
                     {
                         @Html.ActionLink("Proceed for Settlement", "InitiateSettlement", "Exception", new { id = item.ExceptionId }, null)
                     }
                     @*@if (item.ActionTaken == "Unsettled" && item.S_Status == 1)
-                    {
-                        @Html.DisplayName("Pending For Approval")
-                    }*@
+        {
+            @Html.DisplayName("Pending For Approval")
+        }*@
 
                     @*@Html.ActionLink("Delete", "Delete", "Exception", new { id = item.ExceptionId }, null)*@
                 </td>
