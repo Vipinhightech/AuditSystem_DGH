@@ -16,7 +16,7 @@ namespace AuditSystem.WebUI.Controllers
         // GET: WSBlock
         public ActionResult Index()
         {
-            return View(db.WS_Block_Masters.ToList());
+            return View(db.WS_BLOCK_MASTER.ToList());
         }
         [Authorize(Roles = "superuser")]
         public ActionResult Create()
@@ -32,7 +32,7 @@ namespace AuditSystem.WebUI.Controllers
             {
                 return View(wsBlock);
             }
-            db.WS_Block_Masters.Add(wsBlock);
+            db.WS_BLOCK_MASTER.Add(wsBlock);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

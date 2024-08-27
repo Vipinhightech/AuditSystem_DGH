@@ -28,7 +28,7 @@ namespace AuditSystem.DataAccess.SQL
         public DbSet<AuditSystem_Blocks> AuditSystem_Blocks { get; set; }
         public DbSet<Audit_Exception_Details> Audit_Exception_Details { get; set; }
         public DbSet<Audit_FurtherQuery_Details> Audit_FurtherQuery_Details { get; set; }
-        public DbSet<WS_Block_Master> WS_Block_Masters { get; set; }
+        public DbSet<WS_Block_Master> WS_BLOCK_MASTER { get; set; }
         public DbSet<Audit_Attachments> Audit_Attachments { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace AuditSystem.WebUI.Controllers
         {
             AuditBlocksViewModel viewModel = new AuditBlocksViewModel();
             viewModel.Block = new AuditSystem_Blocks();
-            viewModel.wS_Blocks = context.WS_Block_Masters.AsQueryable();
+            viewModel.wS_Blocks = context.WS_BLOCK_MASTER.AsQueryable();
             return View(viewModel);
         }
 
@@ -37,8 +37,8 @@ namespace AuditSystem.WebUI.Controllers
             {
                 return View(block);
             }
-            WS_Block_Master wS_Block = context.WS_Block_Masters.FirstOrDefault(i => i.Block_Id == block.Block_Id);
-            block.Psc_Start_Date = wS_Block.Psc_Start_Date.Date;
+            WS_Block_Master wS_Block = context.WS_BLOCK_MASTER.FirstOrDefault(i => i.Block_Id == block.Block_Id);
+            block.Psc_Start_Date = wS_Block.Psc_Start_Date;
             block.Block_Name = wS_Block.Block_Name;
             block.UpdatedDate = DateTime.Now.Date.ToString();
             block.UpdatedBy = "Test";
