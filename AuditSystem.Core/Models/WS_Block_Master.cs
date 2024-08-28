@@ -16,7 +16,8 @@ namespace AuditSystem.Core.Models
         public int Block_Id { get; set; }
         [Column("BLOCK_NAME")]
         public string Block_Name { get; set; }
-        [Column("PSC_START_DATE")]
-        public DateTime Psc_Start_Date { get; set; }
+        
+        public DateTime? DATE_OF_SIGNING { get; set; }
+        public DateTime? EFFECTIVE_DATE {  get; set; }
     }
 }

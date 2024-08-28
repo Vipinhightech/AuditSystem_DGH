@@ -55,9 +55,12 @@ namespace AuditSystem.WebUI.Controllers
                 exception.S_Status = 0;
                 if (exception.FurtherQuery != null)
                 {
+                    int FqrID = (context.Audit_FurtherQuery_Details.Any() ? context.Audit_FurtherQuery_Details.Max(e => e.Id) : 0) + 1;
                     foreach (var fqr in exception.FurtherQuery)
                     {
+                        fqr.Id = FqrID;
                         fqr.ExceptionId = exception.ExceptionId;
+                        FqrID++;
                     }
                 }
 
@@ -108,15 +111,17 @@ namespace AuditSystem.WebUI.Controllers
                 exception.Updated_By = Session["UserId"].ToString();
                 if (exception.FurtherQuery != null)
                 {
+                    int FqrID = (context.Audit_FurtherQuery_Details.Any() ? context.Audit_FurtherQuery_Details.Max(e => e.Id) : 0) + 1;
                     foreach (var fqr in exception.FurtherQuery)
                     {
                         fqr.ExceptionId = exception.ExceptionId;
                         if (fqr.Id == 0)
                         {
+                            fqr.Id = FqrID;
                             context.Audit_FurtherQuery_Details.Add(fqr);
+                            FqrID++;
                         }
                         else
-
                         {
                             context.Entry(fqr).State = EntityState.Modified;
                         }
