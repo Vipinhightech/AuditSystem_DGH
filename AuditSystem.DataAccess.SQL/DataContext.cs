@@ -1,6 +1,7 @@
 ﻿using AuditSystem.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -16,13 +17,21 @@ namespace AuditSystem.DataAccess.SQL
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.HasDefaultSchema("AUDIT");
             //base.OnModelCreating(modelBuilder);
             //modelBuilder.Entity<AuditSystem_Blocks>().HasKey(k => k.Block_Name);
             //modelBuilder.Entity<Audit_Exception_Details>().HasKey(k => k.ExceptionId);
             //modelBuilder.Entity<WS_Block_Master>().HasKey(k => k.Block_Id);
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.HasDefaultSchema("AUDIT");
-           
+
+            modelBuilder.Properties<int>()
+            .Where(p => p.Name.EndsWith("Id"))  // Applies to all properties ending with "Id"
+            .Configure(p => p.HasDatabaseGeneratedOption(DatabaseGeneratedOption.None));
+
+
+           // modelBuilder.Entity<WS_Block_Master>()
+           //.Property(b => b.Block_Id)
+           //.HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
         }
  
         public DbSet<AuditSystem_Blocks> AuditSystem_Blocks { get; set; }
