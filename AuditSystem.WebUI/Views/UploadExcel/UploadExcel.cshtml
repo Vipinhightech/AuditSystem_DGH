@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "UploadExcel";
+}
+
+<h2>UploadExcel</h2>
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.Message
+    </div>
+}
+
+@using (Html.BeginForm("UploadExcel", "UploadExcel", FormMethod.Post, new { encType = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>AuditSystem_Blocks</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="file" id="file" name="file" class="form-control" />
+                <input type="submit" value="Upload" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+@if (Model != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Block Id</th>
+                <th>Quantum</th>
+                <th>Remark</th>
+                
+                <!-- Add other headers as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.X_Id</td>
+                    <td>@item.Quantum</td>
+                    <td>@item.Remark</td>
+                    <!-- Add other fields as needed -->
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

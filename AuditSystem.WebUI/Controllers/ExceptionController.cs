@@ -1,7 +1,10 @@
 ﻿using AuditSystem.Core.Models;
+using AuditSystem.Core.ViewModels;
 using AuditSystem.DataAccess.SQL;
+using ExcelDataReader;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -83,6 +86,95 @@ namespace AuditSystem.WebUI.Controllers
             //ViewBag.Block_Name = new SelectList(context.AuditSystem_Blocks, "Block_Name", "Block_Name");
             return View(exception);
         }
+
+
+        public ActionResult AddExceptionExcel(int? Id)
+        {
+            if (Id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AuditSystem_Blocks block = context.AuditSystem_Blocks.FirstOrDefault(b => b.Block_Id == Id);
+
+            if (block == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            //ViewBag.Block_Name = new SelectList(context.AuditSystem_Blocks, "Block_Name", "Block_Name");
+            //Audit_Exception_Details exception = new Audit_Exception_Details { FurtherQuery = new List<Audit_FurtherQuery_Details>() };
+            //exception.Block = block;
+            //exception.Block_Id = block.Block_Id;
+            return View(block);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddExceptionExcel(int block_Id, HttpPostedFileBase file)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AuditSystem_Blocks block = context.AuditSystem_Blocks.FirstOrDefault(b => b.Block_Id == block_Id);
+            if (block == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (file != null && file.ContentLength > 0)
+            {
+                if (file.FileName.EndsWith(".xlsx"))
+                {
+                    using (var stream = file.InputStream)
+                    {
+                        using (var reader = ExcelReaderFactory.CreateReader(stream))
+                        {
+                            var result = reader.AsDataSet();
+                            DataTable dt = result.Tables[0];
+                            var dataList = new List<AuditExceptionsExcel>();
+                            for (int i = 1; i < dt.Rows.Count; i++)
+                            {
+                                var data = new AuditExceptionsExcel
+                                {
+                                    X_Id = Convert.ToInt32(dt.Rows[i][0]),
+                                    Year = Convert.ToString(dt.Rows[i][1]),
+                                    Name_Of_Auditor = Convert.ToString(dt.Rows[i][2]),
+                                    ExceptionNo = Convert.ToInt32(dt.Rows[i][3]),
+                                    ExceptionSubNo = Convert.ToString(dt.Rows[i][4]),
+                                    NatureOfException = Convert.ToString(dt.Rows[i][5]),
+                                    ExceptionTitle = Convert.ToString(dt.Rows[i][6]),
+                                    ZistOfException = Convert.ToString(dt.Rows[i][7]),
+                                    ExceptionType = Convert.ToString(dt.Rows[i][8]),
+                                    Quantum = dt.Rows[i][9] != DBNull.Value ? Convert.ToDouble(dt.Rows[i][9]) : 0,
+                                    OperatorsReply = Convert.ToString(dt.Rows[i][10]),
+                                    CFComments = Convert.ToString(dt.Rows[i][11]),
+                                    BlockCoordinatorsComments = Convert.ToString(dt.Rows[i][11]),
+                                    FinalRecommendations = Convert.ToString(dt.Rows[i][12]),
+                                    CurrentStatus = Convert.ToString(dt.Rows[i][13]),
+                                    Remark = Convert.ToString(dt.Rows[i][14])
+                                };
+                                dataList.Add(data);
+                            }
+                            ViewBag.Message = "Data Imported Successfully";
+                            return View(block);
+                        }
+                    }
+                }
+            }
+
+            ViewBag.Message = "Please Upload file";
+
+            return View();
+
+        }
+
+
+
+
+
+
+
         [Authorize(Roles = "superuser,admin,management")]
         public ActionResult Edit(int? id)
         {

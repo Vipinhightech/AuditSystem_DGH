@@ -1,0 +1,63 @@
+﻿@model AuditSystem.Core.Models.AuditSystem_Blocks
+
+@{
+    ViewBag.Title = "AddExceptionExcel";
+}
+
+<h2>Add Exceptions Excel</h2>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.Message
+    </div>
+}
+
+@using (Html.BeginForm("AddExceptionExcel", "Exception", FormMethod.Post, new { encType = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Block_Id)
+        <table class="table">
+            <tbody>
+                <tr style="border-style: hidden;">
+                    <td style="width:15%"> @Html.LabelFor(model => model.Block_Name, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                    <td style="width:35%">
+                        @Html.DisplayFor(model => model.Block_Name)
+                    </td>
+
+                    <td style="width:15%">  @Html.LabelFor(model => model.Psc_Start_Date, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                    <td style="width:35%">
+                        @Html.DisplayFor(model => model.Psc_Start_Date)
+                    </td>
+
+                </tr>
+
+
+
+                <tr style="border-style: hidden;">
+                    <td style="width:15%">   @Html.DisplayName("Upload Excel")  </td>
+                    <td style="width:35%">
+                        <input type="file" id="file" name="file" class="form-control" />
+                    </td>
+
+                </tr>
+
+            </tbody>
+        </table>
+
+        <div class="form-group">
+            <br />
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to Block Details", "Details", "BlockManager", new { Id = Model.Block_Id }, null)
+</div>
