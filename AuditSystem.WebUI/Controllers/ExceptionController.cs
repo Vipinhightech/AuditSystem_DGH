@@ -156,6 +156,77 @@ namespace AuditSystem.WebUI.Controllers
                                 };
                                 dataList.Add(data);
                             }
+
+                            if (dataList != null)
+                            {
+                               
+                                int ExcpID = (context.Audit_Exception_Details.Any() ? context.Audit_Exception_Details.Max(e => e.ExceptionId) : 0) + 1;
+                                foreach (var item in dataList)
+                                {
+                                    Audit_Exception_Details exception = new Audit_Exception_Details();
+                                    exception.ExceptionId = ExcpID;
+                                    exception.Block_Id = block.Block_Id;
+                                    // exception.ExceptionId = context.Audit_Exception_Details.Max(e => e.ExceptionId) + 1;
+                                    exception.Updated_Date = DateTime.Now.Date.ToString("ddMMyyyy");
+                                    exception.Updated_By = Session["UserId"].ToString();
+                                    exception.S_Status = 0;
+                                    exception.ActionTaken = "Unsettled";
+                                    
+                                    exception.Year = item.Year;
+                                    exception.Name_Of_Auditor = item.Name_Of_Auditor;
+                                    exception.ExceptionNo = item.ExceptionNo;
+                                    exception.ExceptionSubNo = item.ExceptionSubNo;
+                                    exception.NatureOfException = item.NatureOfException;
+                                    exception.ExceptionTitle = item.ExceptionTitle;
+                                    exception.ZistOfException = item.ZistOfException;
+                                    exception.ExceptionType = item.ExceptionType;
+                                    exception.Quantum = item.Quantum;
+                                    exception.OperatorsReply = item.OperatorsReply;
+                                    exception.CFComments = item.CFComments;
+                                    exception.BlockCoordinatorsComments = item.BlockCoordinatorsComments;
+                                    exception.FinalRecommendations = item.FinalRecommendations;
+                                    exception.CurrentStatus = item.CurrentStatus;
+                                    exception.Remark = item.Remark;
+
+                                    //if (exception.FurtherQuery != null)
+                                    //{
+                                    //    int FqrID = (context.Audit_FurtherQuery_Details.Any() ? context.Audit_FurtherQuery_Details.Max(e => e.Id) : 0) + 1;
+                                    //    foreach (var fqr in exception.FurtherQuery)
+                                    //    {
+                                    //        fqr.Id = FqrID;
+                                    //        fqr.ExceptionId = exception.ExceptionId;
+                                    //        FqrID++;
+                                    //    }
+                                    //}
+
+                                    context.Audit_Exception_Details.Add(exception);
+                                    ExcpID++;
+                                 
+                                    //if (furtherQuery != null) 
+                                    //{
+                                    //    foreach (var fqr in furtherQuery) 
+                                    //    {
+                                    //        fqr.ExceptionId = exception.ExceptionId;
+                                    //        context.Audit_FurtherQuery_Details.Add(fqr);
+                                    //    }
+
+                                    //    context.SaveChanges();
+                                    //}
+
+                                    //return RedirectToAction("Details", "BlockManager", new { Id = exception.Block_Id });
+                                }
+                                context.SaveChanges();
+
+
+                            }
+
+
+
+
+
+
+
+
                             ViewBag.Message = "Data Imported Successfully";
                             return View(block);
                         }
