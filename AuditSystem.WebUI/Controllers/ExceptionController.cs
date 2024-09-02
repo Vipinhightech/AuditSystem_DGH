@@ -132,6 +132,7 @@ namespace AuditSystem.WebUI.Controllers
                         {
                             var result = reader.AsDataSet();
                             DataTable dt = result.Tables[0];
+                            DataTable dt1 = result.Tables[1];
                             var dataList = new List<AuditExceptionsExcel>();
                             for (int i = 1; i < dt.Rows.Count; i++)
                             {
@@ -152,8 +153,26 @@ namespace AuditSystem.WebUI.Controllers
                                     BlockCoordinatorsComments = Convert.ToString(dt.Rows[i][11]),
                                     FinalRecommendations = Convert.ToString(dt.Rows[i][12]),
                                     CurrentStatus = Convert.ToString(dt.Rows[i][13]),
-                                    Remark = Convert.ToString(dt.Rows[i][14])
+                                    Remark = Convert.ToString(dt.Rows[i][14]),
+                                    FurtherQuery = new List<Audit_FurtherQuery_Details>()
                                 };
+                                for(int j = 1; j < dt1.Rows.Count; j++)
+                                {
+                                    //int F_X_Id = Convert.ToInt32(dt1.Rows[j][0]);
+                                    if (data.X_Id == Convert.ToInt32(dt1.Rows[j][0]))
+                                    {
+                                        var fqr = new Audit_FurtherQuery_Details
+                                        {
+                                            ExceptionId = Convert.ToInt32(dt1.Rows[j][0]),
+                                            FurtherQuery = Convert.ToString(dt1.Rows[j][1]),
+                                            FurtherOperatorsReply = Convert.ToString(dt1.Rows[j][2]),
+                                            FurtherCFComments = Convert.ToString(dt1.Rows[j][3]),
+                                            FurtherBlockCoordinatorsComments = Convert.ToString(dt1.Rows[j][4]),
+                                            FurtherFinalRecommendations = Convert.ToString(dt1.Rows[j][5])
+                                        };
+                                        data.FurtherQuery.Add(fqr);
+                                    }
+                                }
                                 dataList.Add(data);
                             }
 
@@ -161,6 +180,7 @@ namespace AuditSystem.WebUI.Controllers
                             {
                                
                                 int ExcpID = (context.Audit_Exception_Details.Any() ? context.Audit_Exception_Details.Max(e => e.ExceptionId) : 0) + 1;
+                                int FqrID = (context.Audit_FurtherQuery_Details.Any() ? context.Audit_FurtherQuery_Details.Max(e => e.Id) : 0) + 1;
                                 foreach (var item in dataList)
                                 {
                                     Audit_Exception_Details exception = new Audit_Exception_Details();
@@ -187,6 +207,17 @@ namespace AuditSystem.WebUI.Controllers
                                     exception.FinalRecommendations = item.FinalRecommendations;
                                     exception.CurrentStatus = item.CurrentStatus;
                                     exception.Remark = item.Remark;
+
+                                    if(item.FurtherQuery != null)
+                                    {
+                                        foreach(var fqr in item.FurtherQuery)
+                                        {
+                                            fqr.Id = FqrID;
+                                            fqr.ExceptionId = ExcpID;
+                                            FqrID++;
+                                        }
+                                        exception.FurtherQuery = item.FurtherQuery;
+                                    }
 
                                     //if (exception.FurtherQuery != null)
                                     //{

@@ -186,7 +186,6 @@
     <Compile Include="Controllers\ExceptionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Controllers\UploadExcelController.cs" />
     <Compile Include="Controllers\WSBlockController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -291,7 +290,6 @@
     <Content Include="Views\Attachments\Upload_Attachment.cshtml" />
     <Content Include="Views\Attachments\Edit.cshtml" />
     <Content Include="Views\Exception\InitiateSettlement.cshtml" />
-    <Content Include="Views\UploadExcel\UploadExcel.cshtml" />
     <Content Include="Views\Exception\AddExceptionExcel.cshtml" />
   </ItemGroup>
   <ItemGroup>

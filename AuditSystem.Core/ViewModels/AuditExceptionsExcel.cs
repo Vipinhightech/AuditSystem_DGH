@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AuditSystem.Core.Models;
 
 namespace AuditSystem.Core.ViewModels
 {
@@ -12,8 +13,6 @@ namespace AuditSystem.Core.ViewModels
     {
        
         public int X_Id { get; set; }
-
-        //public int Block_Id { get; set; }
        
         public string Year { get; set; }
        
@@ -41,32 +40,11 @@ namespace AuditSystem.Core.ViewModels
    
         public string FinalRecommendations { get; set; }
   
-        //public string ActionTaken { get; set; }    //Settled, Unsettled
     
         public string CurrentStatus { get; set; }
    
         public string Remark { get; set; }
 
-        //settlement of exception
-    
-        //public int S_Status { get; set; } //0-Unsettled, 1-Pending Approval, 2- Settled
-   
-        //public string S_InitiatedBy { get; set; }
-   
-        //public string S_ApprovedBy { get; set; }
-   
-        //public string S_RejectedBy { get; set; }
-    
-        //public string S_Remark { get; set; }
-     
-        //public string S_Doc_Address { get; set; }
-
-
-     
-        //public string Submit_Status { get; set; } //final, submit
-     
-        //public string Updated_Date { get; set; }
-     
-        //public string Updated_By { get; set; }
+        public virtual List<Audit_FurtherQuery_Details> FurtherQuery { get; set; }
     }
 }
