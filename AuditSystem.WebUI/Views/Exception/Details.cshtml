@@ -103,9 +103,9 @@
                             {
                                 <td colspan="2">
                                    <b> @Html.DisplayName("Process for Settlement: ")</b><br/>
-                                    @Html.ActionLink("Approve", "ApproveSettlement", "Exception", new { id = Model.ExceptionId }, new { @class = "btn btn-success" })
+                                    @Html.ActionLink("Approve", "ApproveSettlement", "Exception", new { id = Model.ExceptionId }, new { @class = "btn btn-success", onclick = "return confirm('Do you want to Approve Settlement');" })
                                     &nbsp;
-                                    @Html.ActionLink("Reject", "RejectSettlement", "Exception", new { id = Model.ExceptionId }, new { @class = "btn btn-danger" })
+                                    @Html.ActionLink("Reject", "RejectSettlement", "Exception", new { id = Model.ExceptionId }, new { @class = "btn btn-danger", onclick = "return confirm('Do you want to Reject Settlement');" })
                                 </td>
                             }
                             else

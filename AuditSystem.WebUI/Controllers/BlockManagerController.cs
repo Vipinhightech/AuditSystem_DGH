@@ -24,7 +24,7 @@ namespace AuditSystem.WebUI.Controllers
         public ActionResult Create()
         {
             AuditBlocksViewModel viewModel = new AuditBlocksViewModel();
-            viewModel.Block = new AuditSystem_Blocks();
+            viewModel.Block = new AuditSystem_Blocks { Revenue_Expenditures = new List<Audit_Year_Revenue_Expenditure>()};
             viewModel.wS_Blocks = context.WS_BLOCK_MASTER.AsQueryable().OrderBy(b => b.Block_Name);
             return View(viewModel);
         }
@@ -54,6 +54,17 @@ namespace AuditSystem.WebUI.Controllers
             block.Block_Name = wS_Block.Block_Name;
             block.UpdatedDate = DateTime.Now.Date.ToString();
             block.UpdatedBy = Session["UserId"].ToString();
+
+            if(block.Revenue_Expenditures != null)
+            {
+                int RevExpId = (context.Audit_Year_Revenue_Expenditure.Any() ? context.Audit_Year_Revenue_Expenditure.Max(e => e.Id) : 0) + 1;
+                foreach(var RevExp in block.Revenue_Expenditures)
+                {
+                    RevExp.Id = RevExpId;
+                    RevExp.Block_Id = block.Block_Id;
+                    RevExpId++;
+                }
+            }
             context.AuditSystem_Blocks.Add(block);
             context.SaveChanges();
             return RedirectToAction("Index");

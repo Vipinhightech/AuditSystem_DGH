@@ -43,5 +43,6 @@ namespace AuditSystem.Core.Models
 
         public virtual ICollection<Audit_Exception_Details> Exceptions { get; set; }
         public virtual ICollection<Audit_Attachments> Attachments { get; set; }
+        public virtual List<Audit_Year_Revenue_Expenditure> Revenue_Expenditures { get; set; }
     }
 }

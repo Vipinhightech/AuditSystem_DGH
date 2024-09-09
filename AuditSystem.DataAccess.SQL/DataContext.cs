@@ -39,5 +39,6 @@ namespace AuditSystem.DataAccess.SQL
         public DbSet<Audit_FurtherQuery_Details> Audit_FurtherQuery_Details { get; set; }
         public DbSet<WS_Block_Master> WS_BLOCK_MASTER { get; set; }
         public DbSet<Audit_Attachments> Audit_Attachments { get; set; }
+        public DbSet<Audit_Year_Revenue_Expenditure> Audit_Year_Revenue_Expenditure { get; set; }
     }
 }

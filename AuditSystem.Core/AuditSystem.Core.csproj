@@ -46,6 +46,7 @@
     <Compile Include="Models\Audit_Attachments.cs" />
     <Compile Include="Models\Audit_Exception_Details.cs" />
     <Compile Include="Models\Audit_FurtherQuery_Details.cs" />
+    <Compile Include="Models\Audit_Year_Revenue_Expenditure.cs" />
     <Compile Include="Models\WS_Block_Master.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AuditBlocksViewModel.cs" />
