@@ -1,6 +1,7 @@
 ﻿using AuditSystem.Core.Models;
 using AuditSystem.Core.ViewModels;
 using AuditSystem.DataAccess.SQL;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -76,7 +77,7 @@ namespace AuditSystem.WebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AuditSystem_Blocks block = context.AuditSystem_Blocks/*.Include(e => e.Exceptions)*/.FirstOrDefault(b => b.Block_Id == Id);
+            AuditSystem_Blocks block = context.AuditSystem_Blocks.Include(e => e.Revenue_Expenditures).FirstOrDefault(b => b.Block_Id == Id);
             if (block == null)
             {
                 return HttpNotFound();
@@ -86,15 +87,47 @@ namespace AuditSystem.WebUI.Controllers
         [HttpPost]
         [Authorize(Roles = "superuser,admin,management")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(AuditSystem_Blocks block)
+        public ActionResult Edit(AuditSystem_Blocks block, string removedItems)
         {
             if (!ModelState.IsValid)
             {
                 return View(block);
             }
             block.UpdatedDate = DateTime.Now.Date.ToString();
-            block.UpdatedBy = Session["UserId"].ToString(); 
+            block.UpdatedBy = Session["UserId"].ToString();
+
+            if (block.Revenue_Expenditures != null)
+            {
+                int RevExpId = (context.Audit_Year_Revenue_Expenditure.Any() ? context.Audit_Year_Revenue_Expenditure.Max(e => e.Id) : 0) + 1;
+                foreach (var RevExp in block.Revenue_Expenditures)
+                {
+                    RevExp.Block_Id = block.Block_Id;
+                    if(RevExp.Id == 0)
+                    {
+                        RevExp.Id = RevExpId;
+                        context.Audit_Year_Revenue_Expenditure.Add(RevExp);
+                        RevExpId++;
+                    }
+                    else
+                    {
+                        context.Entry(RevExp).State = EntityState.Modified;
+                    }
+                }
+
+            }
             context.Entry(block).State = EntityState.Modified;
+            if (!string.IsNullOrEmpty(removedItems))
+            {
+                var idsToRemove = removedItems.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
+                foreach (var id in idsToRemove)
+                {
+                    var itemsToRemove = context.Audit_Year_Revenue_Expenditure.Find(id);
+                    if (itemsToRemove != null)
+                    {
+                        context.Audit_Year_Revenue_Expenditure.Remove(itemsToRemove);
+                    }
+                }
+            }
             context.SaveChanges();
             return RedirectToAction("Details", new { Id = block.Block_Id });
         }

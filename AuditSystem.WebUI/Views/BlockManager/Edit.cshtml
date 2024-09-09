@@ -11,94 +11,149 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Block</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Block_Id)
+<div class="form-horizontal">
+    <h4>Block</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Block_Id)
 
-        <table class="table">
-            <tbody>
-                <tr style="border-style:hidden;">
-                    <td style="width:15%"> @Html.LabelFor(model => model.Block_Name, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                    <td style="width:35%">
-                        @Html.DisplayFor(model => model.Block_Name, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.HiddenFor(model => model.Block_Name)
-                    </td>
-
-
-
-                    <td style="width:15%">  @Html.LabelFor(model => model.Psc_Start_Date, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.DisplayFor(model => model.Psc_Start_Date, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.HiddenFor(model => model.Psc_Start_Date)
-                    </td>
-
-                </tr>
-
-
-                <tr style="border-style:hidden;">
-                    <td style="width:15%"> @Html.LabelFor(model => model.Block_Current_Status, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.DropDownListFor(model => model.Block_Current_Status, new List<SelectListItem> {
-                           new SelectListItem {Text = "Exploration",Value =  "Exploration" },
-                           new SelectListItem {Text = "Development",Value =  "Development" },
-                           new SelectListItem {Text = "Production",Value =  "Production" }
-                       })
-                    </td>
+    <table class="table">
+        <tbody>
+            <tr style="border-style:hidden;">
+                <td style="width:15%"> @Html.LabelFor(model => model.Block_Name, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                <td style="width:35%">
+                    @Html.DisplayFor(model => model.Block_Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.Block_Name)
+                </td>
 
 
 
-                    <td style="width:15%"> @Html.LabelFor(model => model.Block_Category, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.DropDownListFor(model => model.Block_Category, new SelectList(Enumerable.Range(1, 4)))
-                    </td>
+                <td style="width:15%">  @Html.LabelFor(model => model.Psc_Start_Date, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.DisplayFor(model => model.Psc_Start_Date, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.Psc_Start_Date)
+                </td>
 
-                </tr>
-
-
-                <tr style="border-style:hidden;">
-                    <td style="width:15%"> @Html.LabelFor(model => model.Revenue_Till_Date, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.EditorFor(model => model.Revenue_Till_Date, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Revenue_Till_Date, "", new { @class = "text-danger" })
-                    </td>
+            </tr>
 
 
-
-                    <td style="width:15%"> @Html.LabelFor(model => model.Expenditure_Till_Date, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.EditorFor(model => model.Expenditure_Till_Date, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Expenditure_Till_Date, "", new { @class = "text-danger" })
-                    </td>
-
-                </tr>
-
-                <tr style="border-style:hidden;">
-                    <td style="width:15%">  @Html.LabelFor(model => model.Updated_Status_Year, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
-                    <td style="width:35%">
-                        @Html.DropDownListFor(model => model.Updated_Status_Year, new List<SelectListItem> {
-                           new SelectListItem {Text = "2020-2021",Value =  "2020-2021" },
-                           new SelectListItem {Text = "2021-2022",Value =  "2021-2022" },
-                           new SelectListItem {Text = "2022-2023",Value =  "2022-2023" },
-                           new SelectListItem {Text = "2023-2024",Value =  "2023-2024" },
-                           new SelectListItem {Text = "2024-2025",Value =  "2024-2025" }
-                       })
-                    </td>
+            <tr style="border-style:hidden;">
+                <td style="width:15%"> @Html.LabelFor(model => model.Block_Current_Status, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.DropDownListFor(model => model.Block_Current_Status, new List<SelectListItem> {
+                       new SelectListItem {Text = "Exploration",Value =  "Exploration" },
+                       new SelectListItem {Text = "Development",Value =  "Development" },
+                       new SelectListItem {Text = "Production",Value =  "Production" }
+                   })
+                </td>
 
 
-                </tr>
 
-            </tbody>
-        </table>
+                <td style="width:15%"> @Html.LabelFor(model => model.Block_Category, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.DropDownListFor(model => model.Block_Category, new SelectList(Enumerable.Range(1, 4)))
+                </td>
+
+            </tr>
 
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+            <tr style="border-style:hidden;">
+                <td style="width:15%"> @Html.LabelFor(model => model.Revenue_Till_Date, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.EditorFor(model => model.Revenue_Till_Date, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Revenue_Till_Date, "", new { @class = "text-danger" })
+                </td>
+
+
+
+                <td style="width:15%"> @Html.LabelFor(model => model.Expenditure_Till_Date, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.EditorFor(model => model.Expenditure_Till_Date, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Expenditure_Till_Date, "", new { @class = "text-danger" })
+                </td>
+
+            </tr>
+
+            <tr style="border-style:hidden;">
+                <td style="width:15%">  @Html.LabelFor(model => model.Updated_Status_Year, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                <td style="width:35%">
+                    @Html.DropDownListFor(model => model.Updated_Status_Year, new List<SelectListItem> {
+                       new SelectListItem {Text = "2020-2021",Value =  "2020-2021" },
+                       new SelectListItem {Text = "2021-2022",Value =  "2021-2022" },
+                       new SelectListItem {Text = "2022-2023",Value =  "2022-2023" },
+                       new SelectListItem {Text = "2023-2024",Value =  "2023-2024" },
+                       new SelectListItem {Text = "2024-2025",Value =  "2024-2025" }
+                   })
+                </td>
+
+
+            </tr>
+
+        </tbody>
+    </table>
+
+
+    <hr />
+    <div class="form-group">
+        <h5>Yearwise Revenue and Expenditure </h5> <br />
+        <div class="col-md-10">
+            <table id="RevExpTable" class="table">
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th>Revenue</th>
+                        <th>Expenditure</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Revenue_Expenditures.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.HiddenFor(model => model.Revenue_Expenditures[i].Id)
+                                @*@Html.EditorFor(model => model.Revenue_Expenditures[i].Year, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Revenue_Expenditures[i].Year, "", new { @class = "text-danger" })*@
+                                @Html.DropDownListFor(model => model.Revenue_Expenditures[i].Year, new List<SelectListItem> {
+                                     new SelectListItem {Text = "2020-2021",Value =  "2020-2021" },
+                                     new SelectListItem {Text = "2021-2022",Value =  "2021-2022" },
+                                     new SelectListItem {Text = "2022-2023",Value =  "2022-2023" },
+                                     new SelectListItem {Text = "2023-2024",Value =  "2023-2024" },
+                                     new SelectListItem {Text = "2024-2025",Value =  "2024-2025" }
+                                 })
+                            </td>
+
+                            <td>
+                                @Html.EditorFor(model => model.Revenue_Expenditures[i].Revenue, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Revenue_Expenditures[i].Revenue, "", new { @class = "text-danger" })
+                            </td>
+
+                            <td>
+                                @Html.EditorFor(model => model.Revenue_Expenditures[i].Expenditure, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Revenue_Expenditures[i].Expenditure, "", new { @class = "text-danger" })
+                            </td>
+
+                            <td>
+                                <button type="button" class="btn btn-danger" onclick="removeRow(this, @Model.Revenue_Expenditures[i].Id)">Remove</button>
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+            <button style="float:right" type="button" class="btn btn-primary" onclick="addRow()">Add Row</button>
+
         </div>
     </div>
+
+    <input type="hidden" id="removedItems" name="RemovedItems" value="" />
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
 }
 
 <div>
@@ -109,4 +164,38 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        function addRow() {
+            var table = document.getElementById('RevExpTable').getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow();
+            var rowCount = table.rows.length - 1;
+
+            newRow.innerHTML = `
+               <td><input type="hidden" name="Revenue_Expenditures[${rowCount}].Id" value="0"/>   
+                   <select name="Revenue_Expenditures[${rowCount}].Year" >
+                        <option value="2020-2021">2020-2021</option>
+                        <option value="2021-2022">2021-2022</option>
+                        <option value="2022-2023">2022-2023</option>
+                        <option value="2023-2024">2023-2024</option>
+                        <option value="2024-2025">2024-2025</option>
+                    </select>
+                </td>
+                <td><input type="text" name="Revenue_Expenditures[${rowCount}].Revenue" class="form-control" /></td>
+                <td><input type="text" name="Revenue_Expenditures[${rowCount}].Expenditure" class="form-control" /></td>
+
+                <td><button type="btn btn-danger" onclick="removeRow(this, 0)">Remove</button></td>
+            `;
+        }
+
+        function removeRow(button, id) {
+            var row = button.closest('tr');
+            row.parentNode.removeChild(row);
+            var removedItems = document.getElementById('removedItems').value;
+            if (id != 0) {
+                removedItems += id + ",";
+                document.getElementById('removedItems').value = removedItems;
+            }
+        }
+
+    </script>
 }
