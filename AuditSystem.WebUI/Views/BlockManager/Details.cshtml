@@ -30,7 +30,12 @@
 
             <tr style="border-style:hidden;">
                 <td>   @Html.DisplayNameFor(model => model.Revenue_Till_Date) :</td>
-                <td>  @Html.DisplayFor(model => model.Revenue_Till_Date) </td>
+                <td>  
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#RevExpModal">
+                        @Html.DisplayFor(model => model.Revenue_Till_Date)
+                    </a>
+                </td>
+
 
                 <td>  @Html.DisplayNameFor(model => model.Expenditure_Till_Date) :</td>
                 <td>   @Html.DisplayFor(model => model.Expenditure_Till_Date) </td>
@@ -62,6 +67,67 @@
     }
 
 </p>
+
+<!-- Popup for Yearwise Revenue & Expenditure -->
+<div class="modal fade" id="RevExpModal">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Yearwise Revenue and Expenditure</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <table class="table" >
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayName("Year")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Revenue")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Expenditure")
+                            </th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Revenue_Expenditures)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Year)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Revenue)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Expenditure)
+                                </td>
+                          
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
 
 
 <button class="btn btn-primary" id="viewAttachment" style="float:right;">View Attachments</button>

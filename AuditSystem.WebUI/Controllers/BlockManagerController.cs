@@ -78,6 +78,7 @@ namespace AuditSystem.WebUI.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             AuditSystem_Blocks block = context.AuditSystem_Blocks.Include(e => e.Revenue_Expenditures).FirstOrDefault(b => b.Block_Id == Id);
+            block.Revenue_Expenditures = block.Revenue_Expenditures.OrderByDescending(e => e.Year).ToList();
             if (block == null)
             {
                 return HttpNotFound();
@@ -138,7 +139,7 @@ namespace AuditSystem.WebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AuditSystem_Blocks block = context.AuditSystem_Blocks.Include(e => e.Exceptions).Include(a => a.Attachments).FirstOrDefault(b => b.Block_Id == Id);
+            AuditSystem_Blocks block = context.AuditSystem_Blocks.Include(e => e.Exceptions).Include(a => a.Attachments).Include(a=>a.Revenue_Expenditures).FirstOrDefault(b => b.Block_Id == Id);
 
             if (block == null)
             {
@@ -147,7 +148,7 @@ namespace AuditSystem.WebUI.Controllers
 
             block.Exceptions = block.Exceptions.OrderByDescending(e => e.Year).ThenBy(e => e.ExceptionNo).ThenBy(e=>e.ExceptionSubNo).ToList();
             block.Attachments = block.Attachments.OrderByDescending(a => a.Year).ThenByDescending(a => a.DateofAttachment).ToList();
-
+            block.Revenue_Expenditures = block.Revenue_Expenditures.OrderByDescending(e => e.Year).ToList();
             return View(block);
 
         }
