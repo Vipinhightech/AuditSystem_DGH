@@ -81,7 +81,7 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <table class="table" >
+                <table class="table table-striped" >
                     <thead>
                         <tr>
                             <th>
@@ -136,7 +136,7 @@
     <br /> <hr />
     @Html.ActionLink("Add New Attachment", "Upload_Attachment", "Attachments", new { Id = Model.Block_Id }, null)
 
-    <table class="table" id="attachmentsTable">
+    <table class="table table-striped" id="attachmentsTable">
         <thead>
             <tr>
                 <th>
@@ -197,9 +197,6 @@
 
 
 
-
-
-
 <br />
 <hr />
 <h4>Exceptions</h4>
@@ -207,7 +204,7 @@
 @Html.ActionLink("Add Exception", "Create", "Exception", new { Id = Model.Block_Id }, null) |
 @Html.ActionLink("Add Exceptions (Excel)", "AddExceptionExcel", "Exception", new { Id = Model.Block_Id }, null)
 
-<table class="table" id="exceptionsTable">
+<table class="table table-hover" id="exceptionsTable">
     <thead>
         <tr>
             <th>

@@ -20,6 +20,8 @@ namespace AuditSystem.Core.Models
         public int Block_Id { get; set; }
         [Column("YEAR")]
         public string Year { get; set; }
+        [Column("TO_YEAR")]
+        public string ToYear { get; set; }
         [Column("NAME_OF_AUDITOR")]
         public string Name_Of_Auditor { get; set; }
         [Column("EXCEPTIONNO")]

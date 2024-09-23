@@ -134,6 +134,7 @@ namespace AuditSystem.WebUI.Controllers
                             DataTable dt = result.Tables[0];
                             DataTable dt1 = result.Tables[1];
                             var dataList = new List<AuditExceptionsExcel>();
+                            int lineno = 1;
                             for (int i = 1; i < dt.Rows.Count; i++)
                             {
                                 var data = new AuditExceptionsExcel
@@ -156,6 +157,7 @@ namespace AuditSystem.WebUI.Controllers
                                     Remark = Convert.ToString(dt.Rows[i][14]),
                                     FurtherQuery = new List<Audit_FurtherQuery_Details>()
                                 };
+                                lineno++;
                                 for(int j = 1; j < dt1.Rows.Count; j++)
                                 {
                                     //int F_X_Id = Convert.ToInt32(dt1.Rows[j][0]);
@@ -247,7 +249,6 @@ namespace AuditSystem.WebUI.Controllers
                                     //return RedirectToAction("Details", "BlockManager", new { Id = exception.Block_Id });
                                 }
                                 context.SaveChanges();
-
 
                             }
 
