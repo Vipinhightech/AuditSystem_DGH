@@ -30,7 +30,10 @@
 
             <tr style="border-style:hidden;">
                 <td><b>   @Html.DisplayNameFor(model => model.Year) : </b></td>
-                <td>  @Html.DisplayFor(model => model.Year) </td>
+                <td>
+                    From:  @Html.DisplayFor(model => model.Year)
+                    To: @Html.DisplayFor(model => model.ToYear)
+                </td>
 
                 <td><b>  @Html.DisplayNameFor(model => model.Name_Of_Auditor) : </b></td>
                 <td>  @Html.DisplayFor(model => model.Name_Of_Auditor) </td>
@@ -38,8 +41,10 @@
 
             <tr style="border-style:hidden;">
                 <td><b>   @Html.DisplayNameFor(model => model.ExceptionNo) : </b></td>
-                <td>    @Html.DisplayFor(model => model.ExceptionNo)
-                @Html.DisplayFor(model => model.ExceptionSubNo)</td>
+                <td>
+                    @Html.DisplayFor(model => model.ExceptionNo)
+                    @Html.DisplayFor(model => model.ExceptionSubNo)
+                </td>
 
                 <td><b>   @Html.DisplayNameFor(model => model.NatureOfException) : </b></td>
                 <td>   @Html.DisplayFor(model => model.NatureOfException) </td>
@@ -53,12 +58,19 @@
                 <td>   @Html.DisplayFor(model => model.ZistOfException) </td>
             </tr>
 
+            @*<tr style="border-style:hidden;">
+
+                <td><b>   @Html.DisplayNameFor(model => model.ZistOfException) : </b></td>
+                <td colspan="3">   @Html.DisplayFor(model => model.ZistOfException) </td>
+            </tr>*@
+
+
             <tr style="border-style:hidden;">
                 <td><b>   @Html.DisplayNameFor(model => model.ExceptionType) : </b></td>
                 <td>   @Html.DisplayFor(model => model.ExceptionType) </td>
 
                 <td><b>   @Html.DisplayNameFor(model => model.Quantum) : </b></td>
-                <td>   @Html.DisplayFor(model => model.Quantum) </td>
+                <td> @Html.DisplayFor(model => model.Currency) :  @Html.DisplayFor(model => model.Quantum) </td>
             </tr>
 
             <tr style="border-style:hidden;">
@@ -102,7 +114,7 @@
                             if (Session["UserId"].ToString().ToLower() != Model.S_InitiatedBy.ToLower())
                             {
                                 <td colspan="2">
-                                   <b> @Html.DisplayName("Process for Settlement: ")</b><br/>
+                                    <b> @Html.DisplayName("Process for Settlement: ")</b><br />
                                     @Html.ActionLink("Approve", "ApproveSettlement", "Exception", new { id = Model.ExceptionId }, new { @class = "btn btn-success", onclick = "return confirm('Do you want to Approve Settlement');" })
                                     &nbsp;
                                     @Html.ActionLink("Reject", "RejectSettlement", "Exception", new { id = Model.ExceptionId }, new { @class = "btn btn-danger", onclick = "return confirm('Do you want to Reject Settlement');" })

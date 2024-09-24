@@ -18,7 +18,8 @@ namespace AuditSystem.Core.Models
         [Required]
         [Column("BLOCK_ID")]
         public int Block_Id { get; set; }
-        [Column("YEAR")]
+        [Column("FROM_YEAR")]
+     //   [Display(Name = "From Year")]
         public string Year { get; set; }
         [Column("TO_YEAR")]
         public string ToYear { get; set; }
@@ -36,6 +37,10 @@ namespace AuditSystem.Core.Models
         public string ZistOfException { get; set; }
         [Column("EXCEPTIONTYPE")]
         public string ExceptionType { get; set; } //financial , non-financial
+
+        [Column("CURRENCY")]
+        public string Currency { get; set; }
+
         [Column("QUANTUM")]
         public double Quantum { get; set; }
         [Column("OPERATORSREPLY")]

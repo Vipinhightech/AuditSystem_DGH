@@ -15,6 +15,8 @@ namespace AuditSystem.Core.ViewModels
         public int X_Id { get; set; }
        
         public string Year { get; set; }
+
+        public string ToYear { get; set; }
        
         public string Name_Of_Auditor { get; set; }
         
@@ -29,6 +31,8 @@ namespace AuditSystem.Core.ViewModels
         public string ZistOfException { get; set; }
      
         public string ExceptionType { get; set; } //financial , non-financial
+
+        public string Currency { get; set; } //USD , INR
        
         public double Quantum { get; set; }
    

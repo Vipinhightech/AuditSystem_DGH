@@ -69,21 +69,10 @@ namespace AuditSystem.WebUI.Controllers
 
                 context.Audit_Exception_Details.Add(exception);
                 context.SaveChanges();
-                //if (furtherQuery != null) 
-                //{
-                //    foreach (var fqr in furtherQuery) 
-                //    {
-                //        fqr.ExceptionId = exception.ExceptionId;
-                //        context.Audit_FurtherQuery_Details.Add(fqr);
-                //    }
-
-                //    context.SaveChanges();
-                //}
+              
 
                 return RedirectToAction("Details", "BlockManager", new { Id = exception.Block_Id });
             }
-
-            //ViewBag.Block_Name = new SelectList(context.AuditSystem_Blocks, "Block_Name", "Block_Name");
             return View(exception);
         }
 
@@ -126,144 +115,135 @@ namespace AuditSystem.WebUI.Controllers
             {
                 if (file.FileName.EndsWith(".xlsx"))
                 {
-                    using (var stream = file.InputStream)
+                    int lineno = 1;
+                    try
                     {
-                        using (var reader = ExcelReaderFactory.CreateReader(stream))
+                        using (var stream = file.InputStream)
                         {
-                            var result = reader.AsDataSet();
-                            DataTable dt = result.Tables[0];
-                            DataTable dt1 = result.Tables[1];
-                            var dataList = new List<AuditExceptionsExcel>();
-                            int lineno = 1;
-                            for (int i = 1; i < dt.Rows.Count; i++)
+                            using (var reader = ExcelReaderFactory.CreateReader(stream))
                             {
-                                var data = new AuditExceptionsExcel
+                                var result = reader.AsDataSet();
+                                DataTable dt = result.Tables[0];
+                                DataTable dt1 = result.Tables[1];
+                                var dataList = new List<AuditExceptionsExcel>();
+                             
+                                for (int i = 1; i < dt.Rows.Count; i++)
                                 {
-                                    X_Id = Convert.ToInt32(dt.Rows[i][0]),
-                                    Year = Convert.ToString(dt.Rows[i][1]),
-                                    Name_Of_Auditor = Convert.ToString(dt.Rows[i][2]),
-                                    ExceptionNo = Convert.ToInt32(dt.Rows[i][3]),
-                                    ExceptionSubNo = Convert.ToString(dt.Rows[i][4]),
-                                    NatureOfException = Convert.ToString(dt.Rows[i][5]),
-                                    ExceptionTitle = Convert.ToString(dt.Rows[i][6]),
-                                    ZistOfException = Convert.ToString(dt.Rows[i][7]),
-                                    ExceptionType = Convert.ToString(dt.Rows[i][8]),
-                                    Quantum = dt.Rows[i][9] != DBNull.Value ? Convert.ToDouble(dt.Rows[i][9]) : 0,
-                                    OperatorsReply = Convert.ToString(dt.Rows[i][10]),
-                                    CFComments = Convert.ToString(dt.Rows[i][11]),
-                                    BlockCoordinatorsComments = Convert.ToString(dt.Rows[i][11]),
-                                    FinalRecommendations = Convert.ToString(dt.Rows[i][12]),
-                                    CurrentStatus = Convert.ToString(dt.Rows[i][13]),
-                                    Remark = Convert.ToString(dt.Rows[i][14]),
-                                    FurtherQuery = new List<Audit_FurtherQuery_Details>()
-                                };
-                                lineno++;
-                                for(int j = 1; j < dt1.Rows.Count; j++)
-                                {
-                                    //int F_X_Id = Convert.ToInt32(dt1.Rows[j][0]);
-                                    if (data.X_Id == Convert.ToInt32(dt1.Rows[j][0]))
+                                    var data = new AuditExceptionsExcel
                                     {
-                                        var fqr = new Audit_FurtherQuery_Details
-                                        {
-                                            ExceptionId = Convert.ToInt32(dt1.Rows[j][0]),
-                                            FurtherQuery = Convert.ToString(dt1.Rows[j][1]),
-                                            FurtherOperatorsReply = Convert.ToString(dt1.Rows[j][2]),
-                                            FurtherCFComments = Convert.ToString(dt1.Rows[j][3]),
-                                            FurtherBlockCoordinatorsComments = Convert.ToString(dt1.Rows[j][4]),
-                                            FurtherFinalRecommendations = Convert.ToString(dt1.Rows[j][5])
-                                        };
-                                        data.FurtherQuery.Add(fqr);
-                                    }
-                                }
-                                dataList.Add(data);
-                            }
-
-                            if (dataList != null)
-                            {
-                               
-                                int ExcpID = (context.Audit_Exception_Details.Any() ? context.Audit_Exception_Details.Max(e => e.ExceptionId) : 0) + 1;
-                                int FqrID = (context.Audit_FurtherQuery_Details.Any() ? context.Audit_FurtherQuery_Details.Max(e => e.Id) : 0) + 1;
-                                foreach (var item in dataList)
-                                {
-                                    Audit_Exception_Details exception = new Audit_Exception_Details();
-                                    exception.ExceptionId = ExcpID;
-                                    exception.Block_Id = block.Block_Id;
-                                    // exception.ExceptionId = context.Audit_Exception_Details.Max(e => e.ExceptionId) + 1;
-                                    exception.Updated_Date = DateTime.Now.Date.ToString("ddMMyyyy");
-                                    exception.Updated_By = Session["UserId"].ToString();
-                                    exception.S_Status = 0;
-                                    exception.ActionTaken = "Unsettled";
-                                    
-                                    exception.Year = item.Year;
-                                    exception.Name_Of_Auditor = item.Name_Of_Auditor;
-                                    exception.ExceptionNo = item.ExceptionNo;
-                                    exception.ExceptionSubNo = item.ExceptionSubNo;
-                                    exception.NatureOfException = item.NatureOfException;
-                                    exception.ExceptionTitle = item.ExceptionTitle;
-                                    exception.ZistOfException = item.ZistOfException;
-                                    exception.ExceptionType = item.ExceptionType;
-                                    exception.Quantum = item.Quantum;
-                                    exception.OperatorsReply = item.OperatorsReply;
-                                    exception.CFComments = item.CFComments;
-                                    exception.BlockCoordinatorsComments = item.BlockCoordinatorsComments;
-                                    exception.FinalRecommendations = item.FinalRecommendations;
-                                    exception.CurrentStatus = item.CurrentStatus;
-                                    exception.Remark = item.Remark;
-
-                                    if(item.FurtherQuery != null)
+                                        X_Id = Convert.ToInt32(dt.Rows[i][0]),
+                                        Year = Convert.ToString(dt.Rows[i][1]),
+                                        ToYear = Convert.ToString(dt.Rows[i][2]),
+                                        Name_Of_Auditor = Convert.ToString(dt.Rows[i][3]),
+                                        ExceptionNo = Convert.ToInt32(dt.Rows[i][4]),
+                                        ExceptionSubNo = Convert.ToString(dt.Rows[i][5]),
+                                        NatureOfException = Convert.ToString(dt.Rows[i][6]),
+                                        ExceptionTitle = Convert.ToString(dt.Rows[i][7]),
+                                        ZistOfException = Convert.ToString(dt.Rows[i][8]),
+                                        ExceptionType = Convert.ToString(dt.Rows[i][9]),
+                                        Currency = Convert.ToString(dt.Rows[i][10]),
+                                        Quantum = dt.Rows[i][11] != DBNull.Value ? Convert.ToDouble(dt.Rows[i][11]) : 0,
+                                        OperatorsReply = Convert.ToString(dt.Rows[i][12]),
+                                        CFComments = Convert.ToString(dt.Rows[i][13]),
+                                        BlockCoordinatorsComments = Convert.ToString(dt.Rows[i][14]),
+                                        FinalRecommendations = Convert.ToString(dt.Rows[i][15]),
+                                        CurrentStatus = Convert.ToString(dt.Rows[i][16]),
+                                        Remark = Convert.ToString(dt.Rows[i][17]),
+                                        FurtherQuery = new List<Audit_FurtherQuery_Details>()
+                                    };
+                                    for (int j = 1; j < dt1.Rows.Count; j++)
                                     {
-                                        foreach(var fqr in item.FurtherQuery)
+                                        //int F_X_Id = Convert.ToInt32(dt1.Rows[j][0]);
+                                        if (data.X_Id == Convert.ToInt32(dt1.Rows[j][0]))
                                         {
-                                            fqr.Id = FqrID;
-                                            fqr.ExceptionId = ExcpID;
-                                            FqrID++;
+                                            var fqr = new Audit_FurtherQuery_Details
+                                            {
+                                                ExceptionId = Convert.ToInt32(dt1.Rows[j][0]),
+                                                FurtherQuery = Convert.ToString(dt1.Rows[j][1]),
+                                                FurtherOperatorsReply = Convert.ToString(dt1.Rows[j][2]),
+                                                FurtherCFComments = Convert.ToString(dt1.Rows[j][3]),
+                                                FurtherBlockCoordinatorsComments = Convert.ToString(dt1.Rows[j][4]),
+                                                FurtherFinalRecommendations = Convert.ToString(dt1.Rows[j][5])
+                                            };
+                                            data.FurtherQuery.Add(fqr);
                                         }
-                                        exception.FurtherQuery = item.FurtherQuery;
                                     }
-
-                                    //if (exception.FurtherQuery != null)
-                                    //{
-                                    //    int FqrID = (context.Audit_FurtherQuery_Details.Any() ? context.Audit_FurtherQuery_Details.Max(e => e.Id) : 0) + 1;
-                                    //    foreach (var fqr in exception.FurtherQuery)
-                                    //    {
-                                    //        fqr.Id = FqrID;
-                                    //        fqr.ExceptionId = exception.ExceptionId;
-                                    //        FqrID++;
-                                    //    }
-                                    //}
-
-                                    context.Audit_Exception_Details.Add(exception);
-                                    ExcpID++;
-                                 
-                                    //if (furtherQuery != null) 
-                                    //{
-                                    //    foreach (var fqr in furtherQuery) 
-                                    //    {
-                                    //        fqr.ExceptionId = exception.ExceptionId;
-                                    //        context.Audit_FurtherQuery_Details.Add(fqr);
-                                    //    }
-
-                                    //    context.SaveChanges();
-                                    //}
-
-                                    //return RedirectToAction("Details", "BlockManager", new { Id = exception.Block_Id });
+                                    dataList.Add(data);
+                                    lineno++;
                                 }
-                                context.SaveChanges();
 
+                                if (dataList != null)
+                                {
+                                    lineno = 1;
+                                    int ExcpID = (context.Audit_Exception_Details.Any() ? context.Audit_Exception_Details.Max(e => e.ExceptionId) : 0) + 1;
+                                    int FqrID = (context.Audit_FurtherQuery_Details.Any() ? context.Audit_FurtherQuery_Details.Max(e => e.Id) : 0) + 1;
+                                    foreach (var item in dataList)
+                                    {
+                                        Audit_Exception_Details exception = new Audit_Exception_Details();
+                                        exception.ExceptionId = ExcpID;
+                                        exception.Block_Id = block.Block_Id;
+                                        // exception.ExceptionId = context.Audit_Exception_Details.Max(e => e.ExceptionId) + 1;
+                                        exception.Updated_Date = DateTime.Now.Date.ToString("ddMMyyyy");
+                                        exception.Updated_By = Session["UserId"].ToString();
+                                        exception.S_Status = 0;
+                                        exception.ActionTaken = "Unsettled";
+
+                                        exception.Year = item.Year;
+                                        exception.ToYear = item.ToYear;
+                                        exception.Name_Of_Auditor = item.Name_Of_Auditor;
+                                        exception.ExceptionNo = item.ExceptionNo;
+                                        exception.ExceptionSubNo = item.ExceptionSubNo;
+                                        exception.NatureOfException = item.NatureOfException;
+                                        exception.ExceptionTitle = item.ExceptionTitle;
+                                        exception.ZistOfException = item.ZistOfException;
+                                        exception.ExceptionType = item.ExceptionType;
+                                        exception.Currency = item.Currency;
+                                        exception.Quantum = item.Quantum;
+                                        exception.OperatorsReply = item.OperatorsReply;
+                                        exception.CFComments = item.CFComments;
+                                        exception.BlockCoordinatorsComments = item.BlockCoordinatorsComments;
+                                        exception.FinalRecommendations = item.FinalRecommendations;
+                                        exception.CurrentStatus = item.CurrentStatus;
+                                        exception.Remark = item.Remark;
+
+                                        if (item.FurtherQuery != null)
+                                        {
+                                            foreach (var fqr in item.FurtherQuery)
+                                            {
+                                                fqr.Id = FqrID;
+                                                fqr.ExceptionId = ExcpID;
+                                                FqrID++;
+                                            }
+                                            exception.FurtherQuery = item.FurtherQuery;
+                                        }
+
+                                        context.Audit_Exception_Details.Add(exception);
+                                        ExcpID++;
+                                        lineno++;
+
+                                    }
+                                    context.SaveChanges();
+
+                                }
+
+                                ViewBag.Message = "Data Imported Successfully";
+                                return View(block);
                             }
-
-
-
-
-
-
-
-
-                            ViewBag.Message = "Data Imported Successfully";
-                            return View(block);
                         }
                     }
+                    catch 
+                    {
+                        ViewBag.Message = "Unable to read data. Error in Line no. " + lineno;
+                        return View(block);
+                    }
+
                 }
+                else
+                {
+                    ViewBag.Message = "Please Upload Excel file (.xlsx)";
+                    return View();
+                }
+                
             }
 
             ViewBag.Message = "Please Upload file";
@@ -271,11 +251,6 @@ namespace AuditSystem.WebUI.Controllers
             return View();
 
         }
-
-
-
-
-
 
 
         [Authorize(Roles = "superuser,admin,management")]

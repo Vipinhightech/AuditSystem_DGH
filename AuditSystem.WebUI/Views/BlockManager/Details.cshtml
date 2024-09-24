@@ -30,7 +30,7 @@
 
             <tr style="border-style:hidden;">
                 <td>   @Html.DisplayNameFor(model => model.Revenue_Till_Date) :</td>
-                <td>  
+                <td>
                     <a href="#" data-bs-toggle="modal" data-bs-target="#RevExpModal">
                         @Html.DisplayFor(model => model.Revenue_Till_Date)
                     </a>
@@ -81,7 +81,7 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <table class="table table-striped" >
+                <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>
@@ -93,7 +93,7 @@
                             <th>
                                 @Html.DisplayName("Expenditure")
                             </th>
-                          
+
                         </tr>
                     </thead>
                     <tbody>
@@ -109,7 +109,7 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Expenditure)
                                 </td>
-                          
+
                             </tr>
                         }
                     </tbody>
@@ -204,22 +204,32 @@
 @Html.ActionLink("Add Exception", "Create", "Exception", new { Id = Model.Block_Id }, null) |
 @Html.ActionLink("Add Exceptions (Excel)", "AddExceptionExcel", "Exception", new { Id = Model.Block_Id }, null)
 
+@{
+    var currentYear = DateTime.Now.Year;
+    var years = new List<string>();
+
+    for (int i = currentYear; i >= 1995; i--)
+    {
+        years.Add($"{i}-{i + 1}");
+    }
+}
+
 <table class="table table-hover" id="exceptionsTable">
     <thead>
         <tr>
             <th>
                 @* @Html.DisplayName("Year")*@
                 <select id="yearFilter">
-                    <option value="">Year (All)</option>
-                    <option value="2023-2024">2023-2024</option>
-                    <option value="2022-2023">2022-2023</option>
-                    <option value="2021-2022">2021-2022</option>
-                    <option value="2020-2021">2020-2021</option>
-                    <option value="2019-2020">2019-2020</option>
-                    <!-- Add more years as needed -->
+                    <option value="">All</option>
+                    @foreach (var year in years)
+                    {
+                        <option value="@year">@year</option>
+                    }
                 </select>
             </th>
-
+            <th>
+                @Html.DisplayName("To Year")
+            </th>
             <th>
                 @Html.DisplayName("Exception No")
             </th>
@@ -268,6 +278,9 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ToYear)
                 </td>
 
                 <td>
@@ -356,9 +369,9 @@
                 $('#exceptionsTable tbody tr').filter(function () {
                     $(this).toggle(
                         (year === "" || $(this).find('td:eq(0)').text().trim() === year) &&
-                        (nature === "" || $(this).find('td:eq(2)').text().trim() === nature) &&
-                        (type === "" || $(this).find('td:eq(3)').text().trim() === type) &&
-                        (action === "" || $(this).find('td:eq(6)').text().trim() === action)
+                        (nature === "" || $(this).find('td:eq(3)').text().trim() === nature) &&
+                        (type === "" || $(this).find('td:eq(4)').text().trim() === type) &&
+                        (action === "" || $(this).find('td:eq(7)').text().trim() === action)
                     );
                 });
             }

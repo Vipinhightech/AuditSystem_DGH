@@ -5,7 +5,21 @@
 }
 
 @*<h2>Edit</h2>*@
+@{
+    var currentYear = DateTime.Now.Year;
+    var startYear = 1995;
+    var endYear = currentYear + 1; // To include the current financial year
+    var financialYears = new List<SelectListItem>();
 
+    for (var year = currentYear; year >= startYear; year--)
+    {
+        financialYears.Add(new SelectListItem
+        {
+            Text = $"{year}-{year + 1}",
+            Value = $"{year}-{year + 1}"
+        });
+    }
+}
 
 @using (Html.BeginForm("Edit", "Attachments", FormMethod.Post, new { encType = "multipart/form-data" }))
 {
@@ -30,13 +44,7 @@
 
                     <td style="width:15%">@Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                     <td style="width:35%">
-                        @Html.DropDownListFor(model => model.Year, new List<SelectListItem> {
-                             new SelectListItem {Text = "2020-2021",Value =  "2020-2021" },
-                             new SelectListItem {Text = "2021-2022",Value =  "2021-2022" },
-                             new SelectListItem {Text = "2022-2023",Value =  "2022-2023" },
-                             new SelectListItem {Text = "2023-2024",Value =  "2023-2024" },
-                             new SelectListItem {Text = "2024-2025",Value =  "2024-2025" }
-                         })
+                        @Html.DropDownListFor(model => model.Year, financialYears)
                     </td>
                 </tr>
 
