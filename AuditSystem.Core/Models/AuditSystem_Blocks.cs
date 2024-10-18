@@ -35,7 +35,7 @@ namespace AuditSystem.Core.Models
         [Column("UPDATED_STATUS_YEAR")]
         public string Updated_Status_Year { get; set; }
         [Column("UPDATEDDATE")]
-        public string UpdatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
         [Column("UPDATEDBY")]
         public string UpdatedBy { get; set; }
         [Column("SUBMIT_STATUS")]

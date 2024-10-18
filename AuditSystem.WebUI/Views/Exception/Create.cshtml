@@ -77,12 +77,39 @@
                     <td style="width:15%"> @Html.LabelFor(model => model.NatureOfException, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
                     <td style="width:35%">
                         @Html.DropDownListFor(model => model.NatureOfException, new List<SelectListItem> {
-                            new SelectListItem {Text = "Short Payment of Royalty",Value =  "Short Payment of Royalty" },
-                            new SelectListItem {Text = "Short Payment of PP",Value =  "Short Payment of PP" },
-                            new SelectListItem {Text = "Short Payment of Cess",Value =  "Short Payment of Cess" },
-                            new SelectListItem {Text = "PEL Payment Fees",Value =  "PEL Payment Fees" },
-                            new SelectListItem {Text = "ML Payment Fees",Value =  "ML Payment Fees" }
+                            new SelectListItem { Text = "Short payment of royalty", Value = "Short payment of royalty" },
+                            new SelectListItem { Text = "Short payment of profit petroleum", Value = "Short payment of profit petroleum" },
+                            new SelectListItem { Text = "Short payment of Cess", Value = "Short payment of Cess" },
+                            new SelectListItem { Text = "PEL Payment Fees", Value = "PEL Payment Fees" },
+                            new SelectListItem { Text = "ML Payment Fees", Value = "ML Payment Fees" },
+                            new SelectListItem { Text = "Inventory Valuation", Value = "Inventory Valuation" },
+                            new SelectListItem { Text = "Forex", Value = "Forex" },
+                            new SelectListItem { Text = "Approval of chart of accounts", Value = "Approval of chart of accounts" },
+                            new SelectListItem { Text = "Insurance - Co-insured/Additionally insured", Value = "Insurance - Co-insured/Additionally insured" },
+                            new SelectListItem { Text = "Insurance - waiver/subrogation", Value = "Insurance - waiver/subrogation" },
+                            new SelectListItem { Text = "Management Committee meeting", Value = "Management Committee meeting" },
+                            new SelectListItem { Text = "Approval of Accounts", Value = "Approval of Accounts" },
+                            new SelectListItem { Text = "Site Restoration Fund", Value = "Site Restoration Fund" },
+                            new SelectListItem { Text = "Development area wise allocation", Value = "Development area wise allocation" },
+                            new SelectListItem { Text = "Exploration in ML area", Value = "Exploration in ML area" },
+                            new SelectListItem { Text = "Delivery point", Value = "Delivery point" },
+                            new SelectListItem { Text = "Periodical statements", Value = "Periodical statements" },
+                            new SelectListItem { Text = "Block bank account", Value = "Block bank account" },
+                            new SelectListItem { Text = "GAS flaring", Value = "GAS flaring" },
+                            new SelectListItem { Text = "Measurement of petroleum", Value = "Measurement of petroleum" },
+                            new SelectListItem { Text = "Short payment of PLP", Value = "Short payment of PLP" },
+                            new SelectListItem { Text = "Physical verification of fixed assets", Value = "Physical verification of fixed assets" },
+                            new SelectListItem { Text = "Physical verification of Inventory", Value = "Physical verification of Inventory" },
+                            new SelectListItem { Text = "Procurement of materials", Value = "Procurement of materials" },
+                            new SelectListItem { Text = "Bank guarantee", Value = "Bank guarantee" },
+                            new SelectListItem { Text = "Block transfer", Value = "Block transfer" },
+                            new SelectListItem { Text = "Essentiality certificates", Value = "Essentiality certificates" },
+                            new SelectListItem { Text = "Budget", Value = "Budget" },
+                            new SelectListItem { Text = "Appendix-H", Value = "Appendix-H" },
+                            new SelectListItem { Text = "CRL limit", Value = "CRL limit" },
+                            new SelectListItem { Text = "Cost Recovery Approval", Value = "Cost Recovery Approval" }
                         })
+
                     </td>
 
                     <td style="width:15%">   @Html.LabelFor(model => model.ExceptionTitle, htmlAttributes: new { @class = "control-label col-md-2" })</td>

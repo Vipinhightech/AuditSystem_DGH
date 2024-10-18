@@ -53,7 +53,7 @@ namespace AuditSystem.WebUI.Controllers
             {
                 exception.ExceptionId = (context.Audit_Exception_Details.Any() ? context.Audit_Exception_Details.Max(e => e.ExceptionId) : 0) + 1;
                // exception.ExceptionId = context.Audit_Exception_Details.Max(e => e.ExceptionId) + 1;
-                exception.Updated_Date = DateTime.Now.Date.ToString("ddMMyyyy");
+                exception.Updated_Date = DateTime.Now.Date;
                 exception.Updated_By = Session["UserId"].ToString();
                 exception.S_Status = 0;
                 if (exception.FurtherQuery != null)
@@ -183,7 +183,7 @@ namespace AuditSystem.WebUI.Controllers
                                         exception.ExceptionId = ExcpID;
                                         exception.Block_Id = block.Block_Id;
                                         // exception.ExceptionId = context.Audit_Exception_Details.Max(e => e.ExceptionId) + 1;
-                                        exception.Updated_Date = DateTime.Now.Date.ToString("ddMMyyyy");
+                                        exception.Updated_Date = DateTime.Now.Date;
                                         exception.Updated_By = Session["UserId"].ToString();
                                         exception.S_Status = 0;
                                         exception.ActionTaken = "Unsettled";
@@ -277,7 +277,7 @@ namespace AuditSystem.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                exception.Updated_Date = DateTime.Now.Date.ToString("ddMMyyyy");
+                exception.Updated_Date = DateTime.Now.Date;
                 exception.Updated_By = Session["UserId"].ToString();
                 if (exception.FurtherQuery != null)
                 {

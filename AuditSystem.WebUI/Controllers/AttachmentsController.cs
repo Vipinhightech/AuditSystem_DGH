@@ -15,29 +15,7 @@ namespace AuditSystem.WebUI.Controllers
     public class AttachmentsController : Controller
     {
         private DataContext context = new DataContext();
-        // GET: Attachments
-        //public ActionResult Index(string Block_Name)
-        //{
 
-        //    if (Block_Name == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    AuditSystem_Blocks block = context.AuditSystem_Blocks.FirstOrDefault(b => b.Block_Name == Block_Name);
-
-        //    if (block == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-
-        //    ////ViewBag.Block_Name = new SelectList(context.AuditSystem_Blocks, "Block_Name", "Block_Name");
-        //    //Audit_Exception_Details exception = new Audit_Exception_Details { FurtherQuery = new List<Audit_FurtherQuery_Details>() };
-        //    //exception.Block = block;
-        //    //exception.Block_Name = block.Block_Name;
-        //    //return View(exception);
-
-        //    return View();
-        //}
 
         public ActionResult Upload_Attachment(int? Id)
         {
@@ -59,24 +37,7 @@ namespace AuditSystem.WebUI.Controllers
             return View(attach);
         }
 
-        //[HttpPost]
-        //public ActionResult Upload_Attachment(Audit_Attachments attachment, HttpPostedFile file) 
-        //{
-        //    if(ModelState.IsValid)
-        //    {
-        //        if(file != null)
-        //        {
-        //            var fileExt = Path.GetExtension(file.FileName);
-        //            var filename = $"{attachment.Year}_{attachment.Block_Name}_{attachment.Title}{fileExt}";
-        //            attachment.Doc_Address = "//Attachments//" + filename;
-        //            context.Audit_Attachments.Add(attachment);
-        //            context.SaveChanges();
-        //            return RedirectToAction("Details", "BlockManager", new { Block_Name = attachment.Block_Name });
-        //        }
-        //    }
-
-        //    return View(attachment);
-        //}
+     
         [HttpPost]
         public ActionResult Upload_Attachment(Audit_Attachments attachment, HttpPostedFileBase file)
         {
@@ -90,6 +51,8 @@ namespace AuditSystem.WebUI.Controllers
                     var filename = $"{attachment.Id}_{attachment.Year}_{attachment.Block_Id}{fileExt}";
                     attachment.Doc_Address = filename;
                     file.SaveAs(Server.MapPath("~/Attachments/") + filename);
+                    attachment.Updated_Date = DateTime.Now;
+                    attachment.Updated_By = Session["UserId"].ToString();
                     context.Audit_Attachments.Add(attachment);
                     context.SaveChanges();
                     return RedirectToAction("Details", "BlockManager", new { Id = attachment.Block_Id });
@@ -122,7 +85,7 @@ namespace AuditSystem.WebUI.Controllers
         }
         [HttpPost]
         [Authorize(Roles = "superuser,admin,management")]
-        // [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(Audit_Attachments attachment, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
@@ -134,17 +97,16 @@ namespace AuditSystem.WebUI.Controllers
                     var filename = $"{attachment.Id}_{attachment.Year}_{attachment.Block_Id}{fileExt}";
                     attachment.Doc_Address = filename;
                     file.SaveAs(Server.MapPath("~/Attachments/") + filename);
+                    attachment.Updated_Date = DateTime.Now;
+                    attachment.Updated_By = Session["UserId"].ToString();
                     context.Entry(attachment).State = EntityState.Modified;
                     context.SaveChanges();
                     return RedirectToAction("Details", "BlockManager", new { Id = attachment.Block_Id });
                 }
                 else
                 {
-
-                    //  var fileExt = Path.GetExtension(file.FileName);
-                    //  var filename = $"{attachment.Id}_{attachment.Year}_{attachment.Block_Name}{DateTime.Now.ToString()}{fileExt}";
-                    //  attachment.Doc_Address = filename;
-                    //  file.SaveAs(Server.MapPath("~/Attachments/") + filename);
+                    attachment.Updated_Date = DateTime.Now;
+                    attachment.Updated_By = Session["UserId"].ToString();
                     context.Entry(attachment).State = EntityState.Modified;
                     context.SaveChanges();
                     return RedirectToAction("Details", "BlockManager", new { Id = attachment.Block_Id });

@@ -127,6 +127,15 @@
 
 
 
+@{
+    var currentYear = DateTime.Now.Year;
+    var years = new List<string>();
+
+    for (int i = currentYear; i >= 1995; i--)
+    {
+        years.Add($"{i}-{i + 1}");
+    }
+}
 
 
 
@@ -143,13 +152,12 @@
                     @Html.DisplayName("Year")
                     <select id="attachmentYearFilter">
                         <option value="">All</option>
-                        <option value="2023-2024">2023-2024</option>
-                        <option value="2022-2023">2022-2023</option>
-                        <option value="2021-2022">2021-2022</option>
-                        <option value="2020-2021">2020-2021</option>
-                        <option value="2019-2020">2019-2020</option>
-                        <!-- Add more years as needed -->
+                        @foreach (var year in years)
+                        {
+                            <option value="@year">@year</option>
+                        }
                     </select>
+
                 </th>
                 <th>
                     @Html.DisplayName("Date of Letter")
@@ -183,9 +191,7 @@
                             @Html.ActionLink("Edit", "Edit", "Attachments", new { id = item.Id }, null)
                         }
 
-                        @*@Html.ActionLink("Edit", "Edit", "Exception", new { id = item.Id }, null) |
-                            @Html.ActionLink("Details", "Details", "Exception", new { id = item.ExceptionId }, null)
-                            @Html.ActionLink("Delete", "Delete", "Exception", new { id = item.ExceptionId }, null)*@
+                       
                     </td>
                 </tr>
             }
@@ -204,15 +210,6 @@
 @Html.ActionLink("Add Exception", "Create", "Exception", new { Id = Model.Block_Id }, null) |
 @Html.ActionLink("Add Exceptions (Excel)", "AddExceptionExcel", "Exception", new { Id = Model.Block_Id }, null)
 
-@{
-    var currentYear = DateTime.Now.Year;
-    var years = new List<string>();
-
-    for (int i = currentYear; i >= 1995; i--)
-    {
-        years.Add($"{i}-{i + 1}");
-    }
-}
 
 <table class="table table-hover" id="exceptionsTable">
     <thead>
@@ -237,10 +234,37 @@
                 @*@Html.DisplayName("Nature Of Exception")*@
                 <select id="natureFilter">
                     <option value="">Nature Of Exception (All)</option>
-                    <option value="Short Payment of Royalty">Short Payment of Royalty</option>
-                    <option value="Short Payment of PP">Short Payment of PP</option>
-                    <option value="Short Payment of Cess">Short Payment of Cess</option>
-                    <option value="PEL Payment Fees">PEL Payment Fees</option>
+                    <option value="Short payment of royalty">Short payment of royalty</option>
+                    <option value="Short payment of profit petroleum">Short payment of profit petroleum</option>
+                    <option value="Short payment of Cess">Short payment of Cess</option>
+                    <option value="PEL payment fees">PEL payment fees</option>
+                    <option value="ML payment fees">ML payment fees</option>
+                    <option value="Inventory Valuation">Inventory Valuation</option>
+                    <option value="Forex">Forex</option>
+                    <option value="Approval of chart of accounts">Approval of chart of accounts</option>
+                    <option value="Insurance- Co-insured/Additionally insured">Insurance- Co-insured/Additionally insured</option>
+                    <option value="Insurance- waiver/ subrogation">Insurance- waiver/ subrogation</option>
+                    <option value="Management Committee meeting">Management Committee meeting</option>
+                    <option value="Approval of Accounts">Approval of Accounts</option>
+                    <option value="Site Restoration Fund">Site Restoration Fund</option>
+                    <option value="development area wise allocation">development area wise allocation</option>
+                    <option value="Exploration in ML area">Exploration in ML area</option>
+                    <option value="Delivery point">Delivery point</option>
+                    <option value="Periodical statements">Periodical statements</option>
+                    <option value="Block bank account">Block bank account</option>
+                    <option value="GAS flaring">GAS flaring</option>
+                    <option value="Measurement of petroleum">Measurement of petroleum</option>
+                    <option value="Short payment of PLP">Short payment of PLP</option>
+                    <option value="Physical verification of fixed assets">Physical verification of fixed assets</option>
+                    <option value="Physical verification of Inventory">Physical verification of Inventory</option>
+                    <option value="Procurement of materials">Procurement of materials</option>
+                    <option value="Bank guarantee">Bank guarantee</option>
+                    <option value="Block transfer">Block transfer</option>
+                    <option value="Essentaility certificates">Essentaility certificates</option>
+                    <option value="Budget">Budget</option>
+                    <option value="Appendix-H">Appendix-H</option>
+                    <option value="CRL limit">CRL limit</option>
+                    <option value="Cost Recovery Approval">Cost Recovery Approval</option>
                 </select>
             </th>
             <th>

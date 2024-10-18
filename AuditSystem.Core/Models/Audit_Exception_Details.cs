@@ -76,7 +76,7 @@ namespace AuditSystem.Core.Models
         [Column("SUBMIT_STATUS")]
         public string Submit_Status { get; set; } //final, submit
         [Column("UPDATED_DATE")]
-        public string Updated_Date { get; set; }
+        public DateTime? Updated_Date { get; set; }
         [Column("UPDATED_BY")]
         public string Updated_By { get; set; }
 

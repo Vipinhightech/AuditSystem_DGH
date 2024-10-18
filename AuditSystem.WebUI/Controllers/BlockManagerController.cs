@@ -53,7 +53,7 @@ namespace AuditSystem.WebUI.Controllers
             }
             
             block.Block_Name = wS_Block.Block_Name;
-            block.UpdatedDate = DateTime.Now.Date.ToString();
+            block.UpdatedDate = DateTime.Now.Date;
             block.UpdatedBy = Session["UserId"].ToString();
 
             if(block.Revenue_Expenditures != null)
@@ -94,7 +94,7 @@ namespace AuditSystem.WebUI.Controllers
             {
                 return View(block);
             }
-            block.UpdatedDate = DateTime.Now.Date.ToString();
+            block.UpdatedDate = DateTime.Now.Date;
             block.UpdatedBy = Session["UserId"].ToString();
 
             if (block.Revenue_Expenditures != null)

@@ -33,7 +33,7 @@ namespace AuditSystem.Core.Models
         public string Doc_Address { get; set; }
 
         [Column("UPDATED_DATE")]
-        public string Updated_Date { get; set; }
+        public DateTime? Updated_Date { get; set; }
 
         [Column("UPDATED_BY")]
         public string Updated_By { get; set; }

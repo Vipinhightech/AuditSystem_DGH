@@ -70,8 +70,7 @@ namespace AuditSystem.WebUI.Models
                     UserRole = response.UserRole.ToList()
                 };
             }
-            return new AuthResponse();
-            
+            return new AuthResponse();  
         }
         public int GetAppId(string userid)
         {
