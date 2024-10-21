@@ -90,10 +90,6 @@ namespace AuditSystem.WebUI.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            //ViewBag.Block_Name = new SelectList(context.AuditSystem_Blocks, "Block_Name", "Block_Name");
-            //Audit_Exception_Details exception = new Audit_Exception_Details { FurtherQuery = new List<Audit_FurtherQuery_Details>() };
-            //exception.Block = block;
-            //exception.Block_Id = block.Block_Id;
             return View(block);
         }
 
@@ -380,15 +376,20 @@ namespace AuditSystem.WebUI.Controllers
                 return View(exception);
             }
             exception.S_Remark = S_Remark;
-            exception.S_Status = 1;
-            exception.S_InitiatedBy = Session["UserId"].ToString();
-
-
            // attachment.Id = (context.Audit_Attachments.Any() ? context.Audit_Attachments.Max(e => e.Id) : 0) + 1;
             var fileExt = Path.GetExtension(file.FileName);
+            if (fileExt.ToLower() != ".pdf")
+            {
+                ModelState.AddModelError("", "Upload only PDF file");
+                return View(exception);
+            }
             var filename = $"SLetter_{exceptionId}_{DateTime.Now.ToString("ddMMyyyy")}{fileExt}";
-            exception.S_Doc_Address = filename;
             file.SaveAs(Server.MapPath("~/Attachments/") + filename);
+
+            exception.S_Doc_Address = filename;
+            exception.S_Status = 1;
+            exception.S_InitiatedBy = Session["UserId"].ToString();
+            
             context.Entry(exception).State = EntityState.Modified;
             context.SaveChanges();
             return RedirectToAction("Details", new { id = exception.ExceptionId });

@@ -1,5 +1,6 @@
 ﻿using AuditSystem.Core.Models;
 using AuditSystem.DataAccess.SQL;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -30,9 +31,11 @@ namespace AuditSystem.WebUI.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Audit_Attachments attach = new Audit_Attachments();
-            attach.Block_Id = block.Block_Id;
-            attach.Block = block;
+            Audit_Attachments attach = new Audit_Attachments
+            {
+                Block_Id = block.Block_Id,
+                Block = block
+            };
 
             return View(attach);
         }
@@ -45,15 +48,34 @@ namespace AuditSystem.WebUI.Controllers
             {
                 if (file != null)
                 {
-                    
-                    attachment.Id = (context.Audit_Attachments.Any() ? context.Audit_Attachments.Max(e => e.Id) : 0) + 1;
+  
                     var fileExt = Path.GetExtension(file.FileName);
+
+                    if (fileExt.ToLower() != ".pdf")
+                    {
+                        ModelState.AddModelError("", "Upload only PDF file");
+                        return View(attachment);
+                    }
+                    attachment.Id = (context.Audit_Attachments.Any() ? context.Audit_Attachments.Max(e => e.Id) : 0) + 1;
                     var filename = $"{attachment.Id}_{attachment.Year}_{attachment.Block_Id}{fileExt}";
                     attachment.Doc_Address = filename;
                     file.SaveAs(Server.MapPath("~/Attachments/") + filename);
                     attachment.Updated_Date = DateTime.Now;
                     attachment.Updated_By = Session["UserId"].ToString();
                     context.Audit_Attachments.Add(attachment);
+
+                    AUDIT_UPDATE_LOG logs = new AUDIT_UPDATE_LOG
+                    {
+                        Id = (context.AUDIT_UPDATE_LOG.Any() ? context.AUDIT_UPDATE_LOG.Max(e => e.Id) : 0) + 1,
+                        IP = Request.ServerVariables["REMOTE_ADDR"].ToString(),
+                        USERID = Session["UserId"].ToString(),
+                        TIME = DateTime.Now,
+                        ACTIVITY = "Add",
+                        TABLE_NAME = "Audit_Attachments"
+                    };
+                    
+                    logs.ACTIVITY_VALUES = JsonConvert.SerializeObject(attachment);
+                    context.AUDIT_UPDATE_LOG.Add(logs);
                     context.SaveChanges();
                     return RedirectToAction("Details", "BlockManager", new { Id = attachment.Block_Id });
                 }
@@ -94,6 +116,11 @@ namespace AuditSystem.WebUI.Controllers
                 {
                     // attachment.Id = context.Audit_Attachments.Max(e => e.Id) + 1;
                     var fileExt = Path.GetExtension(file.FileName);
+                    if (fileExt.ToLower() != ".pdf")
+                    {
+                        ModelState.AddModelError("", "Upload only PDF file");
+                        return View(attachment);
+                    }
                     var filename = $"{attachment.Id}_{attachment.Year}_{attachment.Block_Id}{fileExt}";
                     attachment.Doc_Address = filename;
                     file.SaveAs(Server.MapPath("~/Attachments/") + filename);

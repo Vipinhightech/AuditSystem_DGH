@@ -40,5 +40,6 @@ namespace AuditSystem.DataAccess.SQL
         public DbSet<WS_Block_Master> WS_BLOCK_MASTER { get; set; }
         public DbSet<Audit_Attachments> Audit_Attachments { get; set; }
         public DbSet<Audit_Year_Revenue_Expenditure> Audit_Year_Revenue_Expenditure { get; set; }
+        public DbSet<AUDIT_UPDATE_LOG> AUDIT_UPDATE_LOG { get; set; }
     }
 }
