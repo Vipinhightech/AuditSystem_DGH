@@ -68,6 +68,19 @@ namespace AuditSystem.WebUI.Controllers
                 }
 
                 context.Audit_Exception_Details.Add(exception);
+
+                AUDIT_UPDATE_LOG logs = new AUDIT_UPDATE_LOG
+                {
+                    Id = (context.AUDIT_UPDATE_LOG.Any() ? context.AUDIT_UPDATE_LOG.Max(e => e.Id) : 0) + 1,
+                    IP = Request.ServerVariables["REMOTE_ADDR"].ToString(),
+                    USERID = Session["UserId"].ToString(),
+                    TIME = DateTime.Now,
+                    ACTIVITY = "Add",
+                    ACTIVITY_VALUES = "Exception ID:" + exception.ExceptionId + ",BLOCK_ID:" + exception.Block_Id + ",FROM_YEAR:" + exception.Year + ",To_YEAR::" + exception.ToYear + "Exception No:" + exception.ExceptionNo +" " + exception.ExceptionSubNo + "Title"+ exception.ExceptionTitle,
+                    TABLE_NAME = "AUDIT_EXCEPTION_DETAILS"
+                };
+                context.AUDIT_UPDATE_LOG.Add(logs);
+
                 context.SaveChanges();
               
 
@@ -173,6 +186,7 @@ namespace AuditSystem.WebUI.Controllers
                                     lineno = 1;
                                     int ExcpID = (context.Audit_Exception_Details.Any() ? context.Audit_Exception_Details.Max(e => e.ExceptionId) : 0) + 1;
                                     int FqrID = (context.Audit_FurtherQuery_Details.Any() ? context.Audit_FurtherQuery_Details.Max(e => e.Id) : 0) + 1;
+                                    int logId = (context.AUDIT_UPDATE_LOG.Any() ? context.AUDIT_UPDATE_LOG.Max(e => e.Id) : 0) + 1;
                                     foreach (var item in dataList)
                                     {
                                         Audit_Exception_Details exception = new Audit_Exception_Details();
@@ -214,7 +228,22 @@ namespace AuditSystem.WebUI.Controllers
                                         }
 
                                         context.Audit_Exception_Details.Add(exception);
+
+                                        AUDIT_UPDATE_LOG logs = new AUDIT_UPDATE_LOG
+                                        {
+                                            Id = logId,
+                                            IP = Request.ServerVariables["REMOTE_ADDR"].ToString(),
+                                            USERID = Session["UserId"].ToString(),
+                                            TIME = DateTime.Now,
+                                            ACTIVITY = "Add",
+                                            ACTIVITY_VALUES = "Exception ID:" + exception.ExceptionId + ",BLOCK_ID:" + exception.Block_Id + ",FROM_YEAR:" + exception.Year + ",To_YEAR::" + exception.ToYear + "Exception No:" + exception.ExceptionNo + " " + exception.ExceptionSubNo + "Title" + exception.ExceptionTitle,
+                                            TABLE_NAME = "AUDIT_EXCEPTION_DETAILS"
+                                        };
+                                        context.AUDIT_UPDATE_LOG.Add(logs);
+
+                                        
                                         ExcpID++;
+                                        logId++;
                                         lineno++;
 
                                     }
@@ -308,6 +337,18 @@ namespace AuditSystem.WebUI.Controllers
                         }
                     }
                 }
+
+                AUDIT_UPDATE_LOG logs = new AUDIT_UPDATE_LOG
+                {
+                    Id = (context.AUDIT_UPDATE_LOG.Any() ? context.AUDIT_UPDATE_LOG.Max(e => e.Id) : 0) + 1,
+                    IP = Request.ServerVariables["REMOTE_ADDR"].ToString(),
+                    USERID = Session["UserId"].ToString(),
+                    TIME = DateTime.Now,
+                    ACTIVITY = "Edit",
+                    ACTIVITY_VALUES = "Exception ID:" + exception.ExceptionId + ",BLOCK_ID:" + exception.Block_Id + ",FROM_YEAR:" + exception.Year + ",To_YEAR::" + exception.ToYear + "Exception No:" + exception.ExceptionNo + " " + exception.ExceptionSubNo + "Title" + exception.ExceptionTitle,
+                    TABLE_NAME = "AUDIT_EXCEPTION_DETAILS"
+                };
+                context.AUDIT_UPDATE_LOG.Add(logs);
 
                 context.SaveChanges();
                 return RedirectToAction("Details", new { id = exception.ExceptionId });

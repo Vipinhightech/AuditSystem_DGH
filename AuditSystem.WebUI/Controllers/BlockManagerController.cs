@@ -2,11 +2,13 @@
 using AuditSystem.Core.ViewModels;
 using AuditSystem.DataAccess.SQL;
 using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -67,6 +69,18 @@ namespace AuditSystem.WebUI.Controllers
                 }
             }
             context.AuditSystem_Blocks.Add(block);
+
+            AUDIT_UPDATE_LOG logs = new AUDIT_UPDATE_LOG
+            {
+                Id = (context.AUDIT_UPDATE_LOG.Any() ? context.AUDIT_UPDATE_LOG.Max(e => e.Id) : 0) + 1,
+                IP = Request.ServerVariables["REMOTE_ADDR"].ToString(),
+                USERID = Session["UserId"].ToString(),
+                TIME = DateTime.Now,
+                ACTIVITY = "Add",
+                ACTIVITY_VALUES = "Block Id:" + block.Block_Id + ",Block Name:" + block.Block_Name + ",Category:" + block.Block_Category + ",Psc Start Date:" + block.Psc_Start_Date,
+                TABLE_NAME = "AuditSystem_Blocks"
+            };
+            context.AUDIT_UPDATE_LOG.Add(logs);
             context.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -129,6 +143,20 @@ namespace AuditSystem.WebUI.Controllers
                     }
                 }
             }
+
+            AUDIT_UPDATE_LOG logs = new AUDIT_UPDATE_LOG
+            {
+                Id = (context.AUDIT_UPDATE_LOG.Any() ? context.AUDIT_UPDATE_LOG.Max(e => e.Id) : 0) + 1,
+                IP = Request.ServerVariables["REMOTE_ADDR"].ToString(),
+                USERID = Session["UserId"].ToString(),
+                TIME = DateTime.Now,
+                ACTIVITY = "Edit",
+                ACTIVITY_VALUES = "Block Id:"+ block.Block_Id + ",Block Name:" + block.Block_Name + ",Category:"+ block.Block_Category+ "",
+                TABLE_NAME = "AuditSystem_Blocks"
+            };
+            context.AUDIT_UPDATE_LOG.Add(logs);
+
+
             context.SaveChanges();
             return RedirectToAction("Details", new { Id = block.Block_Id });
         }

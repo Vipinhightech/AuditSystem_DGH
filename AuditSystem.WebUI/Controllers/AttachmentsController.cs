@@ -71,10 +71,9 @@ namespace AuditSystem.WebUI.Controllers
                         USERID = Session["UserId"].ToString(),
                         TIME = DateTime.Now,
                         ACTIVITY = "Add",
+                        ACTIVITY_VALUES = JsonConvert.SerializeObject(attachment),
                         TABLE_NAME = "Audit_Attachments"
                     };
-                    
-                    logs.ACTIVITY_VALUES = JsonConvert.SerializeObject(attachment);
                     context.AUDIT_UPDATE_LOG.Add(logs);
                     context.SaveChanges();
                     return RedirectToAction("Details", "BlockManager", new { Id = attachment.Block_Id });
@@ -127,6 +126,19 @@ namespace AuditSystem.WebUI.Controllers
                     attachment.Updated_Date = DateTime.Now;
                     attachment.Updated_By = Session["UserId"].ToString();
                     context.Entry(attachment).State = EntityState.Modified;
+
+                    AUDIT_UPDATE_LOG logs = new AUDIT_UPDATE_LOG
+                    {
+                        Id = (context.AUDIT_UPDATE_LOG.Any() ? context.AUDIT_UPDATE_LOG.Max(e => e.Id) : 0) + 1,
+                        IP = Request.ServerVariables["REMOTE_ADDR"].ToString(),
+                        USERID = Session["UserId"].ToString(),
+                        TIME = DateTime.Now,
+                        ACTIVITY = "Edit",
+                        ACTIVITY_VALUES = JsonConvert.SerializeObject(attachment),
+                        TABLE_NAME = "Audit_Attachments"
+                    };
+                    context.AUDIT_UPDATE_LOG.Add(logs);
+
                     context.SaveChanges();
                     return RedirectToAction("Details", "BlockManager", new { Id = attachment.Block_Id });
                 }
@@ -135,6 +147,19 @@ namespace AuditSystem.WebUI.Controllers
                     attachment.Updated_Date = DateTime.Now;
                     attachment.Updated_By = Session["UserId"].ToString();
                     context.Entry(attachment).State = EntityState.Modified;
+
+                    AUDIT_UPDATE_LOG logs = new AUDIT_UPDATE_LOG
+                    {
+                        Id = (context.AUDIT_UPDATE_LOG.Any() ? context.AUDIT_UPDATE_LOG.Max(e => e.Id) : 0) + 1,
+                        IP = Request.ServerVariables["REMOTE_ADDR"].ToString(),
+                        USERID = Session["UserId"].ToString(),
+                        TIME = DateTime.Now,
+                        ACTIVITY = "Edit",
+                        ACTIVITY_VALUES = JsonConvert.SerializeObject(attachment),
+                        TABLE_NAME = "Audit_Attachments"
+                    };
+                    context.AUDIT_UPDATE_LOG.Add(logs);
+
                     context.SaveChanges();
                     return RedirectToAction("Details", "BlockManager", new { Id = attachment.Block_Id });
                 }
