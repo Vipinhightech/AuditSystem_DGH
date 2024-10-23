@@ -7,6 +7,7 @@ using System.Web;
 using System.Data.Common;
 using System.Data;
 using Oracle.ManagedDataAccess.Client;
+using System.Text.RegularExpressions;
 
 namespace AuditSystem.WebUI.Models
 {
@@ -36,11 +37,29 @@ namespace AuditSystem.WebUI.Models
 
         [Required(ErrorMessage = "Password is required")]
         [DisplayName("Password")]
-
         public string Password { get; set; }
         public int Operator { get; set; } = 1;
         public int AppID { get; set; }
     }
+
+    public class ChangePassword
+    {
+        public string UserId { get; set; }
+
+        [Required(ErrorMessage = "Current Password is required")]
+        [DisplayName("Current Password")]
+        public string CurrentPassword { get; set; }
+
+        [Required(ErrorMessage = "New Password is required")]
+        [StringLength(16, MinimumLength = 8, ErrorMessage = "New Password must be between 8 and 16 characters long.")]
+        [DisplayName("New Password")]
+        public string NewPassword { get; set; }
+
+        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [DisplayName("Confirm New Password")]
+        public string RNewPassword { get; set; }
+    }
+
     [Serializable]
     public class AuthResponse
     {
@@ -87,5 +106,40 @@ namespace AuditSystem.WebUI.Models
             return ret;
         }
 
+    }
+
+    public class PasswordManager
+    {
+        //public string ResetPassword(string Userid, string Email)
+        //{
+        //    Authentication.ExternalAuthenticationClient objAuthenticationClient = new Authentication.ExternalAuthenticationClient();
+        //    string genPassword = System.Web.Security.Membership.GeneratePassword(10, 1);
+        //    genPassword = Regex.Replace(genPassword, @"[^a-zA-Z0-9]", m => "2");
+        //    var response = objAuthenticationClient.ForgotPassword(Userid, Email, null, null, genPassword, 301);
+        //    return response;
+        //}
+
+        //public string ResetUserPassword(string Userid, string Email)
+        //{
+        //    Authentication.ExternalAuthenticationClient objAuthenticationClient = new Authentication.ExternalAuthenticationClient();
+        //    string genPassword = System.Web.Security.Membership.GeneratePassword(10, 1);
+        //    genPassword = Regex.Replace(genPassword, @"[^a-zA-Z0-9]", m => "3");
+        //    var response = objAuthenticationClient.ForgotPassword(Userid, Email, null, null, genPassword, 301);
+        //    return response;
+        //}
+
+        //public string ChangeUserPassword(string Userid, string Email, string Password)
+        //{
+        //    Authentication.ExternalAuthenticationClient objAuthenticationClient = new Authentication.ExternalAuthenticationClient();
+        //    var response = objAuthenticationClient.ForgotPassword(Userid, Email, null, null, Password, 301);
+        //    return response;
+        //}
+
+        public string ChangePassword(ChangePassword chpwd)
+        {
+            Authentication.ExternalAuthenticationClient objAuthenticationClient = new Authentication.ExternalAuthenticationClient();
+            var response = objAuthenticationClient.ChangePassword(chpwd.UserId, chpwd.CurrentPassword,chpwd.NewPassword, 291);
+            return response;
+        }
     }
 }

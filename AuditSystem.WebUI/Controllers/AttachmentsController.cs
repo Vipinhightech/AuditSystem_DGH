@@ -87,7 +87,7 @@ namespace AuditSystem.WebUI.Controllers
 
             return View(attachment);
         }
-        [Authorize(Roles = "superuser,admin,management")]
+        [Authorize(Roles = "superuser,admin,management,coord")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -105,7 +105,7 @@ namespace AuditSystem.WebUI.Controllers
             return View(attachment);
         }
         [HttpPost]
-        [Authorize(Roles = "superuser,admin,management")]
+        [Authorize(Roles = "superuser,admin,management,coord")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Audit_Attachments attachment, HttpPostedFileBase file)
         {

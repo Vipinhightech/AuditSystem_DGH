@@ -84,7 +84,7 @@ namespace AuditSystem.WebUI.Controllers
             context.SaveChanges();
             return RedirectToAction("Index");
         }
-        [Authorize(Roles = "superuser,admin,management")]
+        [Authorize(Roles = "superuser,admin,management,coord")]
         public ActionResult Edit(int? Id)
         {
             if (Id == null)
@@ -100,7 +100,7 @@ namespace AuditSystem.WebUI.Controllers
             return View(block);
         }
         [HttpPost]
-        [Authorize(Roles = "superuser,admin,management")]
+        [Authorize(Roles = "superuser,admin,management,coord")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(AuditSystem_Blocks block, string removedItems)
         {

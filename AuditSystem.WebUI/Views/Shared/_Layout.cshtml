@@ -24,10 +24,21 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <ul class="navbar-nav navbar-right">
-                        <li class = "nav-link">
-                           @Html.DisplayName(Session["UserName"].ToString())
-                           @* @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })*@
-                        </li>
+
+                        @if (User.IsInRole("coord"))
+                        {
+                            <li>
+                                @Html.ActionLink(Session["UserName"].ToString(), "ChangePassword", "Login", new { area = "" }, new { @class = "nav-link" })
+                            </li>
+                        }
+                        else 
+                        {
+                            <li class="nav-link">
+                                @Html.DisplayName(Session["UserName"].ToString())
+                                @* @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })*@
+                            </li>
+                        }
+ 
                         <li>@Html.ActionLink("Logout", "Logout", "Login", new { area = "" }, new { @class = "nav-link" })</li>
                     </ul>
                 }

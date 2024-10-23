@@ -93,7 +93,7 @@
                         @Html.DisplayFor(modelItem => item.Submit_Status)
                     </td>*@
             <td>
-                @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management"))
+                @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management") || User.IsInRole("coord"))
                 {
                     @Html.ActionLink("Edit", "Edit", new { id = item.Block_Id })
                     @Html.DisplayName(" |")

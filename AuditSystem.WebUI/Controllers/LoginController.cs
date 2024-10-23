@@ -73,6 +73,26 @@ namespace AuditSystem.WebUI.Controllers
             Session.Clear();
             return RedirectToAction("Login", "Login");
         }
+        [Authorize]
+        public ActionResult ChangePassword() 
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult ChangePassword(ChangePassword chpwd)
+        {
+            if (ModelState.IsValid)
+            {
+                chpwd.UserId = Session["UserId"].ToString();
+                string res = new PasswordManager().ChangePassword(chpwd);
+                ViewBag.Message = res;
+               
+                return View();
+            }
+            return View(chpwd);
+        }
 
         //private AuthResponse IsvalidUser(AuthRequest auth)
         //{

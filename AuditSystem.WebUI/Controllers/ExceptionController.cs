@@ -278,7 +278,7 @@ namespace AuditSystem.WebUI.Controllers
         }
 
 
-        [Authorize(Roles = "superuser,admin,management")]
+        [Authorize(Roles = "superuser,admin,management,coord")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -296,7 +296,7 @@ namespace AuditSystem.WebUI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "superuser,admin,management")]
+        [Authorize(Roles = "superuser,admin,management,coord")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Audit_Exception_Details exception, string removedItems)
         {

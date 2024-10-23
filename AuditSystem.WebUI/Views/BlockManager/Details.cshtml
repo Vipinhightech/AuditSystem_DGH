@@ -61,7 +61,7 @@
 
 </div>
 <p>
-    @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management"))
+    @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management") || User.IsInRole("coord"))
     {
         @Html.ActionLink("Edit Block", "Edit", new { Id = Model.Block_Id })
     }
@@ -185,13 +185,11 @@
                     <!-- Add more columns as needed -->
                     <td>
                         <a target="_blank" href="~/Attachments/@item.Doc_Address">View Doc</a>
-                        @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management"))
+                        @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management") || User.IsInRole("coord"))
                         {
                             @Html.DisplayName(" | ")
                             @Html.ActionLink("Edit", "Edit", "Attachments", new { id = item.Id }, null)
                         }
-
-                       
                     </td>
                 </tr>
             }
@@ -340,7 +338,7 @@
                 </td>
                 <!-- Add more columns as needed -->
                 <td>
-                    @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management"))
+                    @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management") || User.IsInRole("coord"))
                     {
                         if (item.S_Status == 0)
                         {
