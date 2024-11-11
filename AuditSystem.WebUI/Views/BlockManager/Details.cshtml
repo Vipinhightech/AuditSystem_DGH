@@ -149,7 +149,7 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayName("Year")
+                    @Html.DisplayName("From Year")
                     <select id="attachmentYearFilter">
                         <option value="">All</option>
                         @foreach (var year in years)
@@ -158,6 +158,9 @@
                         }
                     </select>
 
+                </th>
+                <th>
+                    @Html.DisplayName("To Year")
                 </th>
                 <th>
                     @Html.DisplayName("Date of Letter")
@@ -173,7 +176,10 @@
             {
                 <tr>
                     <td style="width:15%">
-                        @Html.DisplayFor(modelItem => item.Year)
+                        @Html.DisplayFor(modelItem => item.FromYear)
+                    </td>
+                    <td style="width:15%">
+                        @Html.DisplayFor(modelItem => item.ToYear)
                     </td>
                     <td>
                         @item.DateofAttachment.ToString("dd-MM-yyyy")
@@ -228,9 +234,9 @@
             <th>
                 @Html.DisplayName("Exception No")
             </th>
-            <th>
+            <th style="max-width: 10%;">
                 @*@Html.DisplayName("Nature Of Exception")*@
-                <select id="natureFilter">
+                <select id="natureFilter" style="width: 100%;">
                     <option value="">Nature Of Exception (All)</option>
                     <option value="Short payment of royalty">Short payment of royalty</option>
                     <option value="Short payment of profit petroleum">Short payment of profit petroleum</option>

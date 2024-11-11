@@ -2,6 +2,7 @@
 using AuditSystem.Core.ViewModels;
 using AuditSystem.DataAccess.SQL;
 using ExcelDataReader;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -125,6 +126,7 @@ namespace AuditSystem.WebUI.Controllers
                 if (file.FileName.EndsWith(".xlsx"))
                 {
                     int lineno = 1;
+                    int flineno = 0;
                     try
                     {
                         using (var stream = file.InputStream)
@@ -138,6 +140,7 @@ namespace AuditSystem.WebUI.Controllers
                              
                                 for (int i = 1; i < dt.Rows.Count; i++)
                                 {
+                                    flineno = 0;
                                     var data = new AuditExceptionsExcel
                                     {
                                         X_Id = Convert.ToInt32(dt.Rows[i][0]),
@@ -158,8 +161,20 @@ namespace AuditSystem.WebUI.Controllers
                                         FinalRecommendations = Convert.ToString(dt.Rows[i][15]),
                                         CurrentStatus = Convert.ToString(dt.Rows[i][16]),
                                         Remark = Convert.ToString(dt.Rows[i][17]),
+                                        
                                         FurtherQuery = new List<Audit_FurtherQuery_Details>()
                                     };
+                                    if (dt.Rows[i][18] != DBNull.Value)
+                                    {
+                                        data.EXCEPTION_ISSUE_DATE = Convert.ToDateTime(dt.Rows[i][18]);
+                                    }
+                                    
+                                    if (dt.Rows[i][19] != DBNull.Value)
+                                    {
+                                        data.OPERATOR_REPLY_DATE = Convert.ToDateTime(dt.Rows[i][19]);
+                                    }
+                                   
+                                    flineno = 1;
                                     for (int j = 1; j < dt1.Rows.Count; j++)
                                     {
                                         //int F_X_Id = Convert.ToInt32(dt1.Rows[j][0]);
@@ -175,6 +190,7 @@ namespace AuditSystem.WebUI.Controllers
                                                 FurtherFinalRecommendations = Convert.ToString(dt1.Rows[j][5])
                                             };
                                             data.FurtherQuery.Add(fqr);
+                                            flineno++;
                                         }
                                     }
                                     dataList.Add(data);
@@ -189,6 +205,7 @@ namespace AuditSystem.WebUI.Controllers
                                     int logId = (context.AUDIT_UPDATE_LOG.Any() ? context.AUDIT_UPDATE_LOG.Max(e => e.Id) : 0) + 1;
                                     foreach (var item in dataList)
                                     {
+                                        flineno = 0;
                                         Audit_Exception_Details exception = new Audit_Exception_Details();
                                         exception.ExceptionId = ExcpID;
                                         exception.Block_Id = block.Block_Id;
@@ -215,7 +232,9 @@ namespace AuditSystem.WebUI.Controllers
                                         exception.FinalRecommendations = item.FinalRecommendations;
                                         exception.CurrentStatus = item.CurrentStatus;
                                         exception.Remark = item.Remark;
-
+                                        exception.EXCEPTION_ISSUE_DATE = item.EXCEPTION_ISSUE_DATE;
+                                        exception.OPERATOR_REPLY_DATE = item.OPERATOR_REPLY_DATE;
+                                        flineno = 1;
                                         if (item.FurtherQuery != null)
                                         {
                                             foreach (var fqr in item.FurtherQuery)
@@ -225,6 +244,7 @@ namespace AuditSystem.WebUI.Controllers
                                                 FqrID++;
                                             }
                                             exception.FurtherQuery = item.FurtherQuery;
+                                            flineno++;
                                         }
 
                                         context.Audit_Exception_Details.Add(exception);
@@ -258,7 +278,7 @@ namespace AuditSystem.WebUI.Controllers
                     }
                     catch 
                     {
-                        ViewBag.Message = "Unable to read data. Error in Line no. " + lineno;
+                        ViewBag.Message = "Unable to read data. Error in Exceptions Line no. " + lineno + " or in Further_Query Line no." + flineno;
                         return View(block);
                     }
 
@@ -432,6 +452,20 @@ namespace AuditSystem.WebUI.Controllers
             exception.S_InitiatedBy = Session["UserId"].ToString();
             
             context.Entry(exception).State = EntityState.Modified;
+
+            AUDIT_UPDATE_LOG logs = new AUDIT_UPDATE_LOG
+            {
+                Id = (context.AUDIT_UPDATE_LOG.Any() ? context.AUDIT_UPDATE_LOG.Max(e => e.Id) : 0) + 1,
+                IP = Request.ServerVariables["REMOTE_ADDR"].ToString(),
+                USERID = Session["UserId"].ToString(),
+                TIME = DateTime.Now,
+                ACTIVITY = "Settlement Initiate",
+                ACTIVITY_VALUES = "Exception ID:" + exception.ExceptionId + ",BLOCK_ID:" + exception.Block_Id + ",FROM_YEAR:" + exception.Year + ",To_YEAR::" + exception.ToYear + "Exception No:" + exception.ExceptionNo + " " + exception.ExceptionSubNo + "Title" + exception.ExceptionTitle
+                                    + ",Settlement_Remark:" + exception.S_Remark + ",Settlement_Doc_Name:" + exception.S_Doc_Address + "Settlement InitiatedBy: " + exception.S_InitiatedBy,
+                TABLE_NAME = "AUDIT_EXCEPTION_DETAILS"
+            };
+            context.AUDIT_UPDATE_LOG.Add(logs);
+
             context.SaveChanges();
             return RedirectToAction("Details", new { id = exception.ExceptionId });
 
@@ -461,6 +495,20 @@ namespace AuditSystem.WebUI.Controllers
             exception.S_ApprovedBy = Session["UserId"].ToString();
             exception.S_RejectedBy = null;
             context.Entry(exception).State = EntityState.Modified;
+            //Log Table Update
+            AUDIT_UPDATE_LOG logs = new AUDIT_UPDATE_LOG
+            {
+                Id = (context.AUDIT_UPDATE_LOG.Any() ? context.AUDIT_UPDATE_LOG.Max(e => e.Id) : 0) + 1,
+                IP = Request.ServerVariables["REMOTE_ADDR"].ToString(),
+                USERID = Session["UserId"].ToString(),
+                TIME = DateTime.Now,
+                ACTIVITY = "Settlement Approve",
+                ACTIVITY_VALUES = "Exception ID:" + exception.ExceptionId + ",BLOCK_ID:" + exception.Block_Id + ",FROM_YEAR:" + exception.Year + ",To_YEAR::" + exception.ToYear + "Exception No:" + exception.ExceptionNo + " " + exception.ExceptionSubNo + "Title" + exception.ExceptionTitle
+                                    + ",Settlement_Remark:" + exception.S_Remark + ",Settlement_Doc_Name:" + exception.S_Doc_Address + ",Settlement InitiatedBy: " + exception.S_InitiatedBy + "Settlement ApprovedBy:" + exception.S_ApprovedBy,
+                TABLE_NAME = "AUDIT_EXCEPTION_DETAILS"
+            };
+            context.AUDIT_UPDATE_LOG.Add(logs);
+
             context.SaveChanges();
             return RedirectToAction("Details", new { id = exception.ExceptionId });
         }
@@ -485,6 +533,21 @@ namespace AuditSystem.WebUI.Controllers
             exception.S_Status = 0;      
             exception.S_RejectedBy = Session["UserId"].ToString();
             context.Entry(exception).State = EntityState.Modified;
+            //Log Table Update
+            AUDIT_UPDATE_LOG logs = new AUDIT_UPDATE_LOG
+            {
+                Id = (context.AUDIT_UPDATE_LOG.Any() ? context.AUDIT_UPDATE_LOG.Max(e => e.Id) : 0) + 1,
+                IP = Request.ServerVariables["REMOTE_ADDR"].ToString(),
+                USERID = Session["UserId"].ToString(),
+                TIME = DateTime.Now,
+                ACTIVITY = "Settlement Reject",
+                ACTIVITY_VALUES = "Exception ID:" + exception.ExceptionId + ",BLOCK_ID:" + exception.Block_Id + ",FROM_YEAR:" + exception.Year + ",To_YEAR::" + exception.ToYear + "Exception No:" + exception.ExceptionNo + " " + exception.ExceptionSubNo + "Title" + exception.ExceptionTitle
+                                    + ",Settlement_Remark:" + exception.S_Remark + ",Settlement_Doc_Name:" + exception.S_Doc_Address + ",Settlement InitiatedBy: " + exception.S_InitiatedBy + "Settlement RejectedBy:" + exception.S_RejectedBy,
+                TABLE_NAME = "AUDIT_EXCEPTION_DETAILS"
+            };
+            context.AUDIT_UPDATE_LOG.Add(logs);
+
+
             context.SaveChanges();
             return RedirectToAction("Details", new { id = exception.ExceptionId });
         }

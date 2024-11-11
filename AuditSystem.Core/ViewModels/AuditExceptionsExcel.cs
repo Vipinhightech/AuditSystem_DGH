@@ -43,11 +43,14 @@ namespace AuditSystem.Core.ViewModels
         public string BlockCoordinatorsComments { get; set; }
    
         public string FinalRecommendations { get; set; }
-  
     
         public string CurrentStatus { get; set; }
    
         public string Remark { get; set; }
+
+        public DateTime? EXCEPTION_ISSUE_DATE { get; set; }
+
+        public DateTime? OPERATOR_REPLY_DATE { get; set; }
 
         public virtual List<Audit_FurtherQuery_Details> FurtherQuery { get; set; }
     }

@@ -175,7 +175,7 @@ namespace AuditSystem.WebUI.Controllers
             }
 
             block.Exceptions = block.Exceptions.OrderByDescending(e => e.Year).ThenBy(e => e.ExceptionNo).ThenBy(e=>e.ExceptionSubNo).ToList();
-            block.Attachments = block.Attachments.OrderByDescending(a => a.Year).ThenByDescending(a => a.DateofAttachment).ToList();
+            block.Attachments = block.Attachments.OrderByDescending(a => a.FromYear).ThenByDescending(a => a.DateofAttachment).ToList();
             block.Revenue_Expenditures = block.Revenue_Expenditures.OrderByDescending(e => e.Year).ToList();
             return View(block);
 

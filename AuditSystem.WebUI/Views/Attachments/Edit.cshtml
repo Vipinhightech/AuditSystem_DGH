@@ -32,7 +32,7 @@
         @Html.HiddenFor(model => model.Id)
 
 
-        <table class="table" style="width:60%;">
+        <table class="table" style="width:80%;">
             <tbody>
                 <tr style="border-style:hidden;">
                     <td style="width:15%">  @Html.LabelFor(model => model.Block.Block_Name, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
@@ -42,9 +42,12 @@
 
                     </td>
 
-                    <td style="width:15%">@Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                    <td style="width:15%">Year</td>
                     <td style="width:35%">
-                        @Html.DropDownListFor(model => model.Year, financialYears)
+                        From:
+                        @Html.DropDownListFor(model => model.FromYear, financialYears)
+                        &nbsp; To:
+                        @Html.DropDownListFor(model => model.ToYear, financialYears)
                     </td>
                 </tr>
 
@@ -61,8 +64,7 @@
 
                     <td style="width:15%"> @Html.LabelFor(model => model.DateofAttachment, htmlAttributes: new { @class = "control-label col-md-2" })  </td>
                     <td style="width:35%">
-                
-                        @Html.EditorFor(model => model.DateofAttachment, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.TextBoxFor(m => m.DateofAttachment, "{0:yyyy-MM-dd}", new { @type = "date", @class = "datepicker" })
                         @Html.ValidationMessageFor(model => model.DateofAttachment, "", new { @class = "text-danger" })
                     </td>
                 </tr>

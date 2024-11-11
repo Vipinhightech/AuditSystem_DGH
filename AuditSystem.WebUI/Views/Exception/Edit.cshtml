@@ -122,6 +122,23 @@
                     </td>
                 </tr>
 
+                <tr style="border-style: hidden;">
+                    <td style="width:15%">  @Html.LabelFor(model => model.EXCEPTION_ISSUE_DATE, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                    <td style="width:35%">
+                        @Html.TextBoxFor(m => m.EXCEPTION_ISSUE_DATE, "{0:yyyy-MM-dd}", new { @type = "date", @class = "datepicker" })
+
+                        @Html.ValidationMessageFor(model => model.EXCEPTION_ISSUE_DATE, "", new { @class = "text-danger" })
+                        
+                    </td>
+
+                    <td style="width:15%"> @Html.LabelFor(model => model.OPERATOR_REPLY_DATE, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
+                    <td style="width:35%">
+                        @Html.TextBoxFor(m => m.OPERATOR_REPLY_DATE, "{0:yyyy-MM-dd}", new { @type = "date", @class = "datepicker" })
+                        @Html.ValidationMessageFor(model => model.OPERATOR_REPLY_DATE, "", new { @class = "text-danger" })
+                    </td>
+
+                </tr>
+
                 <tr style="border-style:hidden;">
                     <td style="width:15%"> @Html.LabelFor(model => model.ZistOfException, htmlAttributes: new { @class = "control-label col-md-2" }) </td>
                     <td style="width:35%">
@@ -182,9 +199,9 @@
                         @Html.DisplayFor(model => model.ActionTaken)
                         @Html.HiddenFor(model => model.ActionTaken)
                         @*@Html.DropDownListFor(model => model.ActionTaken, new List<SelectListItem> {
-                                new SelectListItem {Text = "Settled",Value =  "Settled" },
-                                new SelectListItem {Text = "Unsettled",Value =  "Unsettled" }
-                            })*@
+                    new SelectListItem {Text = "Settled",Value =  "Settled" },
+                    new SelectListItem {Text = "Unsettled",Value =  "Unsettled" }
+                })*@
                     </td>
                 </tr>
 

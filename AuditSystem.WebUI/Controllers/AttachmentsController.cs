@@ -57,7 +57,7 @@ namespace AuditSystem.WebUI.Controllers
                         return View(attachment);
                     }
                     attachment.Id = (context.Audit_Attachments.Any() ? context.Audit_Attachments.Max(e => e.Id) : 0) + 1;
-                    var filename = $"{attachment.Id}_{attachment.Year}_{attachment.Block_Id}{fileExt}";
+                    var filename = $"{attachment.Id}_{attachment.FromYear.Substring(0, 4)}-{attachment.ToYear.Substring(attachment.ToYear.Length - 4)}_{attachment.Block_Id}{fileExt}";
                     attachment.Doc_Address = filename;
                     file.SaveAs(Server.MapPath("~/Attachments/") + filename);
                     attachment.Updated_Date = DateTime.Now;
@@ -120,7 +120,7 @@ namespace AuditSystem.WebUI.Controllers
                         ModelState.AddModelError("", "Upload only PDF file");
                         return View(attachment);
                     }
-                    var filename = $"{attachment.Id}_{attachment.Year}_{attachment.Block_Id}{fileExt}";
+                    var filename = $"{attachment.Id}_{attachment.FromYear.Substring(0, 4)}-{attachment.ToYear.Substring(attachment.ToYear.Length - 4)}_{attachment.Block_Id}{fileExt}";
                     attachment.Doc_Address = filename;
                     file.SaveAs(Server.MapPath("~/Attachments/") + filename);
                     attachment.Updated_Date = DateTime.Now;

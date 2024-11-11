@@ -18,15 +18,25 @@ namespace AuditSystem.Core.Models
         [Required]
         [Column("BLOCK_ID")]
         public int Block_Id { get; set; }
+
         [Required]
-        [Column("YEAR")]
-        public string Year { get; set; }
+        [Column("FROM_YEAR")]
+       // [Display(Name = "From Year")]
+        public string FromYear { get; set; }
+
+        [Required]
+        [Column("TO_YEAR")]
+        public string ToYear { get; set; }
+
         [Required(ErrorMessage = "Title is required.")]
         [Column("TITLE")]
         public string Title { get; set; }
+
         [Required(ErrorMessage = "Date of attachment is required.")]
         [Display(Name = "DateOfLetter")]
         [Column("DATEOFATTACHMENT")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateofAttachment { get; set; }
 
         [Column("DOC_ADDRESS")]

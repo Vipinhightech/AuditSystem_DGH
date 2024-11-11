@@ -58,15 +58,25 @@ namespace AuditSystem.Core.Models
         [Column("REMARK")]
         public string Remark { get; set; }
 
+        [Column("EXCEPTION_ISSUE_DATE")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? EXCEPTION_ISSUE_DATE { get; set; }
+        [Column("OPERATOR_REPLY_DATE")]
+        [DataType(DataType.Date)]
+        public DateTime? OPERATOR_REPLY_DATE { get; set; }
+
         //settlement of exception
         [Column("S_STATUS")]
-        public int S_Status { get; set; } //0-Unsettled, 1-Pending Approval, 2- Settled
+        public int S_Status { get; set; } //0-Unsettled, 1-Pending Check, 2- Checked pending approval, 3- Settled
         [Column("S_INITIATEDBY")]
         public string S_InitiatedBy { get; set; }
         [Column("S_APPROVEDBY")]
         public string S_ApprovedBy { get; set; }
         [Column("S_REJECTEDBY")]
         public string S_RejectedBy {  get; set; }
+        [Column("S_CHECKEDBY")]
+        public string S_CHECKEDBY { get; set; }
         [Column("S_REMARK")]
         public string S_Remark { get; set; }
         [Column("S_DOC_ADDRESS")]
