@@ -354,15 +354,21 @@
                     }
 
                     @Html.ActionLink("Details", "Details", "Exception", new { id = item.ExceptionId }, null)
+
                     <br />
-                    @if (item.ActionTaken == "Unsettled" && item.S_Status == 0)
+                    @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management"))
                     {
-                        @Html.ActionLink("Proceed for Settlement", "InitiateSettlement", "Exception", new { id = item.ExceptionId }, null)
-                    }
-                    @*@if (item.ActionTaken == "Unsettled" && item.S_Status == 1)
+                        @Html.DisplayName(" | ")
+                        if (item.ActionTaken == "Unsettled" && item.S_Status == 0)
                         {
-                            @Html.DisplayName("Pending For Approval")
-                        }*@
+                            @Html.ActionLink("Proceed for Settlement", "InitiateSettlement", "Exception", new { id = item.ExceptionId }, null)
+                        }
+                    }
+
+                    @*@if (item.ActionTaken == "Unsettled" && item.S_Status == 1)
+        {
+            @Html.DisplayName("Pending For Approval")
+        }*@
 
                     @*@Html.ActionLink("Delete", "Delete", "Exception", new { id = item.ExceptionId }, null)*@
                 </td>

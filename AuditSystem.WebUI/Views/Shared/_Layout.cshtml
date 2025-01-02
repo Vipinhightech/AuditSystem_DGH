@@ -18,7 +18,7 @@
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    @*<li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>*@
                     @*<li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>*@
                 </ul>
                 @if (User.Identity.IsAuthenticated)
@@ -28,15 +28,16 @@
                         @if (User.IsInRole("coord"))
                         {
                             <li>
-                                @Html.ActionLink(Session["UserName"].ToString(), "ChangePassword", "Login", new { area = "" }, new { @class = "nav-link" })
+                                @Html.ActionLink(User.Identity.Name, "ChangePassword", "Login", new { area = "" }, new { @class = "nav-link" })
                             </li>
                         }
                         else 
                         {
-                            <li class="nav-link">
-                                @Html.DisplayName(Session["UserName"].ToString())
-                                @* @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })*@
-                            </li>
+                    <li class="nav-link">
+                        @*@Html.DisplayName(Session["UserName"].ToString())*@
+                        @Html.DisplayName(User.Identity.Name)
+                        @* @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })*@
+                    </li>
                         }
  
                         <li>@Html.ActionLink("Logout", "Logout", "Login", new { area = "" }, new { @class = "nav-link" })</li>

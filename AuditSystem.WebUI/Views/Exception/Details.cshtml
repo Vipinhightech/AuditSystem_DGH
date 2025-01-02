@@ -212,12 +212,15 @@
         @Html.ActionLink("Edit", "Edit", new { id = Model.ExceptionId })
         @Html.DisplayName(" |")
     }
-
-    @if (Model.ActionTaken == "Unsettled" && Model.S_Status == 0)
+    @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management"))
     {
-        @Html.ActionLink("Proceed for Settlement", "InitiateSettlement", "Exception", new { id = Model.ExceptionId }, null)
-        <br />
+        if (Model.ActionTaken == "Unsettled" && Model.S_Status == 0)
+        {
+            @Html.ActionLink("Proceed for Settlement", "InitiateSettlement", "Exception", new { id = Model.ExceptionId }, null)
+            <br />
+        }
     }
+
 
     @*@Html.ActionLink("Back to List", "Index") |*@
     @Html.ActionLink("Back to Block Details", "Details", "BlockManager", new { Id = Model.Block_Id }, null)

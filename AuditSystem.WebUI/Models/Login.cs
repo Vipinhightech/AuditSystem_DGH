@@ -99,7 +99,7 @@ namespace AuditSystem.WebUI.Models
                 OracleParameter[] paramnew = { new OracleParameter { ParameterName = "FUSERID", Value = userid }
                 };
 
-                DataSet ds = new Dbcon().ExecuteDataSet("AUDIT_SYS_GET_USERAPPID", paramnew);
+                DataSet ds = new Dbcon().ExecuteDataSet("AUDIT_SYS_GET_USERAPPID_TEST", paramnew);
                 ret = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
             }
             catch (Exception ex) { }

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -52,6 +53,16 @@ namespace AuditSystem.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
+                bool isDuplicate = context.Audit_Exception_Details.Any(e => e.Block_Id == exception.Block_Id && e.Year == exception.Year && e.ExceptionNo == exception.ExceptionNo && e.ExceptionSubNo.Trim().ToLower() == exception.ExceptionSubNo.Trim().ToLower());
+                if (isDuplicate)
+                {
+                    ModelState.AddModelError(string.Empty, "Entry already exist for the Block for Year:"+ exception.Year + ", Exception No: " + exception.ExceptionNo +" & Exception subno: " + exception.ExceptionSubNo);
+                    if (exception.FurtherQuery == null) 
+                    {
+                        exception.FurtherQuery = new List<Audit_FurtherQuery_Details>();
+                    }
+                    return View(exception);
+                }
                 exception.ExceptionId = (context.Audit_Exception_Details.Any() ? context.Audit_Exception_Details.Max(e => e.ExceptionId) : 0) + 1;
                // exception.ExceptionId = context.Audit_Exception_Details.Max(e => e.ExceptionId) + 1;
                 exception.Updated_Date = DateTime.Now.Date;
@@ -127,6 +138,7 @@ namespace AuditSystem.WebUI.Controllers
                 {
                     int lineno = 1;
                     int flineno = 0;
+                    int err = 0;
                     try
                     {
                         using (var stream = file.InputStream)
@@ -164,9 +176,25 @@ namespace AuditSystem.WebUI.Controllers
                                         
                                         FurtherQuery = new List<Audit_FurtherQuery_Details>()
                                     };
+                                  
+                                  //  string[] dateFormats = { "dd.MM.yyyy", "dd-MM-yyyy", "dd/MM/yyyy" };  // Array of accepted date formats
+                                    
                                     if (dt.Rows[i][18] != DBNull.Value)
                                     {
-                                        data.EXCEPTION_ISSUE_DATE = Convert.ToDateTime(dt.Rows[i][18]);
+                                        //string dateString = dt.Rows[i][18].ToString();
+                                        //DateTime expdate;
+                                        //bool success = DateTime.TryParseExact(dateString, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out expdate);
+
+                                        //if (success)
+                                        //{
+                                        //    data.EXCEPTION_ISSUE_DATE = expdate;
+                                        //}
+                                        //else
+                                        //{
+                                        //    ModelState.AddModelError(string.Empty, "Unable to read data. Exception Issue Date in Exceptions Line no. "+ lineno + " must be in DD.MM.YYYY, DD-MM-YYYY or DD/MM/YYYY format.");
+                                        //    return View(block);
+                                        //}
+                                         data.EXCEPTION_ISSUE_DATE = Convert.ToDateTime(dt.Rows[i][18]);
                                     }
                                     
                                     if (dt.Rows[i][19] != DBNull.Value)
@@ -205,6 +233,13 @@ namespace AuditSystem.WebUI.Controllers
                                     int logId = (context.AUDIT_UPDATE_LOG.Any() ? context.AUDIT_UPDATE_LOG.Max(e => e.Id) : 0) + 1;
                                     foreach (var item in dataList)
                                     {
+                                        bool isDuplicate = context.Audit_Exception_Details.Any(e => e.Block_Id == block.Block_Id && e.Year == item.Year && e.ExceptionNo == item.ExceptionNo && e.ExceptionSubNo.Trim().ToLower() == item.ExceptionSubNo.Trim().ToLower());
+                                        if (isDuplicate)
+                                        {
+                                            ModelState.AddModelError(string.Empty, "Entry already exist for the Block for Year:" + item.Year + ", Exception No: " + item.ExceptionNo + " & Exception subno: " + item.ExceptionSubNo);                                           
+                                            return View(block);
+                                        }
+
                                         flineno = 0;
                                         Audit_Exception_Details exception = new Audit_Exception_Details();
                                         exception.ExceptionId = ExcpID;
@@ -267,6 +302,7 @@ namespace AuditSystem.WebUI.Controllers
                                         lineno++;
 
                                     }
+                                    err = 1;
                                     context.SaveChanges();
 
                                 }
@@ -278,22 +314,33 @@ namespace AuditSystem.WebUI.Controllers
                     }
                     catch 
                     {
-                        ViewBag.Message = "Unable to read data. Error in Exceptions Line no. " + lineno + " or in Further_Query Line no." + flineno;
+                        if(err != 1)
+                        {
+                            ModelState.AddModelError(string.Empty, "Unable to read data. Error in Exceptions Line no. " + lineno + " or in Further_Query Line no." + flineno);
+                           // ViewBag.Message = "Unable to read data. Error in Exceptions Line no. " + lineno + " or in Further_Query Line no." + flineno;
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, "Unable to read data.");
+                        }
+                       
+                       
                         return View(block);
                     }
 
                 }
                 else
                 {
-                    ViewBag.Message = "Please Upload Excel file (.xlsx)";
-                    return View();
+                    ModelState.AddModelError("", "Please Upload Excel file (.xlsx)");
+                    //ViewBag.Message = "Please Upload Excel file (.xlsx)";
+                    return View(block);
                 }
                 
             }
-
-            ViewBag.Message = "Please Upload file";
-
-            return View();
+            ModelState.AddModelError("", "Please Upload file");
+            //ViewBag.Message = "Please Upload file";
+            
+            return View(block);
 
         }
 
@@ -322,6 +369,16 @@ namespace AuditSystem.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
+                bool isDuplicate = context.Audit_Exception_Details.Any(e => e.Block_Id == exception.Block_Id && e.Year == exception.Year && e.ExceptionNo == exception.ExceptionNo && e.ExceptionSubNo.Trim().ToLower() == exception.ExceptionSubNo.Trim().ToLower() && e.ExceptionId != exception.ExceptionId);
+                if (isDuplicate)
+                {
+                    ModelState.AddModelError(string.Empty, "Entry already exist for the Block for Year:" + exception.Year + ", Exception No: " + exception.ExceptionNo + " & Exception subno: " + exception.ExceptionSubNo);
+                    if (exception.FurtherQuery == null)
+                    {
+                        exception.FurtherQuery = new List<Audit_FurtherQuery_Details>();
+                    }
+                    return View(exception);
+                }
                 exception.Updated_Date = DateTime.Now.Date;
                 exception.Updated_By = Session["UserId"].ToString();
                 if (exception.FurtherQuery != null)
@@ -392,7 +449,7 @@ namespace AuditSystem.WebUI.Controllers
 
             return View(exception);
         }
-
+        [Authorize(Roles = "superuser,admin,management")]
         public ActionResult InitiateSettlement(int? id)
         {
             if (id == null)
@@ -409,6 +466,7 @@ namespace AuditSystem.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "superuser,admin,management")]
         public ActionResult InitiateSettlement(int exceptionId, string S_Remark, HttpPostedFileBase file)
         {
             if (!ModelState.IsValid)
