@@ -28,7 +28,7 @@ namespace AuditSystem.WebUI.Controllers
         {
             AuditBlocksViewModel viewModel = new AuditBlocksViewModel();
             viewModel.Block = new AuditSystem_Blocks { Revenue_Expenditures = new List<Audit_Year_Revenue_Expenditure>()};
-            viewModel.wS_Blocks = context.WS_BLOCK_MASTER.AsQueryable().OrderBy(b => b.Block_Name);
+            viewModel.v_Blocks = context.V_BLOCK_MASTER.AsQueryable().OrderBy(b => b.Block_Name);
             return View(viewModel);
         }
 
@@ -40,21 +40,21 @@ namespace AuditSystem.WebUI.Controllers
             {
                 return View(block);
             }
-            WS_Block_Master wS_Block = context.WS_BLOCK_MASTER.FirstOrDefault(i => i.Block_Id == block.Block_Id);
-            if (wS_Block == null)
+            V_Block_Master v_Block = context.V_BLOCK_MASTER.FirstOrDefault(i => i.Block_Id == block.Block_Id);
+            if (v_Block == null)
             {
                 return HttpNotFound();
             }
-            if(wS_Block.EFFECTIVE_DATE != null)
+            if(v_Block.EFFECTIVE_DATE != null)
             {
-                block.Psc_Start_Date = wS_Block.EFFECTIVE_DATE.Value;
+                block.Psc_Start_Date = v_Block.EFFECTIVE_DATE.Value;
             }
             else
             {
-                block.Psc_Start_Date = wS_Block.DATE_OF_SIGNING.Value;
+                block.Psc_Start_Date = v_Block.DATE_OF_SIGNING.Value;
             }
             
-            block.Block_Name = wS_Block.Block_Name;
+            block.Block_Name = v_Block.Block_Name;
             block.UpdatedDate = DateTime.Now.Date;
             block.UpdatedBy = Session["UserId"].ToString();
 

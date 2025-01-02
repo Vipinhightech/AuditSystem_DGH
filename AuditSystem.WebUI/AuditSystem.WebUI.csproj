@@ -279,8 +279,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\WSBlock\Index.cshtml" />
-    <Content Include="Views\WSBlock\Create.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\BlockManager\Create.cshtml" />
     <Content Include="Views\BlockManager\Edit.cshtml" />

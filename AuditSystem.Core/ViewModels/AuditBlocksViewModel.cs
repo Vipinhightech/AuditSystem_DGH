@@ -10,6 +10,6 @@ namespace AuditSystem.Core.ViewModels
     public class AuditBlocksViewModel
     {
         public AuditSystem_Blocks Block { get; set; }
-        public IEnumerable<WS_Block_Master> wS_Blocks { get; set; }
+        public IEnumerable<V_Block_Master> v_Blocks { get; set; }
     }
 }

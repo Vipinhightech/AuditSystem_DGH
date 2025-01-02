@@ -35,7 +35,7 @@
                 <tr style="border-style:hidden;">
                     <td style="width:15%"> @Html.LabelFor(model => model.Block.Block_Id, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                     <td style="width:35%">
-                        @Html.DropDownListFor(model => model.Block.Block_Id, new SelectList(Model.wS_Blocks, "Block_Id", "Block_Name"), new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.DropDownListFor(model => model.Block.Block_Id, new SelectList(Model.v_Blocks, "Block_Id", "Block_Name"), new { htmlAttributes = new { @class = "form-control" } })
                     </td>
 
                     <td style="width:15%">  @Html.LabelFor(model => model.Block.Block_Current_Status, htmlAttributes: new { @class = "control-label col-md-2" })</td>
