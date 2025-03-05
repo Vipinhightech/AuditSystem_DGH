@@ -42,5 +42,6 @@ namespace AuditSystem.DataAccess.SQL
         public DbSet<Audit_Year_Revenue_Expenditure> Audit_Year_Revenue_Expenditure { get; set; }
         public DbSet<AUDIT_UPDATE_LOG> AUDIT_UPDATE_LOG { get; set; }
         public DbSet<V_Block_Master> V_BLOCK_MASTER { get; set; }
+        public DbSet<ExceptionNature> ExceptionNatures { get; set; }
     }
 }

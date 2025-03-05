@@ -3,6 +3,19 @@
 @{
     ViewBag.Title = "Edit";
 }
+@*@if (TempData["SuccessMessage"] != null)
+{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: '@TempData["SuccessMessage"]',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+        });
+    </script>
+}*@
 
 @*<h2>Edit</h2>*@
 @{
@@ -19,6 +32,7 @@
             Value = $"{year}-{year + 1}"
         });
     }
+
 }
 
 @using (Html.BeginForm("Edit", "Attachments", FormMethod.Post, new { encType = "multipart/form-data" }))
@@ -54,24 +68,34 @@
                 <tr style="border-style:hidden;">
                     <td style="width:15%"> @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })  </td>
                     <td style="width:35%">
-
-                        @Html.DropDownListFor(model => model.Title, new List<SelectListItem> {
-                            new SelectListItem {Text = "Audit Exception Letter",Value =  "Audit Exception Letter" },
-                            new SelectListItem {Text = "Operators Reply",Value =  "Operators Reply" },
-                            new SelectListItem {Text = "Settlement Letter",Value =  "Settlement Letter" }
-                        })
+                        <select id="TitleDropdown" class="form-control">
+                            <option value="">-- Select Title --</option>
+                            <option value="Audit Exception Letter">Audit Exception Letter</option>
+                            <option value="Operators Reply">Operators Reply</option>
+                            <option value="Settlement Letter">Settlement Letter</option>
+                        </select>
+                        <input type="hidden" id="Title" name="Title" value="@Model.Title" />
+                        @*@Html.DropDownListFor(model => model.Title, (IEnumerable<SelectListItem>)ViewBag.TitleList, "-- Select Title --", new { @class = "form-control" })
+                            <p>Selected Title: @Model.Title</p>*@
                     </td>
 
                     <td style="width:15%"> @Html.LabelFor(model => model.DateofAttachment, htmlAttributes: new { @class = "control-label col-md-2" })  </td>
                     <td style="width:35%">
-                        @Html.TextBoxFor(m => m.DateofAttachment, "{0:yyyy-MM-dd}", new { @type = "date", @class = "datepicker" })
+                        @Html.TextBoxFor(m => m.DateofAttachment, "{0:yyyy-MM-dd}", new { @type = "date", @class = "datepicker", max = DateTime.Now.ToString("yyyy-MM-dd") })
                         @Html.ValidationMessageFor(model => model.DateofAttachment, "", new { @class = "text-danger" })
                     </td>
                 </tr>
 
             </tbody>
         </table>
+        <script>
+   document.getElementById("TitleDropdown").value = "@Model.Title"; // Set dropdown value on load
 
+    document.getElementById("TitleDropdown").addEventListener("change", function() {
+        document.getElementById("Title").value = this.value; // Update hidden field on change
+    });
+
+        </script>
 
 
 

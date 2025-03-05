@@ -118,20 +118,21 @@
                     <td><b>   @Html.DisplayName("Settlement Authorization Request No & Date") : </b></td>
                     <td>   <a target="_blank" href="~/Attachments/@Model.S_Doc_Address">@Model.S_Remark</a> </td>
                     @if (Model.S_Status == 1)
-                    {
-                        if (User.IsInRole("superuser") || User.IsInRole("admin"))
-                        {
-                            if (Session["UserId"].ToString().ToLower() != Model.S_InitiatedBy.ToLower())
-                            {
+                                {
+                                    if (User.IsInRole("superuser") || User.IsInRole("admin"))
+                                    {
+                                        var userid = Session["UserId"].ToString().ToLower();
+                                        if (Session["UserId"].ToString().ToLower() != Model.S_InitiatedBy.ToLower())
+                                        {
                                 <td colspan="2">
                                     <b> @Html.DisplayName("Process for Settlement: ")</b><br />
                                     @Html.ActionLink("Approve", "ApproveSettlement", "Exception", new { id = Model.ExceptionId }, new { @class = "btn btn-success", onclick = "return confirm('Do you want to Approve Settlement');" })
                                     &nbsp;
-                                    @Html.ActionLink("Reject", "RejectSettlement", "Exception", new { id = Model.ExceptionId }, new { @class = "btn btn-danger", onclick = "return confirm('Do you want to Reject Settlement');" })
-                                </td>
+                                            @Html.ActionLink("Reject", "RejectSettlement", "Exception", new { id = Model.ExceptionId }, new { @class = "btn btn-danger", onclick = "return confirm('Do you want to Reject Settlement');" })
+                                        </td>
                             }
-                            else
-                            {
+                                        else
+                                        {
                                 <td colspan="2">
                                     <p class="text-danger"> *Initiator and Approver for settlement of Exception can not be same</p>
                                     @Html.ActionLink("Reject", "RejectSettlement", "Exception", new { id = Model.ExceptionId }, new { @class = "btn btn-danger" })

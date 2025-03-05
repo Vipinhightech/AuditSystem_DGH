@@ -97,20 +97,21 @@ namespace AuditSystem.WebUI.Controllers
 
             Audit_Attachments attachment = context.Audit_Attachments.FirstOrDefault(e => e.Id == id);
             //Audit_Exception_Details exception = context.Audit_Exception_Details.Include(f => f.FurtherQuery).Include(b => b.Block).FirstOrDefault(e => e.ExceptionId == id);
+
             if (attachment == null)
             {
                 return HttpNotFound();
             }
-
             return View(attachment);
         }
         [HttpPost]
         [Authorize(Roles = "superuser,admin,management,coord")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Audit_Attachments attachment, HttpPostedFileBase file)
+        public ActionResult Edit(Audit_Attachments attachment, HttpPostedFileBase file,string Title)
         {
             if (ModelState.IsValid)
             {
+                attachment.Title = Title; // Assign selected Title value from the form
                 if (file != null)
                 {
                     // attachment.Id = context.Audit_Attachments.Max(e => e.Id) + 1;
@@ -161,11 +162,21 @@ namespace AuditSystem.WebUI.Controllers
                     context.AUDIT_UPDATE_LOG.Add(logs);
 
                     context.SaveChanges();
+                    TempData["SuccessMessage"] = "Data updated successfully!";
                     return RedirectToAction("Details", "BlockManager", new { Id = attachment.Block_Id });
                 }
-
             }
+            if (!ModelState.IsValid)
+            {
+                // Debugging ModelState Errors
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                              .Select(e => e.ErrorMessage + " " + e.Exception)
+                                              .ToList();
 
+                // Send errors to the view (or log them)
+                ViewBag.Errors = errors;
+                return View(attachment); // Return view with errors
+            }
             return View(attachment);
 
         }

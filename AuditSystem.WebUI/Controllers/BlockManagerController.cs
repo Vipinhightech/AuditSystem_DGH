@@ -27,8 +27,9 @@ namespace AuditSystem.WebUI.Controllers
         public ActionResult Create()
         {
             AuditBlocksViewModel viewModel = new AuditBlocksViewModel();
+            IEnumerable<AuditSystem_Blocks> b1 = context.AuditSystem_Blocks.AsQueryable();
             viewModel.Block = new AuditSystem_Blocks { Revenue_Expenditures = new List<Audit_Year_Revenue_Expenditure>()};
-            viewModel.v_Blocks = context.V_BLOCK_MASTER.AsQueryable().OrderBy(b => b.Block_Name);
+            viewModel.v_Blocks = context.V_BLOCK_MASTER.AsQueryable().OrderBy(b => b.Block_Name).Where(v => !b1.Any(b => b.Block_Id == v.Block_Id));
             return View(viewModel);
         }
 
@@ -177,6 +178,19 @@ namespace AuditSystem.WebUI.Controllers
             block.Exceptions = block.Exceptions.OrderByDescending(e => e.Year).ThenBy(e => e.ExceptionNo).ThenBy(e=>e.ExceptionSubNo).ToList();
             block.Attachments = block.Attachments.OrderByDescending(a => a.FromYear).ThenByDescending(a => a.DateofAttachment).ToList();
             block.Revenue_Expenditures = block.Revenue_Expenditures.OrderByDescending(e => e.Year).ToList();
+
+            // Fetch unique NatureOfException values from the database
+            ViewBag.NatureOfException = context.Audit_Exception_Details
+                .Select(e => e.NatureOfException)
+                .Distinct()
+                .OrderBy(e => e) // Sort alphabetically
+                .Select(e => new SelectListItem
+                {
+                    Value = e,
+                    Text = e
+                })
+                .ToList();
+
             return View(block);
 
         }

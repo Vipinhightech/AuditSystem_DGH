@@ -17,7 +17,7 @@
     <AssemblyName>AuditSystem.WebUI</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44331</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
@@ -288,10 +288,12 @@
     <Content Include="Views\Exception\Edit.cshtml" />
     <Content Include="Views\Exception\Details.cshtml" />
     <Content Include="Views\Attachments\Upload_Attachment.cshtml" />
-    <Content Include="Views\Attachments\Edit.cshtml" />
+    <Content Include="Views\Attachments\OLD-Edit.cshtml" />
     <Content Include="Views\Exception\InitiateSettlement.cshtml" />
     <Content Include="Views\Exception\AddExceptionExcel.cshtml" />
     <Content Include="Views\Login\ChangePassword.cshtml" />
+    <Content Include="Views\Attachments\Edit.cshtml" />
+    <Content Include="Views\BlockManager\Index_old.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -358,7 +360,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>59973</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/AuditSystem1</IISUrl>
+          <IISUrl>http://localhost:59973/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

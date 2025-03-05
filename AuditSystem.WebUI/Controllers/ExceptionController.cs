@@ -41,12 +41,23 @@ namespace AuditSystem.WebUI.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            // Fetch data from ExceptionNature table for dropdown
+            var exceptionNatureList = context.Set<ExceptionNature>().OrderBy(e => e.NatureOfException).Select(e => new SelectListItem { Value = e.NatureOfException, Text = e.NatureOfException }).ToList();
+            ViewBag.NatureOfException = exceptionNatureList;
+
             //ViewBag.Block_Name = new SelectList(context.AuditSystem_Blocks, "Block_Name", "Block_Name");
             Audit_Exception_Details exception = new Audit_Exception_Details { FurtherQuery = new List<Audit_FurtherQuery_Details>() };
             exception.Block = block;
             exception.Block_Id = block.Block_Id;
             return View(exception);
+
+
+
+
         }
+
+        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Audit_Exception_Details exception)
@@ -173,7 +184,7 @@ namespace AuditSystem.WebUI.Controllers
                                         FinalRecommendations = Convert.ToString(dt.Rows[i][15]),
                                         CurrentStatus = Convert.ToString(dt.Rows[i][16]),
                                         Remark = Convert.ToString(dt.Rows[i][17]),
-                                        
+
                                         FurtherQuery = new List<Audit_FurtherQuery_Details>()
                                     };
                                   
@@ -218,8 +229,9 @@ namespace AuditSystem.WebUI.Controllers
                                                 FurtherFinalRecommendations = Convert.ToString(dt1.Rows[j][5])
                                             };
                                             data.FurtherQuery.Add(fqr);
-                                            flineno++;
+                                            
                                         }
+                                        flineno++;
                                     }
                                     dataList.Add(data);
                                     lineno++;
@@ -354,11 +366,13 @@ namespace AuditSystem.WebUI.Controllers
             }
 
             Audit_Exception_Details exception = context.Audit_Exception_Details.Include(f => f.FurtherQuery).Include(b => b.Block).FirstOrDefault(e => e.ExceptionId == id);
+
+            ViewBag.NatureOfExceptionList = context.Set<ExceptionNature>().OrderBy(e => e.NatureOfException).Select(e => new SelectListItem{ Value = e.NatureOfException, Text = e.NatureOfException }).ToList();
+
             if (exception == null)
             {
                 return HttpNotFound();
             }
-
             return View(exception);
         }
 
@@ -430,6 +444,8 @@ namespace AuditSystem.WebUI.Controllers
                 context.SaveChanges();
                 return RedirectToAction("Details", new { id = exception.ExceptionId });
             }
+            // Reload dropdown if model state is invalid
+            ViewBag.NatureOfExceptionList = context.Set<ExceptionNature>().OrderBy(e => e.NatureOfException).Select(e => new SelectListItem{ Value = e.NatureOfException, Text = e.NatureOfException }).ToList();
             return View(exception);
         }
 

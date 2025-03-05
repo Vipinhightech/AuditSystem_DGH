@@ -33,6 +33,7 @@ namespace AuditSystem.Core.Models
         public string Title { get; set; }
 
         [Required(ErrorMessage = "Date of attachment is required.")]
+        
         [Display(Name = "DateOfLetter")]
         [Column("DATEOFATTACHMENT")]
         [DataType(DataType.Date)]
@@ -43,7 +44,10 @@ namespace AuditSystem.Core.Models
         public string Doc_Address { get; set; }
 
         [Column("UPDATED_DATE")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? Updated_Date { get; set; }
+      
 
         [Column("UPDATED_BY")]
         public string Updated_By { get; set; }

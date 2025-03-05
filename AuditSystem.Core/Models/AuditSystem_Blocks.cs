@@ -20,7 +20,7 @@ namespace AuditSystem.Core.Models
         [Display(Name = "Block Name")]
         public string Block_Name { get; set; }
         [Column("PSC_START_DATE")]
-        [Display(Name = "PSC start Date")]
+        [Display(Name = "PSC Start Date")]
         public DateTime Psc_Start_Date { get; set; }
         [Column("BLOCK_CURRENT_STATUS")]
         [Display(Name = "Block Current Status")]
@@ -28,11 +28,15 @@ namespace AuditSystem.Core.Models
         [Column("BLOCK_CATEGORY")]
         [Display(Name = "Block Category")]
         public int Block_Category { get; set; }
+
         [Column("REVENUE_TILL_DATE")]
+        [Display(Name = "Revenue To Date")]
         public decimal Revenue_Till_Date { get; set; }
         [Column("EXPENDITURE_TILL_DATE")]
+        [Display(Name = "Eexpenditure To Date")]
         public decimal Expenditure_Till_Date { get; set; }
         [Column("UPDATED_STATUS_YEAR")]
+        [Display(Name = "Updated Year")]
         public string Updated_Status_Year { get; set; }
         [Column("UPDATEDDATE")]
         public DateTime? UpdatedDate { get; set; }

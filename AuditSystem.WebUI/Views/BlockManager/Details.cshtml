@@ -139,293 +139,361 @@
 
 
 
-<button class="btn btn-primary" id="viewAttachment" style="float:right;">View Attachments</button>
-
+<div><button class="btn btn-primary" id="viewAttachment" style="float:right;">View Attachments</button></div>
 <div id="attachments_table" style="display: none;">
     <br /> <hr />
     @Html.ActionLink("Add New Attachment", "Upload_Attachment", "Attachments", new { Id = Model.Block_Id }, null)
+    <div style="max-height: 300px; overflow-y: auto; ">
+        <table class="table table-striped" id="attachmentsTable">
+            <thead style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 2;">
+                <tr>
+                    <th>
+                        @Html.DisplayName("From Year")
+                        <select id="attachmentYearFilter">
+                            <option value="">All</option>
+                            @foreach (var year in years)
+                            {
+                                <option value="@year">@year</option>
+                            }
+                        </select>
 
-    <table class="table table-striped" id="attachmentsTable">
-        <thead>
+                    </th>
+                    <th>
+                        @Html.DisplayName("To Year")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Date of Letter")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Title")
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Attachments)
+                {
+                    <tr>
+                        <td style="width:15%">
+                            @Html.DisplayFor(modelItem => item.FromYear)
+                        </td>
+                        <td style="width:15%">
+                            @Html.DisplayFor(modelItem => item.ToYear)
+                        </td>
+                        <td>
+                            @item.DateofAttachment.ToString("dd-MM-yyyy")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+
+                        <!-- Add more columns as needed -->
+                        <td>
+                            <a target="_blank" href="~/Attachments/@item.Doc_Address">View Doc</a>
+                            @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management") || User.IsInRole("coord"))
+                            {
+                                @Html.DisplayName(" | ")
+                                @Html.ActionLink("Edit", "Edit", "Attachments", new { id = item.Id }, null)
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+    </div>
+    <br />
+    <hr />
+    <h4>Exceptions</h4>
+
+    @Html.ActionLink("Add Exception", "Create", "Exception", new { Id = Model.Block_Id }, null) |
+    @Html.ActionLink("Add Exceptions (Excel)", "AddExceptionExcel", "Exception", new { Id = Model.Block_Id }, null)
+<div>
+    <strong>Records Found: <span id="recordCount">0</span> | Settled: <span id="settledrecordCount">0</span> | Unsettled: <span id="unsettledrecordCount">0</span> | Pending For Approval: <span id="pendingforapprovalrecordCount">0</span></strong>
+</div>
+<div style="max-height: 500px; overflow-y: auto; ">
+    
+    <table class="table table-hover" id="exceptionsTable">
+        <thead style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 2;">
             <tr>
                 <th>
-                    @Html.DisplayName("From Year")
-                    <select id="attachmentYearFilter">
+                    @* @Html.DisplayName("Year")*@
+                    <select id="yearFilter">
                         <option value="">All</option>
                         @foreach (var year in years)
                         {
                             <option value="@year">@year</option>
                         }
                     </select>
-
                 </th>
                 <th>
                     @Html.DisplayName("To Year")
                 </th>
                 <th>
-                    @Html.DisplayName("Date of Letter")
+                    @Html.DisplayName("Exception No")
+                </th>
+                <th style="max-width: 10%;">
+                    <select id="natureFilter" class="form-control">
+                        <option value="">Nature Of Exception (All)</option>
+                        @foreach (var item in ViewBag.NatureOfException as List<SelectListItem>)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+
                 </th>
                 <th>
-                    @Html.DisplayName("Title")
+                    @*@Html.DisplayName("Exception Type")*@
+                    <select id="typeFilter">
+                        <option value="">Exception Type (All)</option>
+                        <option value="Financial">Financial</option>
+                        <option value="Non-Financial">Non-Financial</option>
+
+                    </select>
                 </th>
+                <th>
+                    @Html.DisplayName("Title Of Exception")
+                </th>
+                <th>
+                    @Html.DisplayName("Zist Of Exception")
+                </th>
+                <th>
+                    @*  @Html.DisplayName("Action Taken")*@
+                    <select id="actionFilter">
+                        <option value="">Action Taken</option>
+                        <option value="Settled">Settled</option>
+                        <option value="Unsettled">Unsettled</option>
+                        <option value="Pending for Approval">Pending for Approval</option>
+                        @*<option value="Unsettled
+        (Pending Approval)">Unsettled (Pending Approval)</option>*@
+                    </select>
+                </th>
+                <!-- Add more columns as needed -->
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Attachments)
+            @foreach (var item in Model.Exceptions)
             {
                 <tr>
-                    <td style="width:15%">
-                        @Html.DisplayFor(modelItem => item.FromYear)
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Year)
                     </td>
-                    <td style="width:15%">
+                    <td>
                         @Html.DisplayFor(modelItem => item.ToYear)
                     </td>
-                    <td>
-                        @item.DateofAttachment.ToString("dd-MM-yyyy")
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
 
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExceptionNo)
+                        @Html.DisplayFor(modelItem => item.ExceptionSubNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NatureOfException)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExceptionType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExceptionTitle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ZistOfException)
+                    </td>
+                    <td>
+                        @if (item.ActionTaken == "Settled")
+                        {
+                            <a target="_blank" href="~/Attachments/@item.S_Doc_Address">Settled</a>
+                        }
+                        else if (item.S_Status == 1)
+                        {
+                            <a target="_blank" href="~/Attachments/@item.S_Doc_Address">Pending for Approval</a>
+                            <br />
+                            <p>@Html.DisplayFor(modelItem => item.S_Remark)</p>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.ActionTaken)
+                        }
+
+                        @*@if (item.ActionTaken == "Unsettled" && item.S_Status == 1)
+                            {
+                                @Html.DisplayName("(Pending Approval)")
+                            }*@
+                    </td>
                     <!-- Add more columns as needed -->
                     <td>
-                        <a target="_blank" href="~/Attachments/@item.Doc_Address">View Doc</a>
                         @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management") || User.IsInRole("coord"))
                         {
-                            @Html.DisplayName(" | ")
-                            @Html.ActionLink("Edit", "Edit", "Attachments", new { id = item.Id }, null)
+                            if (item.S_Status == 0)
+                            {
+                                @Html.ActionLink("Edit", "Edit", "Exception", new { id = item.ExceptionId }, null)
+                                <span> | </span>
+                                @*@Html.DisplayName(" |")*@
+                            }
+                            if (item.S_Status == 1)
+                            {
+                                if (Session["UserId"].ToString().ToLower() != item.S_InitiatedBy.ToLower())
+                                {
+                                    @Html.ActionLink("Approve", "ApproveSettlement", "Exception", new { id = item.ExceptionId }, new { @class= "text-success", onclick = "return confirm('Do you want to Approve Settlement');" })
+                                    <br /><span> | </span>
+                                    @Html.ActionLink("Reject", "RejectSettlement", "Exception", new { id = item.ExceptionId }, new { @class= "text-danger", onclick = "return confirm('Do you want to Reject Settlement');" })
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("Reject", "RejectSettlement", "Exception", new { id = item.ExceptionId }, new { @class = "text-danger", onclick = "return confirm('Do you want to Reject Settlement');" })
+                                }
+                            }
                         }
+                        @Html.ActionLink("Details", "Details", "Exception", new { id = item.ExceptionId }, new { @class = "text-info" })
+                        <br />
+                        @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management"))
+                        {
+                            @*@Html.DisplayName(" | ")*@
+                            <span> | </span>
+                            if (item.ActionTaken == "Unsettled" && item.S_Status == 0)
+                            {
+                                @Html.ActionLink("Proceed for Settlement", "InitiateSettlement", "Exception", new { id = item.ExceptionId }, new { @class = "text-warning" })
+                            }
+                        }
+
+                        @*@if (item.ActionTaken == "Unsettled" && item.S_Status == 1)
+        {
+            @Html.DisplayName("Pending For Approval")
+        }*@
+
+                        @*@Html.ActionLink("Delete", "Delete", "Exception", new { id = item.ExceptionId }, null)*@
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-
 </div>
 
+    <p>
+        @*@Html.ActionLink("Edit", "Edit", new { Block_Name = Model.Block_Name }) |*@
+        @Html.ActionLink("Back to Block List", "Index")
 
+    </p>
 
+  
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script>
+            $(document).ready(function () {
+                // Toggle attachments table
+                $("#viewAttachment").click(function () {
+                    $("#attachments_table").toggle();
+                });
 
-<br />
-<hr />
-<h4>Exceptions</h4>
+                // Function to filter exceptions table rows 
+                function filterExceptionsTable() {
+                    var year = $('#yearFilter').val();
+                    var nature = $('#natureFilter').val();
+                    var action = $('#actionFilter').val();
+                    var type = $('#typeFilter').val();
 
-@Html.ActionLink("Add Exception", "Create", "Exception", new { Id = Model.Block_Id }, null) |
-@Html.ActionLink("Add Exceptions (Excel)", "AddExceptionExcel", "Exception", new { Id = Model.Block_Id }, null)
+                    var visibleCount = 0; // Counter for matching rows
 
+                    $('#exceptionsTable tbody tr').filter(function () {
+                        
+                        if ($(this).find('td:eq(7)').text().trim().includes("Pending for Approval")) {
+                            var isVisible =
+                                (year === "" || $(this).find('td:eq(0)').text().trim() === year) &&
+                                (nature === "" || $(this).find('td:eq(3)').text().trim() === nature) &&
+                                (type === "" || $(this).find('td:eq(4)').text().trim() === type) &&
+                                (action === "" || "Pending for Approval" === action);
 
-<table class="table table-hover" id="exceptionsTable">
-    <thead>
-        <tr>
-            <th>
-                @* @Html.DisplayName("Year")*@
-                <select id="yearFilter">
-                    <option value="">All</option>
-                    @foreach (var year in years)
-                    {
-                        <option value="@year">@year</option>
-                    }
-                </select>
-            </th>
-            <th>
-                @Html.DisplayName("To Year")
-            </th>
-            <th>
-                @Html.DisplayName("Exception No")
-            </th>
-            <th style="max-width: 10%;">
-                @*@Html.DisplayName("Nature Of Exception")*@
-                <select id="natureFilter" style="width: 100%;">
-                    <option value="">Nature Of Exception (All)</option>
-                    <option value="Short payment of royalty">Short payment of royalty</option>
-                    <option value="Short payment of profit petroleum">Short payment of profit petroleum</option>
-                    <option value="Short payment of Cess">Short payment of Cess</option>
-                    <option value="PEL payment fees">PEL payment fees</option>
-                    <option value="ML payment fees">ML payment fees</option>
-                    <option value="Inventory Valuation">Inventory Valuation</option>
-                    <option value="Forex">Forex</option>
-                    <option value="Approval of chart of accounts">Approval of chart of accounts</option>
-                    <option value="Insurance- Co-insured/Additionally insured">Insurance- Co-insured/Additionally insured</option>
-                    <option value="Insurance- waiver/ subrogation">Insurance- waiver/ subrogation</option>
-                    <option value="Management Committee meeting">Management Committee meeting</option>
-                    <option value="Approval of Accounts">Approval of Accounts</option>
-                    <option value="Site Restoration Fund">Site Restoration Fund</option>
-                    <option value="development area wise allocation">development area wise allocation</option>
-                    <option value="Exploration in ML area">Exploration in ML area</option>
-                    <option value="Delivery point">Delivery point</option>
-                    <option value="Periodical statements">Periodical statements</option>
-                    <option value="Block bank account">Block bank account</option>
-                    <option value="GAS flaring">GAS flaring</option>
-                    <option value="Measurement of petroleum">Measurement of petroleum</option>
-                    <option value="Short payment of PLP">Short payment of PLP</option>
-                    <option value="Physical verification of fixed assets">Physical verification of fixed assets</option>
-                    <option value="Physical verification of Inventory">Physical verification of Inventory</option>
-                    <option value="Procurement of materials">Procurement of materials</option>
-                    <option value="Bank guarantee">Bank guarantee</option>
-                    <option value="Block transfer">Block transfer</option>
-                    <option value="Essentaility certificates">Essentaility certificates</option>
-                    <option value="Budget">Budget</option>
-                    <option value="Appendix-H">Appendix-H</option>
-                    <option value="CRL limit">CRL limit</option>
-                    <option value="Cost Recovery Approval">Cost Recovery Approval</option>
-                </select>
-            </th>
-            <th>
-                @*@Html.DisplayName("Exception Type")*@
-                <select id="typeFilter">
-                    <option value="">Exception Type (All)</option>
-                    <option value="Financial">Financial</option>
-                    <option value="Non-Financial">Non-Financial</option>
+                            $(this).toggle(isVisible);
+                        }
+                        else {
+                            var isVisible =
+                                (year === "" || $(this).find('td:eq(0)').text().trim() === year) &&
+                                (nature === "" || $(this).find('td:eq(3)').text().trim() === nature) &&
+                                (type === "" || $(this).find('td:eq(4)').text().trim() === type) &&
+                                (action === "" || $(this).find('td:eq(7)').text().trim() === action);
 
-                </select>
-            </th>
-            <th>
-                @Html.DisplayName("Title Of Exception")
-            </th>
-            <th>
-                @Html.DisplayName("Zist Of Exception")
-            </th>
-            <th>
-                @*  @Html.DisplayName("Action Taken")*@
-                <select id="actionFilter">
-                    <option value="">Action Taken</option>
-                    <option value="Settled">Settled</option>
-                    <option value="Unsettled">Unsettled</option>
-                    @*<option value="Unsettled
-                        (Pending Approval)">Unsettled (Pending Approval)</option>*@
-                </select>
-            </th>
-            <!-- Add more columns as needed -->
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Exceptions)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Year)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ToYear)
-                </td>
+                            $(this).toggle(isVisible);
+                        }
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExceptionNo)
-                    @Html.DisplayFor(modelItem => item.ExceptionSubNo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NatureOfException)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExceptionType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExceptionTitle)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ZistOfException)
-                </td>
-                <td>
-                    @if (item.ActionTaken == "Settled")
-                    {
-                        <a target="_blank" href="~/Attachments/@item.S_Doc_Address">Settled</a>
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(modelItem => item.ActionTaken)
-                    }
+                        
 
-                    @*@if (item.ActionTaken == "Unsettled" && item.S_Status == 1)
-                        {
-                            @Html.DisplayName("(Pending Approval)")
-                        }*@
-                </td>
-                <!-- Add more columns as needed -->
-                <td>
-                    @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management") || User.IsInRole("coord"))
-                    {
-                        if (item.S_Status == 0)
-                        {
-                            @Html.ActionLink("Edit", "Edit", "Exception", new { id = item.ExceptionId }, null)
-                            @Html.DisplayName(" |")
+                        if (isVisible) {
+                            visibleCount++; // Increase count for visible rows
+                        }
+                    });
+
+                    // Update record count display
+                    //$("#recordCount").text(visibleCount);
+                    updateRecordCounts();
+                }
+
+                // Function to filter attachments table rows
+                function filterAttachmentsTable() {
+                    var attachmentYear = $('#attachmentYearFilter').val();
+
+                    $('#attachmentsTable tbody tr').filter(function () {
+                        $(this).toggle(
+                            attachmentYear === "" || $(this).find('td:eq(0)').text().trim() === attachmentYear
+                        );
+                    });
+                }
+
+                // Apply filter when any exceptions dropdown value changes
+                $('#yearFilter, #natureFilter, #actionFilter, #typeFilter').change(filterExceptionsTable);
+
+                // Apply filter when the attachment year dropdown value changes
+                $('#attachmentYearFilter').change(filterAttachmentsTable);
+                //countTotalRecords(); // Show total records initially
+                updateRecordCounts();
+            });
+            function countTotalRecords() {
+                var totalRecords = $('#exceptionsTable tbody tr').length;
+                $("#recordCount").text(totalRecords); // Set default count
+            }
+
+            function updateRecordCounts() {
+                var table = document.getElementById("exceptionsTable");
+                var rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+
+                var totalRecords = 0;
+                var settledCount = 0;
+                var unsettledCount = 0;
+                var pendingForApprovalCount = 0;
+
+                for (var i = 0; i < rows.length; i++) {
+                    if (rows[i].style.display !== "none") { // Consider only visible rows
+                        totalRecords++;
+
+                        var actionTakenCell = rows[i].getElementsByTagName("td")[7]; // Column index of ActionTaken
+                        if (actionTakenCell) {
+                            var actionTakenText = actionTakenCell.textContent.trim();
+
+                            if (actionTakenText === "Settled") {
+                                settledCount++;
+                            } else if (actionTakenText === "Unsettled") {
+                                unsettledCount++;
+                            } else if (actionTakenText.includes("Pending for Approval")) {
+                                pendingForApprovalCount++;
+                            }
                         }
                     }
+                }
 
-                    @Html.ActionLink("Details", "Details", "Exception", new { id = item.ExceptionId }, null)
+                document.getElementById("recordCount").textContent = totalRecords;
+                document.getElementById("settledrecordCount").textContent = settledCount;
+                document.getElementById("unsettledrecordCount").textContent = unsettledCount;
+                document.getElementById("pendingforapprovalrecordCount").textContent = pendingForApprovalCount;
+            }
 
-                    <br />
-                    @if (User.IsInRole("superuser") || User.IsInRole("admin") || User.IsInRole("management"))
-                    {
-                        @Html.DisplayName(" | ")
-                        if (item.ActionTaken == "Unsettled" && item.S_Status == 0)
-                        {
-                            @Html.ActionLink("Proceed for Settlement", "InitiateSettlement", "Exception", new { id = item.ExceptionId }, null)
-                        }
-                    }
-
-                    @*@if (item.ActionTaken == "Unsettled" && item.S_Status == 1)
-        {
-            @Html.DisplayName("Pending For Approval")
-        }*@
-
-                    @*@Html.ActionLink("Delete", "Delete", "Exception", new { id = item.ExceptionId }, null)*@
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<p>
-    @*@Html.ActionLink("Edit", "Edit", new { Block_Name = Model.Block_Name }) |*@
-    @Html.ActionLink("Back to Block List", "Index")
-
-</p>
-
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script>
-        $(document).ready(function () {
-            // Toggle attachments table
-            $("#viewAttachment").click(function () {
-                $("#attachments_table").toggle();
+            // Call this function after the page loads
+            document.addEventListener("DOMContentLoaded", function () {
+                updateRecordCounts();
             });
 
-            // Function to filter exceptions table rows
-            function filterExceptionsTable() {
-                var year = $('#yearFilter').val();
-                var nature = $('#natureFilter').val();
-                var action = $('#actionFilter').val();
-                var type = $('#typeFilter').val();
+            // Also, update the counts after applying filters
+            document.getElementById("actionFilter").addEventListener("change", function () {
+                setTimeout(updateRecordCounts, 100); // Delay to allow filter changes
+            });
 
-                $('#exceptionsTable tbody tr').filter(function () {
-                    $(this).toggle(
-                        (year === "" || $(this).find('td:eq(0)').text().trim() === year) &&
-                        (nature === "" || $(this).find('td:eq(3)').text().trim() === nature) &&
-                        (type === "" || $(this).find('td:eq(4)').text().trim() === type) &&
-                        (action === "" || $(this).find('td:eq(7)').text().trim() === action)
-                    );
-                });
-            }
-
-            // Function to filter attachments table rows
-            function filterAttachmentsTable() {
-                var attachmentYear = $('#attachmentYearFilter').val();
-
-                $('#attachmentsTable tbody tr').filter(function () {
-                    $(this).toggle(
-                        attachmentYear === "" || $(this).find('td:eq(0)').text().trim() === attachmentYear
-                    );
-                });
-            }
-
-            // Apply filter when any exceptions dropdown value changes
-            $('#yearFilter, #natureFilter, #actionFilter, #typeFilter').change(filterExceptionsTable);
-
-            // Apply filter when the attachment year dropdown value changes
-            $('#attachmentYearFilter').change(filterAttachmentsTable);
-        });
-    </script>
-}
+        </script>
+    }
